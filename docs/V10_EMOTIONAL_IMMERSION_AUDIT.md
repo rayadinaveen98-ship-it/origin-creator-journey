@@ -24,7 +24,7 @@ The story material is detailed and historically attributed, but nearly every bea
 This diagnosis is **source-based** and should be validated by watching actual users and real mobile screen recordings. Avoid claiming it is measured engagement data.
 
 ## Immediate corrective work (V10 first-paint polish)
-Four chapter HTML files had stale **beat** counters (III, IV, V, VIII) even though their rail counters and runtime values were correct. On a slow device those incorrect denominators can briefly appear. Bring the static placeholders into agreement, and guard both initial counters against the 87-scene structure in `scripts/verify-v10.mjs`.
+Four chapter HTML files had stale **beat** counters (III, IV, V, VIII), and three had stale initial timeline years (IV, V, VII). Runtime updated both, but slow devices could briefly show misleading dates or counts. Correct these placeholders and guard both counters plus the first-year label across all eight acts in `scripts/verify-v10.mjs`.
 
 ## Priority roadmap
 ### P1 — Emotional continuity (first production slice)
