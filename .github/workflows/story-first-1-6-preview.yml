@@ -1,0 +1,33 @@
+name: Story-first Chapter 1.6 offline preview
+on:
+  push:
+    branches: [story-first/pather-panchali-pilot]
+    paths:
+      - 'experiments/story-first-1-6/**'
+      - '.github/workflows/story-first-1-6-preview.yml'
+  workflow_dispatch:
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build Chapter 1.5 from preserved 1.4
+        run: |
+          python experiments/story-first-1-5/build_v15.py --base-file experiments/story-first-1-4/ORIGIN_Story_First_Chapter_1_4.html --output dist/ORIGIN_Story_First_Chapter_1_5.html
+      - name: Build new Chapter 1.6 from Chapter 1.5
+        run: |
+          python experiments/story-first-1-6/build_v16.py --base-file dist/ORIGIN_Story_First_Chapter_1_5.html --output dist/ORIGIN_Story_First_Chapter_1_6.html
+          test -s dist/ORIGIN_Story_First_Chapter_1_6.html
+          grep -q 'id="origin16"' dist/ORIGIN_Story_First_Chapter_1_6.html
+          grep -q 'id="origin15"' dist/ORIGIN_Story_First_Chapter_1_6.html
+          sha256sum dist/ORIGIN_Story_First_Chapter_1_6.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-Story-First-Chapter-1-6
+          path: dist/ORIGIN_Story_First_Chapter_1_6.html
+          if-no-files-found: error
