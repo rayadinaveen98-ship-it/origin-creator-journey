@@ -60,7 +60,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),11);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(3).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/RESEARCHED OVERVIEW/);
  await page.locator('#mapList button').nth(2).click();
  await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('Apu'));
  assert.match(await page.locator('#storyLead').textContent(),/Pather Panchali/);
