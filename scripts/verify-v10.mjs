@@ -95,10 +95,10 @@ for (const [act, expected] of [[1,8],[2,8],[3,11],[4,12],[5,13],[6,13],[7,12],[8
   const base = act===1 ? 'www/v10/journey/' : `www/v10/journey/act${act}/`;
   const html = read(base+'index.html');
   const js = read(base+(act===1?'story.js':`act${act}.js`));
-  const actualScenes=(js.match(/^\\s*\\{year:/gm)||[]).length;
+  const actualScenes=(js.match(/[{]year:/g)||[]).length;
   assert.equal(actualScenes,expected,`Act ${act} source scene count changed; update expected sequence`);
   for (const id of ['railCaption','beatId']) {
-    const match=html.match(new RegExp('id="'+id+'"[^>]*>01 / (\\\\d{2})<'));
+    const match=html.match(new RegExp('id="'+id+'"[^>]*>01 / ([0-9]{2})<'));
     assert.ok(match,`Act ${act} initial ${id} indicator missing`);
     assert.equal(Number(match[1]),expected,`Act ${act} initial ${id} indicator has wrong total`);
   }
