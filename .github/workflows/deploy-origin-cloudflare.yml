@@ -34,6 +34,9 @@ jobs:
           test -s www/v7/index.html
           test -s www/v7/app.js
           test -s www/v7/styles.css
+          test -s www/life/index.html
+          test -s www/life/app.js
+          test -s www/life/styles.css
           echo '2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7  www/index.html' | sha256sum --check
           grep -q 'id="origin15"' www/story-first/index.html
           grep -q 'id="origin16"' www/story-first/index.html
@@ -63,7 +66,7 @@ jobs:
         run: |
           set -euo pipefail
           base='https://origin-creator-journey.rayadinaveen98.workers.dev'
-          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css; do
+          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css /life/ /life/index.html /life/app.js /life/styles.css; do
             code="$(curl --retry 4 --retry-delay 3 --retry-all-errors -L -s -o /dev/null -w '%{http_code}' "$base$path")"
             if [[ "$code" != "200" ]]; then
               echo "::error::Cloudflare returned HTTP $code for $base$path"
@@ -82,6 +85,11 @@ jobs:
           curl --fail --silent --show-error --location "$base/v7/app.js" --output "${RUNNER_TEMP}/origin-v7-live.js"
           grep -q 'origin_v7_alpha_01' "${RUNNER_TEMP}/origin-v7-live.js"
           echo 'V7 HTML and actual JavaScript are live (not a fallback from V6).'
+          curl --fail --silent --show-error --location "$base/life/index.html" --output "${RUNNER_TEMP}/origin-life-live.html"
+          grep -q '<title>ORIGIN / A Life in Frames' "${RUNNER_TEMP}/origin-life-live.html"
+          curl --fail --silent --show-error --location "$base/life/app.js" --output "${RUNNER_TEMP}/origin-life-live.js"
+          grep -q 'origin_v8_life_scene_v1' "${RUNNER_TEMP}/origin-life-live.js"
+          echo 'V8 Life-First HTML and actual JavaScript confirmed live.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
@@ -99,7 +107,7 @@ jobs:
             echo
             echo "Cloudflare Worker: https://origin-creator-journey.rayadinaveen98.workers.dev/"
             echo
-            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01).'
+            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (isolated V8 Life-First narrative alpha).'
             echo
             echo 'Note: HTTP and asset checks prove deployment, not full real-device acceptance testing.'
           } > docs/ORIGIN_LIVE_VERIFIED.md
