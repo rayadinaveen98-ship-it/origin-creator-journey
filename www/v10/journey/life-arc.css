@@ -1,0 +1,20 @@
+/* Shared eight-act journey map. Availability is explicit, never faked. */
+.life-arc{margin-top:27px;border-top:1px solid #687b5d;padding-top:20px}
+.life-arc h3{font:normal clamp(23px,3vw,35px)/1.2 Georgia,serif;margin:0 0 9px;color:#f7e4c2}
+.life-arc>p{font-size:12px;color:#c9d0be;line-height:1.6;max-width:660px;margin-bottom:16px}
+.life-arc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.life-arc-link{display:flex;align-items:center;gap:10px;min-height:72px;border:1px solid #62775c;background:#192b22;text-decoration:none;padding:12px;color:#e9e9db}
+.life-arc-link:hover,.life-arc-link:focus-visible{border-color:#f4d5a1;background:#2a3d30}
+.life-arc-number{font:normal 27px Georgia,serif;color:#f3c68c;min-width:23px}
+.life-arc-meta{display:grid;gap:2px;min-width:0;flex:1}.life-arc-meta strong{font-size:12px}.life-arc-meta small{font-size:10px;color:#c0c9be}
+.life-arc-state{font-size:8px;max-width:78px;text-align:right;color:#e7be86;letter-spacing:.05em}
+.life-arc-current{border-color:#e4c292;background:#354735}
+@media(max-width:720px){.life-arc-grid{grid-template-columns:1fr}}
+/* Chrome and browsers with cross-document view transitions can dissolve between acts.
+   Unsupported browsers navigate normally; reduced-motion users see no dissolve. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:origin-exit .24s ease both}
+::view-transition-new(root){animation:origin-enter .35s ease both}
+@keyframes origin-exit{to{opacity:0;filter:blur(4px)}}
+@keyframes origin-enter{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:none}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:0s!important}}
