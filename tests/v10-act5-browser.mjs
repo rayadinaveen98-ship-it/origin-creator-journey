@@ -51,7 +51,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),13);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(5).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(6).textContent(),/RESEARCHED OVERVIEW/);
  await page.locator('#mapList button').nth(3).click();
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('Jalsaghar'));
  assert.equal(await page.locator('#observeButton').isVisible(),true);
@@ -96,7 +96,7 @@ try{
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('Aranyer Din Ratri'));
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-12');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act6/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyTitle').textContent(),/second film/);
  await page.locator('.reader-logo').click();
