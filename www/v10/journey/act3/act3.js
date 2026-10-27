@@ -117,7 +117,7 @@ if(hashMatch && +hashMatch[1] < scenes.length)current=+hashMatch[1];
 function persist(){try{localStorage.setItem(storeKey,String(current));}catch{}}
 function render(){
  const scene=scenes[current];
- stage.dataset.mode=scene.mode;stage.dataset.photo=String(!!scene.asset);
+ stage.dataset.mode=scene.mode;stage.dataset.kind=scene.kind||'symbol';stage.dataset.photo=String(!!scene.asset);
  stage.style.setProperty('--stage-bg',scene.bg);
  $('symbolicYear').textContent=scene.year.replace('AROUND ','').replace('MID-','');
  $('yearPlace').textContent=scene.place+' · '+scene.year;
