@@ -51,7 +51,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),13);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(6).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/RESEARCHED OVERVIEW/);
  await page.locator('#mapList button').nth(3).click();
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('Jalsaghar'));
  assert.equal(await page.locator('#observeButton').isVisible(),true);
