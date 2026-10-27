@@ -18,7 +18,15 @@ const welcome=code=>code.slice(code.indexOf('<div id="welcome"'),code.indexOf('<
 assert.equal(welcome(v10html),welcome(v9html),'Welcome artwork and wording must remain identical');
 assert.equal((v10html.match(/COMING SOON/g)||[]).length,4,'Four distinct future creators');
 for(const name of ['Akira','Ghatak','Varda','Kubrick'])assert.ok(v10html.includes(name));
-assert.ok(v10js.includes("'/v10/journey/#scene-'"));
+assert.ok(v10js.includes("'/v10/journey/act2/'") && v10js.includes("'/v10/journey/'"),'V10 should enter both cinematic acts');
+assert.ok(read('www/v10/journey/life-arc.js').includes('RESEARCHED OVERVIEW'),'Life map must label future acts honestly');
+const act2=read('www/v10/journey/act2/act2.js');
+assert.ok(act2.includes('origin_v10_act2_scene_v1'),'Act II must save progress independently');
+assert.ok(act2.includes('satyajitray.org/at-shantiniketan'),'Act II needs historical reference');
+assert.ok(act2.includes('December 1942')&&act2.includes('April 1943'),'Act II covers departure and employment');
+assert.ok(read('www/v10/journey/index.html').includes('/v10/journey/act2/'),'Act I must link directly to Act II');
+new Script(act2,{filename:'www/v10/journey/act2/act2.js'});
+new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);
 assert.ok(story.includes('origin_v10_act1_scene_v1'));
