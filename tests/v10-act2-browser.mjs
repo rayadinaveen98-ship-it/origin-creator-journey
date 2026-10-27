@@ -1,0 +1,93 @@
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import {mkdir} from 'node:fs/promises';
+import {chromium} from 'playwright';
+const root=path.resolve(import.meta.dirname,'..','www');
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
+const server=http.createServer((req,res)=>{
+  try{
+    const pathname=decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname);
+    const file=path.resolve(root,'.'+pathname,pathname.endsWith('/')?'index.html':'');
+    if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}
+    const actual=fs.statSync(file).isDirectory()?path.join(file,'index.html'):file;
+    res.setHeader('Content-Type',types[path.extname(actual)]||'application/octet-stream');
+    fs.createReadStream(actual).on('error',()=>{if(!res.headersSent)res.writeHead(404);res.end();}).pipe(res);
+  }catch{res.writeHead(404).end();}
+});
+let browser;
+try{
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const base='http://127.0.0.1:'+server.address().port;
+ browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:1440,height:900}});
+ const errors=[];page.on('pageerror',err=>errors.push(err.message));
+ await mkdir('artifacts',{recursive:true});
+ // The original Act I ends inside V10 — not in the older V8 text reader.
+ await page.goto(base+'/v10/journey/#scene-7',{waitUntil:'domcontentloaded'});
+ assert.match(await page.locator('#storyTitle').textContent(),/artist in waiting/);
+ await page.locator('#next').click();
+ assert.equal(await page.locator('#completion').isVisible(),true);
+ await page.locator('a.complete-primary').click();
+ await page.waitForURL('**/v10/journey/act2/#scene-0',{timeout:12000});
+ assert.match(await page.locator('#actName').textContent(),/ACT II/);
+ assert.match(await page.locator('#storyTitle').textContent(),/new world opens/);
+ assert.match(await page.locator('#yearPlace').textContent(),/1940/);
+ await page.waitForTimeout(950);
+ await page.screenshot({path:'artifacts/origin-v10-act2-opening-desktop.png',fullPage:true});
+ await page.locator('#mapButton').click();
+ assert.equal(await page.locator('#mapList button').count(),8);
+ assert.equal(await page.locator('.life-arc-link').count(),8);
+ assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(1).textContent(),/YOU ARE HERE/);
+ await page.locator('[data-close="mapDialog"]').click();
+ await page.locator('#contextButton').click();
+ assert.match(await page.locator('#documentaryNote').textContent(),/1940/);
+ assert.match(await page.locator('#sourceLinks').textContent(),/Santiniketan/);
+ await page.locator('[data-close="contextDialog"]').click();
+ await page.locator('#next').click();
+ await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('look closer'));
+ assert.equal(await page.locator('#observeButton').isVisible(),true);
+ await page.locator('#observeButton').click();
+ assert.equal(await page.locator('#visualDetail').isVisible(),true);
+ assert.equal(await page.locator('#observeButton').getAttribute('aria-pressed'),'true');
+ await page.waitForTimeout(900);
+ await page.screenshot({path:'artifacts/origin-v10-act2-observation-desktop.png'});
+ await page.locator('#observeButton').click();
+ assert.equal(await page.locator('#visualDetail').isVisible(),false);
+ await page.locator('#next').click();
+ await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('Great teachers'));
+ assert.equal(await page.locator('#observeButton').isVisible(),false);
+ await page.locator('#contextButton').click();
+ assert.match(await page.locator('#imageExplanation').textContent(),/1940–1943/);
+ await page.locator('[data-close="contextDialog"]').click();
+ await page.reload({waitUntil:'domcontentloaded'});
+ assert.equal(await page.locator('#railCaption').textContent(),'03 / 08','Act II resumes at the actual scene');
+ assert.match(await page.locator('#storyTitle').textContent(),/Great teachers/);
+ await page.setViewportSize({width:390,height:844});
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.waitForTimeout(950);
+ await page.screenshot({path:'artifacts/origin-v10-act2-mobile.png',fullPage:true});
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)<=2,'Act II mobile must not overflow');
+ await page.locator('#mapButton').click();
+ await page.locator('#mapList button').nth(7).click();
+ await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('working artist'));
+ assert.match(await page.locator('#yearPlace').textContent(),/1943/);
+ await page.locator('#next').click();
+ assert.equal(await page.locator('#completion').isVisible(),true);
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-7');
+ await page.locator('#restart').click();
+ await page.locator('.reader-logo').click();
+ await page.waitForURL('**/v10/');
+ await page.locator('#welcome').waitFor({state:'hidden',timeout:9000});
+ assert.equal(await page.locator('#continueShelf').isVisible(),true);
+ assert.match(await page.locator('#continueSub').textContent(),/Act II/);
+ await page.locator('#continueCard').click();
+ await page.waitForURL('**/v10/journey/act2/#scene-0',{timeout:11000});
+ assert.deepEqual(errors,[],'No runtime JS errors during Act I → Act II → Home');
+ console.log('Act II Chromium QA PASS: connected start, archive context, full life arc, observation, exact persistence, mobile and next-act bridge.');
+}finally{
+ if(browser)await browser.close();
+ await new Promise(resolve=>server.close(resolve));
+}
