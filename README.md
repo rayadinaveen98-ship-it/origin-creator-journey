@@ -1,20 +1,34 @@
-# ORIGIN — Creator Journey (V6 frozen release)
+# ORIGIN — Creator Journey · V6 frozen release
 
-This repository holds the original ORIGIN V6 interactive cinematic prototype packaging for web and Android.
+**Source successfully uploaded 27 October 2026.** The original standalone cinematic experience is preserved byte-for-byte (SHA-256: `2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7`).
 
-- App: ORIGIN
-- Android package: `com.origin.creatorjourney`
-- Web deployment target: Cloudflare Pages
-- Android runtime: Capacitor 8
-- Scope: **V6 / The Worlds Between only — no V7 features or redesigns**
+This repository uses 51 small source chunks in `source/parts/` so the original 6.6 MB image-embedded V6 page can be safely transferred via GitHub. The reconstruction script `scripts/assemble-v6.mjs` joins them and **refuses to build if the original SHA-256 does not match**.
 
-Deployment requires `www/index.html`, all nine files in `www/assets/`, the PWA files and Android build workflow. Do not publish a partial site until the assets are fully uploaded.
+## Website: Cloudflare Pages
+The GitHub Actions workflow writes the verified website to `www/index.html` and commits it back to `main`.
 
-The archived V6 source package was created on 26 October 2026. Original source SHA-256: `3d5e1fbfec10b25fde2dbd3701a95ccaf3c301a4603fae07dab7e9f4aa7f50ad`.
+Connect this repository to Cloudflare Pages with:
+- Production branch: `main`
+- Framework preset: `None`
+- Build command: leave blank (the generated `www/index.html` is committed already)
+- Output directory: `www`
+- Root directory: repository root
 
-## Release status
-- [x] Repository created and initialized
-- [ ] Original source, artwork and packaging committed and verified
-- [ ] GitHub Actions Android APK build completed
-- [ ] Cloudflare Pages production deployment verified
-- [ ] Physical-device compatibility tested
+The generated static HTML is self-contained, including the nine original cinematic artworks. Its size (~6.6 MB) is below Cloudflare Pages' 25 MiB per-file limit.
+
+**GitHub cannot authorize Cloudflare on your behalf.** A Cloudflare account owner must connect or approve the GitHub repository if not already authorized. A repository commit by itself does not confirm a Cloudflare deployment.
+
+## Android debug APK
+- Android app label: `ORIGIN`
+- Android ID: `com.origin.creatorjourney`
+- Framework: Capacitor 8
+- Workflow: [Assemble V6 website and build Android APK](./.github/workflows/origin-v6.yml)
+
+Open the **Actions** tab and select the latest run. If the `android-debug` job succeeds, open its artifact named `ORIGIN-V6-Android-APK`. Inside is `ORIGIN-V6-debug.apk`, an installable *debug build*, not a signed Play Store release.
+
+## Development and compatibility
+- `npm install` (Node 22+) followed by `node scripts/assemble-v6.mjs` reconstructs the website.
+- For Android: `npx cap add android && npx cap sync android && cd android && ./gradlew assembleDebug`.
+- V6 artwork, interface and features are unchanged; no V7 work is in scope.
+- Local notes remain device-specific. APK download and export behaviors require testing on a physical Android phone.
+- No API keys, credentials, or private user data are in this repository.
