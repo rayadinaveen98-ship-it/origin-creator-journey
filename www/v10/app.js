@@ -14,21 +14,35 @@ function memoryGet(storage,key){try{return storage.getItem(key);}catch{return nu
 function memorySet(storage,key,value){try{storage.setItem(key,value);}catch{}}
 function storedMoment(){const v=Number(memoryGet(localStorage,KEY_PROGRESS));return Number.isInteger(v)&&v>=0&&v<16?v:null;}
 function isSaved(){return memoryGet(localStorage,KEY_SAVED)==='1';}
+function act2Moment(){
+ const stored=memoryGet(localStorage,'origin_v10_act2_scene_v1');
+ if(stored===null)return null;
+ const n=Number(stored);
+ return Number.isInteger(n)&&n>=0&&n<8?n:null;
+}
 function syncProgress(){
-  const value=memoryGet(localStorage,KEY_PROGRESS);
-  const m=value===null?null:storedMoment();
-  if(m!==null&&m>0){
-    $('continueShelf').hidden=false;
-    $('heroEnterText').textContent='Continue Ray\'s Journey';
-    $('featureProgressNote').textContent='Resume Act I — the boy before the films.';
-    $('continueHeading').textContent=['The Beginning','A family of storytellers','The loss','A different home','Books and images','Discovering cinema','A wider world','The threshold'][m]||'Continue Act I';
-    $('continueSub').textContent='Act I · Scene '+(m+1)+' of 8 · 1921–1939';
-    $('continueFill').style.width=Math.round(((m+1)/8)*100)+'%';
-  }else{
-    $('continueShelf').hidden=true;
-    $('heroEnterText').textContent='Enter Ray\'s Journey';
-    $('featureProgressNote').textContent='Begin in Calcutta, 1921 — before any of the films.';
-  }
+ const m2=act2Moment();
+ const raw1=memoryGet(localStorage,KEY_PROGRESS);
+ const m1=raw1===null?null:storedMoment();
+ if(m2!==null){
+   $('continueShelf').hidden=false;
+   $('heroEnterText').textContent="Continue Ray's Journey";
+   $('featureProgressNote').textContent='Act II · The Artist — your exact scene is saved in this browser.';
+   $('continueHeading').textContent=['The world widens','The eye learns','The teachers','More than one tradition','Beyond the classroom','Art and cinema','Leaving Santiniketan','The professional artist'][m2];
+   $('continueSub').textContent='Act II · Scene '+(m2+1)+' of 8 · 1940–1943';
+   $('continueFill').style.width=Math.round((8+m2+1)/16*100)+'%';
+ }else if(m1!==null&&m1>0){
+   $('continueShelf').hidden=false;
+   $('heroEnterText').textContent="Continue Ray's Journey";
+   $('featureProgressNote').textContent='Resume Act I — The Boy, 1921–1939.';
+   $('continueHeading').textContent=['The Beginning','A family of storytellers','The loss','A different home','Books and images','Discovering cinema','A wider world','The threshold'][m1]||'Continue Act I';
+   $('continueSub').textContent='Act I · Scene '+(m1+1)+' of 8 · 1921–1939';
+   $('continueFill').style.width=Math.round((m1+1)/16*100)+'%';
+ }else{
+   $('continueShelf').hidden=true;
+   $('heroEnterText').textContent="Enter Ray's Journey";
+   $('featureProgressNote').textContent='Begin in Calcutta, 1921 — before any of the films.';
+ }
 }
 function syncList(){
  const saved=isSaved();
@@ -93,22 +107,25 @@ function beginAnimation(){
  handle=requestAnimationFrame(frame);
 }
 function journeyTarget(type){
- if(type==='childhood')return 0;
- const stored=memoryGet(localStorage,KEY_PROGRESS);
- const m=stored===null?0:storedMoment();
- return m===null?0:m;
+ if(type==='childhood')return {path:'/v10/journey/',moment:0};
+ if(type==='artist')return {path:'/v10/journey/act2/',moment:act2Moment()??0};
+ if(type==='firstfilm')return {path:'/life/',moment:10};
+ const m2=act2Moment();
+ if(m2!==null)return {path:'/v10/journey/act2/',moment:m2};
+ const v=memoryGet(localStorage,KEY_PROGRESS);
+ const m1=v===null?0:storedMoment();
+ return {path:'/v10/journey/',moment:m1??0};
 }
 async function enter(type='life'){
  if(entering)return;
- if(type==='artist'){window.location.assign('/life/#moment-6');return;}
- if(type==='firstfilm'){window.location.assign('/life/#moment-10');return;}
  entering=true;
- const scene=journeyTarget(type);
+ const target=journeyTarget(type);
  const overlay=$('entry');
  overlay.hidden=false;
- document.body.classList.add('entering');
  app.inert=true;
- const url='/v10/journey/#scene-'+scene;
+ document.body.classList.add('entering');
+ const fragment=target.path==='/life/'?'#moment-':'#scene-';
+ const url=target.path+fragment+target.moment;
  await pause(PR?120:ENTRY_DURATION);
  window.location.assign(url);
 }
