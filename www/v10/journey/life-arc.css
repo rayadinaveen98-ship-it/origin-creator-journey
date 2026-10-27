@@ -10,11 +10,8 @@
 .life-arc-state{font-size:8px;max-width:78px;text-align:right;color:#e7be86;letter-spacing:.05em}
 .life-arc-current{border-color:#e4c292;background:#354735}
 @media(max-width:720px){.life-arc-grid{grid-template-columns:1fr}}
-/* Chrome and browsers with cross-document view transitions can dissolve between acts.
-   Unsupported browsers navigate normally; reduced-motion users see no dissolve. */
-@view-transition{navigation:auto}
-::view-transition-old(root){animation:origin-exit .24s ease both}
-::view-transition-new(root){animation:origin-enter .35s ease both}
-@keyframes origin-exit{to{opacity:0;filter:blur(4px)}}
-@keyframes origin-enter{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:none}}
-@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:0s!important}}
+/* Every act opens with the same restrained, safe entry fade.
+   No experimental cross-document transition opt-in. */
+.reader{animation:origin-open .35s ease-out both}
+@keyframes origin-open{from{opacity:.73;filter:brightness(.85)}to{opacity:1;filter:none}}
+@media(prefers-reduced-motion:reduce){.reader{animation:none}}
