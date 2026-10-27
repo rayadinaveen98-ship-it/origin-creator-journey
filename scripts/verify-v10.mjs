@@ -90,4 +90,20 @@ assert.ok(story.includes('https://satyajitray.org/growing-up/'));
 assert.ok(story.includes('1939')&&story.includes('1921')&&story.includes('1923'));
 assert.ok(css.includes('prefers-reduced-motion')&&css.includes('@media(max-width:650px)'));
 new Script(v10js,{filename:'www/v10/app.js'});new Script(story,{filename:'www/v10/journey/story.js'});
+// Prevent incorrect first-paint scene counts on slower mobile devices before JS hydration.
+for (const [act, expected] of [[1,8],[2,8],[3,11],[4,12],[5,13],[6,13],[7,12],[8,10]]) {
+  const base = act===1 ? 'www/v10/journey/' : `www/v10/journey/act${act}/`;
+  const html = read(base+'index.html');
+  const js = read(base+(act===1?'story.js':`act${act}.js`));
+  const actualScenes=(js.match(/[{]year:/g)||[]).length;
+  assert.equal(actualScenes,expected,`Act ${act} source scene count changed; update expected sequence`);
+  const firstYear=['1921','1940','1943','1952','1956','1970','1984','1992'][act-1];
+  const railYear=html.match(/id="railYear"[^>]*>([^<]+)</)?.[1]?.trim();
+  assert.equal(railYear,firstYear,`Act ${act} first-paint timeline year is stale`);
+  for (const id of ['railCaption','beatId']) {
+    const match=html.match(new RegExp('id="'+id+'"[^>]*>01 / ([0-9]{2})<'));
+    assert.ok(match,`Act ${act} initial ${id} indicator missing`);
+    assert.equal(Number(match[1]),expected,`Act ${act} initial ${id} indicator has wrong total`);
+  }
+}
 console.log('V10 static QA: originals unchanged, welcome byte-for-byte, four future creators, history-grounded Act I and JS syntax all PASSED.');
