@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101110">
+  <meta name="description" content="ORIGIN V7 Alpha — follow a filmmaker's creative journey and experiment with the decisions that shape cinema.">
+  <title>ORIGIN / V7 Alpha — Journey × Studio</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="./" aria-label="ORIGIN V7 Alpha home"><span class="brand-mark">O<span class="dot">.</span></span><span class="brand-name">ORIGIN <small>CREATOR JOURNEY</small></span></a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <button type="button" data-view="journey" aria-current="page">Journey</button>
+        <button type="button" data-view="studio">Studio</button>
+        <button type="button" data-view="notebook">Notebook <span id="noteCount" class="count">0</span></button>
+      </nav>
+      <span class="version">V7 / ALPHA 01</span>
+    </header>
+
+    <main id="main">
+      <section id="view-journey" class="view">
+        <div class="hero">
+          <div class="hero-art" role="img" aria-label="Original symbolic illustration of a film projector illuminating a doorway. Not archival imagery.">
+            <div class="art-light"></div><div class="art-door"></div><div class="art-projector"></div>
+            <span class="art-caption">AN ORIGINAL VISUAL INTERPRETATION</span>
+          </div>
+          <div class="hero-text">
+            <p class="eyebrow">VOL. 01 <span class="rule"></span> THE BECOMING OF A FILMMAKER</p>
+            <h1>Before the film,<br>there is a <em>choice.</em></h1>
+            <p class="hero-lead">Discover how Satyajit Ray's early films opened up new creative questions — then step into the studio and try an answer of your own.</p>
+            <div class="hero-actions">
+              <button class="btn primary" type="button" data-experience="story">Enter Ray's journey <span aria-hidden="true">↗</span></button>
+              <button class="btn secondary" type="button" data-view="studio">Enter the Studio</button>
+            </div>
+            <div class="hero-facts"><span><b>1955—1959</b> · EARLY WORK</span><span><b>3 PARTS</b> · ONE CONTINUING JOURNEY</span></div>
+          </div>
+        </div>
+
+        <div class="section-heading"><div><p class="eyebrow">THE JOURNEY SO FAR</p><h2>Three turns in the road.</h2></div><p>Move through the story in sequence, or choose a creative question to explore in Studio.</p></div>
+        <div class="chapter-grid" aria-label="Story chapters">
+          <article class="chapter-card">
+            <div class="chapter-art chapter-one"><span class="roman">I</span><span class="film-grain"></span></div>
+            <div class="chapter-body"><span class="meta">1955 · PART ONE</span><h3>The first film</h3><p><cite>Pather Panchali</cite> — what it means to make something intimate when resources are limited.</p>
+              <button class="text-btn" type="button" data-experience="story">Explore the story <span aria-hidden="true">↗</span></button></div>
+          </article>
+          <article class="chapter-card">
+            <div class="chapter-art chapter-two"><span class="roman">II</span><span class="film-grain"></span></div>
+            <div class="chapter-body"><span class="meta">1956 · PART TWO</span><h3>The story grows</h3><p><cite>Aparajito</cite> — finding independence while facing the distance that comes with it.</p>
+              <button class="text-btn" type="button" data-lab="composition">Try distance in a frame <span aria-hidden="true">↗</span></button></div>
+          </article>
+          <article class="chapter-card">
+            <div class="chapter-art chapter-three"><span class="roman">III</span><span class="film-grain"></span></div>
+            <div class="chapter-body"><span class="meta">1958—1959 · PART THREE</span><h3>A new language</h3><p><cite>Parash Pathar, Jalsaghar, Apur Sansar</cite> — satire, sound, space and the return to Apu.</p>
+              <button class="text-btn" type="button" data-lab="lighting">Experiment with atmosphere <span aria-hidden="true">↗</span></button></div>
+          </article>
+        </div>
+
+        <div class="journey-bridge">
+          <div><p class="eyebrow">YOUR CREATIVE THREAD</p><h2>Watch the question become a decision.</h2><p>ORIGIN connects a story moment to a practical filmmaking choice. Our lab scenes are teaching simulations — not recreations of Ray's sets, footage or storyboards.</p></div>
+          <div class="bridge-steps"><span>01 <b>Experience the journey</b></span><span>02 <b>Examine the choice</b></span><span>03 <b>Try it in Studio</b></span><span>04 <b>Keep your discovery</b></span></div>
+        </div>
+      </section>
+
+      <section id="view-studio" class="view" hidden>
+        <div class="section-intro"><p class="eyebrow">THE STUDIO / YOUR CREATIVE DECISIONS</p><h1>The frame is never neutral.</h1><p>Two original experiments inspired by questions raised in Ray's early cinema. These are learning tools, not claims about the exact camera or lighting setups used in his films.</p></div>
+        <div class="studio-tabs" role="group" aria-label="Choose a studio experiment">
+          <button type="button" data-lab="composition" aria-pressed="true">01 / Composition</button>
+          <button type="button" data-lab="lighting" aria-pressed="false">02 / Atmosphere</button>
+        </div>
+        <div class="studio-grid">
+          <div class="studio-preview">
+            <div class="monitor-top"><span class="red-light"></span> ORIGIN / LIVE FRAME <span id="monitorLabel">COMPOSITION STUDY</span></div>
+            <div id="stage" class="stage composition">
+              <div class="stage-window"></div><div class="stage-far"></div>
+              <div class="figure figure-a"><i class="head"></i><i class="body"></i></div>
+              <div class="figure figure-b"><i class="head"></i><i class="body"></i></div>
+              <div class="stage-light"></div>
+              <div class="stage-corner top-left"></div><div class="stage-corner top-right"></div>
+              <div class="stage-corner bottom-left"></div><div class="stage-corner bottom-right"></div>
+            </div>
+            <div class="monitor-footer"><span>ORIGINAL TEACHING SIMULATION</span><span>NOT A FILM STILL</span></div>
+          </div>
+          <div class="studio-controls">
+            <div id="lab-composition" class="lab-panel">
+              <span class="meta">CRAFT QUESTION / APUR SANSAR</span><h2>How does distance change the feeling?</h2><p>Move two figures apart. The story you imagine can turn the same empty space into freedom, hesitation or loss.</p>
+              <label for="distance">Distance between people <output id="distanceValue" for="distance">52%</output></label>
+              <input id="distance" type="range" min="12" max="86" step="1" value="52">
+              <div class="range-labels"><span>Close</span><span>Distant</span></div>
+              <p id="compositionReading" class="reading" aria-live="polite">A space between the figures invites us to wonder what remains unsaid.</p>
+            </div>
+            <div id="lab-lighting" class="lab-panel" hidden>
+              <span class="meta">CRAFT QUESTION / JALSAGHAR</span><h2>What can light reveal or conceal?</h2><p>Shift the same original room from ceremony toward absence. Notice what your eye attends to first.</p>
+              <label for="lightLevel">Light in the room <output id="lightValue" for="lightLevel">48%</output></label>
+              <input id="lightLevel" type="range" min="8" max="100" step="1" value="48">
+              <div class="range-labels"><span>Fading</span><span>Radiant</span></div>
+              <p id="lightingReading" class="reading" aria-live="polite">Dim light makes the room feel withdrawn, as if the gathering has ended.</p>
+            </div>
+            <label for="labReflection">What changed in your interpretation?</label>
+            <textarea id="labReflection" rows="3" maxlength="1200" placeholder="Write what you noticed about space, light or emotion…"></textarea>
+            <div class="control-actions"><button type="button" id="saveExperiment" class="btn primary">Save this discovery</button><button type="button" class="btn tertiary" data-experience="story">Return to Ray's journey <span aria-hidden="true">↗</span></button><button type="button" id="openLegacyStudio" class="btn tertiary">Explore original V6 <span aria-hidden="true">↗</span></button></div>
+            <p id="studioStatus" role="status" class="status-text"></p>
+          </div>
+        </div>
+        <div class="studio-footnote"><b>Explore further:</b> Original V6 contains additional interactive filmmaking worlds. It remains available without changing the frozen release.</div>
+      </section>
+
+      <section id="view-notebook" class="view" hidden>
+        <div class="section-intro"><p class="eyebrow">YOUR PERSONAL CREATOR NOTEBOOK</p><h1>Keep what you discovered.</h1><p>Your lab reflections are saved only in this browser. No account or cloud synchronization is involved.</p></div>
+        <div class="notebook-overview"><div><span>JOURNEY OPENED</span><strong id="journeyVisits">0</strong></div><div><span>STUDIO EXPLORATIONS</span><strong id="studioVisits">0</strong></div><div><span>SAVED DISCOVERIES</span><strong id="savedCount">0</strong></div></div>
+        <div class="notebook-head"><h2>Discoveries</h2><button id="exportNotes" class="btn secondary" type="button">Export notes (.json)</button></div>
+        <div id="notesList" class="notes-list"><p class="empty">No discoveries saved yet. Try an experiment in the Studio.</p></div>
+        <p class="privacy-note">Saved in browser storage on this device. Clearing site data or using private browsing may remove it. Export notes for a backup.</p>
+      </section>
+    </main>
+
+    <footer class="app-footer"><span>ORIGIN <b>×</b> THE MAKING OF A CREATOR</span><span>V7 Alpha 01 · Historical sources remain available inside Story-First.</span></footer>
+  </div>
+
+  <section id="experience" class="experience" hidden role="dialog" aria-modal="true" aria-labelledby="experienceTitle">
+    <header class="experience-bar"><div class="experience-title"><span class="experience-dot"></span><div><strong id="experienceTitle">Ray's creator journey</strong><small id="experienceSub">1955—1959 · Full Story-First 1.6</small></div></div>
+      <div class="experience-actions"><button id="bridgeToStudio" type="button" class="btn tertiary" hidden>Try this in Studio ↗</button><span id="progressHint" aria-live="polite">Journey opens from its original introduction</span><button id="closeExperience" type="button" class="btn secondary" aria-label="Return to ORIGIN V7">Return to ORIGIN <span aria-hidden="true">×</span></button></div></header>
+    <iframe id="storyFrame" title="Story-First 1.6: Satyajit Ray's early creative journey" src="about:blank" loading="lazy" referrerpolicy="same-origin"></iframe>
+    <iframe id="legacyFrame" title="ORIGIN V6 original filmmaking worlds" src="about:blank" loading="lazy" referrerpolicy="same-origin" hidden></iframe>
+  </section>
+</body>
+</html>
