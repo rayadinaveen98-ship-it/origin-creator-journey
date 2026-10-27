@@ -1,0 +1,58 @@
+{
+  "version": "1.4",
+  "type": "story-first",
+  "stage": "prototype",
+  "compiled_apk": false,
+  "web_live_changed": false,
+  "playable_git_path": "experiments/story-first-1-4/ORIGIN_Story_First_Chapter_1_4.html",
+  "git_object_sha": "cb236a4218e0207ff7160e0f21275d0e2483822f",
+  "sha256": "05fb6dab4a581a037d64164fa17e4cc2f59f0fbe53283ab120137facd9568aae",
+  "chromium_functional_tests": [
+    {
+      "w": 1440,
+      "h": 900,
+      "status": "pass"
+    },
+    {
+      "w": 768,
+      "h": 1024,
+      "status": "pass"
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "status": "pass"
+    },
+    {
+      "w": 320,
+      "h": 700,
+      "status": "pass"
+    }
+  ],
+  "chromium_actual_inline_artwork_tested": [
+    {
+      "w": 1440,
+      "h": 900,
+      "status": "pass"
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "status": "pass"
+    }
+  ],
+  "checks": [
+    "historical research thread switching",
+    "multistage audience timeline",
+    "trilogy disclosure",
+    "retained crew exploration",
+    "retained sound controls",
+    "no page error",
+    "no horizontal overflow"
+  ],
+  "remaining": [
+    "screenreader",
+    "physical Android browser",
+    "real user narrative comprehension"
+  ]
+}
