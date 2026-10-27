@@ -99,7 +99,7 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{
 .figure .body{display:block;position:absolute;inset:21% 9% 0;border-radius:36% 36% 5% 5%;background:#111b19}
 .figure-b .body{background:#202324}.figure-b .head{background:#202324}
 .stage-light{position:absolute;inset:0;background:#090e11;opacity:0;z-index:5;pointer-events:none;transition:opacity .2s}
-.stage.lighting .stage-light{opacity:calc((100 - var(--lum)) / 124)}
+.stage.lighting .stage-light{opacity:0}
 .stage.lighting .stage-window{box-shadow:0 0 calc(var(--lum) * .5px) calc(var(--lum) * .16px) #f2cd9155}
 .stage.lighting .figure-a{left:35%}.stage.lighting .figure-b{left:72%}
 .stage-corner{position:absolute;z-index:9;width:26px;height:26px;border:1px solid transparent}
