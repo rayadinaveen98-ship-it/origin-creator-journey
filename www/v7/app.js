@@ -27,6 +27,7 @@
 
   function view(which, focus = false) {
     if (!['journey','studio','notebook'].includes(which)) return;
+    const enteringNewView = currentView !== which;
     currentView = which;
     document.querySelectorAll('.view').forEach(el => { el.hidden = el.id !== 'view-' + which; });
     document.querySelectorAll('.top-nav [data-view]').forEach(el => {
@@ -34,7 +35,7 @@
       else el.removeAttribute('aria-current');
     });
     if (which === 'notebook') renderNotebook();
-    if (which === 'studio') {
+    if (which === 'studio' && enteringNewView) {
       state.studioVisits = Math.max(0, Number(state.studioVisits) || 0) + 1;
       safeSave();
     }
