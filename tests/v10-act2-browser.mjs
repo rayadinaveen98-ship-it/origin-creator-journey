@@ -40,7 +40,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),8);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/CINEMATIC ACT/);
- assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(5).textContent(),/RESEARCHED OVERVIEW/);
  assert.match(await page.locator('.life-arc-link').nth(1).textContent(),/YOU ARE HERE/);
  await page.locator('[data-close="mapDialog"]').click();
  await page.locator('#contextButton').click();
