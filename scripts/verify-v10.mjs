@@ -43,6 +43,16 @@ assert.ok(read('www/v10/journey/act3/index.html').includes('/v10/journey/act4/#s
 assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act4/'"),'Full life map includes cinematic Act IV');
 assert.ok(v10js.includes('origin_v10_act4_scene_v1'),'V10 home resumes Act IV');
 new Script(act4,{filename:'www/v10/journey/act4/act4.js'});
+const act5=read('www/v10/journey/act5/act5.js');
+const act5html=read('www/v10/journey/act5/index.html');
+assert.ok(act5.includes('origin_v10_act5_scene_v1'),'Act V exact progress key');
+assert.ok(act5.includes('Kanchenjungha')&&act5.includes('Charulata')&&act5.includes('Mahanagar'));
+assert.ok(act5.includes('https://satyajitray.org/music-of-satyajit-ray/'));
+assert.ok(act5html.includes('id="filmStage"')&&act5html.includes('id="lifeArc"'),'Act V stage and map');
+assert.ok(read('www/v10/journey/act4/index.html').includes('/v10/journey/act5/#scene-0'),'Act IV joins Act V');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act5/'"),'Life arc includes cinematic Act V');
+assert.ok(v10js.includes('origin_v10_act5_scene_v1'),'V10 homepage resumes Act V');
+new Script(act5,{filename:'www/v10/journey/act5/act5.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);

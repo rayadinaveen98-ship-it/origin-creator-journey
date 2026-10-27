@@ -50,7 +50,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),12);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(3).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(5).textContent(),/RESEARCHED OVERVIEW/);
  await page.locator('#mapList button').nth(1).click();
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('27 October 1952'));
  assert.equal(await page.locator('#observeButton').isVisible(),true);
@@ -98,7 +98,7 @@ try{
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('August 1955'));
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-11');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act5/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyTitle').textContent(),/team/);
  await page.locator('.reader-logo').click();
