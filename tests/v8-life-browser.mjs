@@ -32,7 +32,9 @@ try{
  console.log('Prologue Wikimedia portrait: ',photo);
  if(!photo.loaded)console.log('WARNING: Remote Commons image unavailable; photo fallback was shown.');
  await page.screenshot({path:'/tmp/origin-life-prologue.png'});
- await page.locator('#nextButton').click();
+ assert.equal(await page.locator('#startJourney').isVisible(),true);
+ await page.locator('#startJourney').click();
+ assert.equal(await page.locator('#startJourney').isVisible(),false);
  assert.match(await page.locator('#sceneEra').textContent(),/1921/);
  assert.match(await page.locator('#sceneTitle').textContent(),/stories/);
  assert.match(await page.locator('#photoCaption').textContent(),/1914/);
