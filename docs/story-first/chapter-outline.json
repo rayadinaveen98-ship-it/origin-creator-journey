@@ -1,0 +1,95 @@
+{
+  "schema": "origin.story-pilot.1",
+  "title": "The Film That Almost Didn't Exist",
+  "creator": "Satyajit Ray",
+  "status": "research prototype; published ORIGIN V6 unchanged",
+  "stages": [
+    {
+      "id": "idea",
+      "year": "1950",
+      "heading": "A film on paper",
+      "claim_ids": [
+        "BFI1970"
+      ],
+      "interaction": "Explore book, technique, treatment"
+    },
+    {
+      "id": "rejection",
+      "year": "1950–52",
+      "heading": "No producer",
+      "claim_ids": [
+        "BFI1970",
+        "RAYMAKING"
+      ],
+      "interaction": "Investigate risk, then reveal documentary outcome"
+    },
+    {
+      "id": "shoot",
+      "year": "October 1952",
+      "heading": "The first shoot",
+      "claim_ids": [
+        "RAYMAKING",
+        "RMA1967",
+        "ARRI"
+      ],
+      "interaction": "Identify camera, art, direction constraints"
+    },
+    {
+      "id": "cattle",
+      "year": "1952–54",
+      "heading": "The vanishing field",
+      "claim_ids": [
+        "RAYMAKING"
+      ],
+      "interaction": "Original schematic continuity slider"
+    },
+    {
+      "id": "funds",
+      "year": "1953",
+      "heading": "The empty reel",
+      "claim_ids": [
+        "BFI1970"
+      ],
+      "interaction": "Unpack self-funding and production halt"
+    },
+    {
+      "id": "wait",
+      "year": "1953–54",
+      "heading": "The long pause",
+      "claim_ids": [
+        "RAYMAKING",
+        "RMA1967"
+      ],
+      "interaction": "Explore season, cast and installments"
+    },
+    {
+      "id": "finish",
+      "year": "1955",
+      "heading": "The final print",
+      "claim_ids": [
+        "RAYMAKING",
+        "MOMA2012"
+      ],
+      "interaction": "Investigate picture, score, print"
+    },
+    {
+      "id": "reception",
+      "year": "1955–56",
+      "heading": "The world sees it",
+      "claim_ids": [
+        "MOMA2012",
+        "SOCIETY",
+        "RMA1967"
+      ],
+      "interaction": "Distinguish three milestones"
+    }
+  ],
+  "sources": {
+    "BFI1970": "https://www.bfi.org.uk/sight-and-sound/features/satyajit-ray-conversation-1970-folke-isaksson",
+    "RAYMAKING": "https://satyajitray.org/making-of-pather-panchali/",
+    "RMA1967": "https://rmaward.asia/rmawardees/ray-satyajit/",
+    "ARRI": "https://100.arri.com/timeline/event/59ad909227fc605792b770a3",
+    "MOMA2012": "https://www.moma.org/explore/inside_out/2012/11/13/satyajit-rays-pather-panchali/",
+    "SOCIETY": "https://www.satyajitraysociety.org/cast_and_crew.html"
+  }
+}
