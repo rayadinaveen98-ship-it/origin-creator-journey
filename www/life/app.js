@@ -120,7 +120,7 @@ function render(index, options={}){
  }
 }
 image.addEventListener('error',()=>{image.hidden=true;$('imageFallback').hidden=false;});
-image.addEventListener('load',()=>{if(records[acts[current].image].src===image.currentSrc || image.src.endsWith(records[acts[current].image].src.split('/').pop())){$('imageFallback').hidden=true;image.hidden=false;}});
+image.addEventListener('load',()=>{const active=records[acts[current].image].src;if(active && image.src===active){$('imageFallback').hidden=true;image.hidden=false;}});
 function openDialog(id,trigger){prevFocus=trigger;$(id).showModal();trigger.setAttribute('aria-expanded','true');}
 function closeDialog(id){$(id).close();document.querySelector('[aria-controls="'+id+'"]')?.setAttribute('aria-expanded','false');if(prevFocus?.isConnected)prevFocus.focus();}
 for(const item of CHAPTERS){
