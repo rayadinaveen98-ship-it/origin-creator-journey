@@ -41,8 +41,10 @@ jobs:
         run: |
           set -euo pipefail
           echo "ANDROID_HOME=$ANDROID_HOME"
-          command -v sdkmanager
-          sdkmanager --version
+          sdk_bin="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager -printf '%h\\n' | sort -V | tail -n 1)"
+          test -n "$sdk_bin"
+          echo "$sdk_bin" >> "$GITHUB_PATH"
+          "$sdk_bin/sdkmanager" --version
 
       - name: Install Android platform and build tools
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
