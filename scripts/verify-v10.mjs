@@ -19,7 +19,9 @@ assert.equal(welcome(v10html),welcome(v9html),'Welcome artwork and wording must 
 assert.equal((v10html.match(/COMING SOON/g)||[]).length,4,'Four distinct future creators');
 for(const name of ['Akira','Ghatak','Varda','Kubrick'])assert.ok(v10html.includes(name));
 assert.ok(v10js.includes("'/v10/journey/act2/'") && v10js.includes("'/v10/journey/'"),'V10 should enter both cinematic acts');
-assert.ok(read('www/v10/journey/life-arc.js').includes('RESEARCHED OVERVIEW'),'Life map must label future acts honestly');
+const journeyMap=read('www/v10/journey/life-arc.js');
+assert.ok(journeyMap.includes('All eight narrative acts are now playable cinematic pilots'),'Full map states all eight playable without claiming production finish');
+assert.ok((journeyMap.match(/'CINEMATIC ACT'/g)||[]).length===8,'All eight acts must have matching cinematic availability');
 const act2=read('www/v10/journey/act2/act2.js');
 assert.ok(act2.includes('origin_v10_act2_scene_v1'),'Act II must save progress independently');
 assert.ok(act2.includes('satyajitray.org/at-shantiniketan'),'Act II needs historical reference');
