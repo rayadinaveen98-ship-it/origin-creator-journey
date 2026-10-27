@@ -1,0 +1,238 @@
+/* ORIGIN V10 — Act VII: The Final Years (1984–1992)
+   Historical scenes are grounded in archives. Visual metaphors are explicitly labeled.
+   No invented dialogue, no impersonation, no film frames.
+*/
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const CHILD='https://upload.wikimedia.org/wikipedia/commons/8/86/Satyajit_ray_little.jpg';
+const PARENTS='https://upload.wikimedia.org/wikipedia/commons/0/0c/Sukumar_Ray_and_his_wife.jpg';
+const YOUNG='https://upload.wikimedia.org/wikipedia/commons/4/42/Satyajit-Ray-Young.jpg';
+const archive=[
+ {label:'Ray Archive — The Final Offerings (1984–1992)',url:'https://satyajitray.org/final-offerings/'},
+ {label:'Ray Archive — Filmography',url:'https://satyajitray.org/filmography/'},
+ {label:'Ray Archive — Awards',url:'https://satyajitray.org/awards/'},
+ {label:'Satyajit Ray Society — Biography',url:'https://www.satyajitraysociety.org/biography.html'},
+ {label:'Ray Archive — Sandip Ray and the Work',url:'https://satyajitray.org/sandip-ray-assistant-to-ray-director/'},
+ {label:'Oscars — 64th Ceremony and Ray Honorary Award',url:'https://www.oscars.org/oscars/ceremonies/1992/memorable-moments'},
+ {label:'Oscars — Honorary Award recipients by ceremony',url:'https://www.oscars.org/governors/honorary'}
+];
+const scenes=[
+ {year:'1984',place:'THE HOME AND THE WORLD',name:'Ghare Baire',mode:'house',kind:'frame',observe:true,craft:'focus',
+ title:'The outside world<br><em>entered the home.</em>',
+ lead:'Ghare Baire brought Ray back to a novel by Rabindranath Tagore that had interested him long before his first film.',
+ more:'Politics, intimacy and the place of women within the nationalist movement became the substance of this drama. Its making was interrupted by the director’s illness.',
+ meaning:'The film’s title becomes an image of a divided world: private life in contact with immense public forces.',
+ history:'Ray’s filmography dates Ghare Baire (Home and the World) to 1984. His first adaptation concept of the Tagore novel was much earlier; the project returned decades later.',
+ visual:'ORIGINAL abstract home/window composition. Not Ghare Baire footage, production design, actual architecture or a photo of Ray.',
+ prompt:'THE WORLD THROUGH A WINDOW',craftNote:'Original focus study: shifting the visible window can change what appears private and public. This is not a Ray storyboard.',
+ bg:'radial-gradient(ellipse at 69% 41%,#c0b2a1,#665f65 46%,#20252d 91%)',sources:[0,1]},
+ {year:'1984',place:'A WORKING LIFE INTERRUPTED',name:'Illness and collaboration',mode:'interruption',kind:'transition',
+ title:'The camera stopped.<br><em>The work did not.</em>',
+ lead:'Serious heart trouble interrupted the production of Ghare Baire, and Sandip Ray completed the remaining work from his father’s detailed instructions.',
+ more:'The arrangement showed how much of filmmaking depended on trusted collaborators. Later shoots would take place under tighter medical and production conditions.',
+ meaning:'A filmmaker’s vision must sometimes pass through other people’s hands.',
+ history:'The Ray Archive recounts two heart attacks during Ghare Baire and states that his son Sandip completed the project using detailed instructions. The Ray Society traces Ray’s deteriorating health to heart complications in 1983; this scene avoids invented medical details.',
+ visual:'ORIGINAL interrupted beam of light and empty director’s frame; not a film set photo, hospital reenactment or a portrait of Sandip Ray.',
+ prompt:'WHEN WORK CHANGES FORM',
+ bg:'radial-gradient(ellipse at 66% 42%,#9d9d97,#58646b 43%,#20262d 93%)',sources:[0,3,4]},
+ {year:'1985',place:'INDIAN CINEMA HONOURS',name:'Dadasaheb Phalke Award',mode:'honour',kind:'symbol',
+ title:'India honoured<br><em>the body of work.</em>',
+ lead:'Ray received the Dadasaheb Phalke Award in 1985, recognising his contribution to Indian cinema.',
+ more:'He had become a widely recognised filmmaker across decades, while his everyday capacity to work was no longer what it had been.',
+ meaning:'Public acclaim and a creator’s personal circumstances do not necessarily move together.',
+ history:'The Ray Archive awards list records the Dadasaheb Phalke Award in 1985. This scene does not invent a ceremony, acceptance speech or private response.',
+ visual:'Original concentric graphic of light on a blank award-like surface. Not an actual award photograph, trophy, medal or ceremony recreation.',
+ prompt:'HONOUR AND CONTINUITY',
+ bg:'radial-gradient(ellipse at 71% 42%,#cdb594,#726e66 46%,#282b30 94%)',sources:[2,3]},
+ {year:'1987',place:'REMEMBERING HIS FATHER',name:'Sukumar Ray',mode:'father',kind:'paper',observe:true,craft:'contrast',
+ title:'He turned back<br><em>to the first storyteller.</em>',
+ lead:'Ray made Sukumar Ray, a documentary about his father, the writer and artist who had died when Satyajit was a small child.',
+ more:'The film brings our journey back toward the family imagination that shaped its first act: pictures, words, humour and experimentation.',
+ meaning:'A life story can circle back, returning late in the journey to an absence from childhood.',
+ history:'The Ray Archive filmography records Sukumar Ray (1987), a documentary about his father. This scene does not reproduce Sukumar Ray’s work, copyrighted drawings or archival family photos.',
+ visual:'Original paper textures and empty picture spaces. Not pages from Sandesh, Sukumar Ray’s books or the documentary.',
+ prompt:'THE FAMILY CIRCLE',craftNote:'Original tonal contrast exercise about how negative space focuses attention. It does not reproduce Ray family illustration.',
+ bg:'radial-gradient(ellipse at 69% 33%,#d6bfa0,#897b70 45%,#383130 92%)',sources:[1,3]},
+ {year:'1987',place:'RECOGNITION ACROSS BORDERS',name:'Légion d’Honneur',mode:'honour',kind:'symbol',
+ title:'A lifetime of work<br><em>was recognised abroad.</em>',
+ lead:'France awarded Ray the Légion d’Honneur, one of the recognitions recorded among his personal honours.',
+ more:'The award was another moment in a relationship with international cinema that had begun long before the world saw Pather Panchali.',
+ meaning:'The reach of a film can grow far beyond the place where its story was made.',
+ history:'The Ray Archive awards list dates the Légion d’Honneur to 1987. The precise conferral ceremony is not reconstructed here; accounts vary in their descriptions of later presentations.',
+ visual:'Original light-and-circle abstraction; not a French medal, diplomatic ceremony or documentary image.',
+ prompt:'THE WORLD RESPONDS',
+ bg:'radial-gradient(ellipse at 69% 38%,#c6b399,#66747a 45%,#26343c 93%)',sources:[2,3]},
+ {year:'1989',place:'A RETURN TO FEATURE FILMMAKING',name:'The camera returns',mode:'studio',kind:'frame',observe:true,craft:'focus',
+ title:'Years passed.<br><em>Then he directed again.</em>',
+ lead:'After a lengthy interruption, Ray returned to features with a more restricted way of working.',
+ more:'He could not simply resume the physical approach of his younger years. Sets, controlled environments and new limits helped define this final period.',
+ meaning:'Adaptation is part of craft: an artist may keep a voice while changing the methods that carry it.',
+ history:'The Ray Archive identifies a period of about four years away from active feature filmmaking and a return in 1989. This visual avoids inventing detailed on-set or medical arrangements.',
+ visual:'Original controlled studio-light composition. Not a photograph of Ray at work, an actual set, or a reconstructed studio floor plan.',
+ prompt:'THE WORK CONTINUES',craftNote:'Original composition study showing how a bounded interior can focus dramatic attention. Not Ray’s camera setup.',
+ bg:'radial-gradient(ellipse at 72% 42%,#b8a996,#666c63 40%,#222f31 91%)',sources:[0,3]},
+ {year:'1989',place:'GANASHATRU',name:'An Enemy of the People',mode:'question',kind:'frame',observe:true,craft:'contrast',
+ title:'A doctor speaks.<br><em>A town resists.</em>',
+ lead:'Ganashatru adapted Henrik Ibsen’s An Enemy of the People to a contemporary Bengali setting.',
+ more:'A physician challenges accepted assurances about a public-health danger. Ray explored truth, pressure and opposition in a concentrated dramatic form.',
+ meaning:'The conflict between evidence and authority can become urgent through a small group of people in one room.',
+ history:'Ganashatru (Enemy of the People, 1989) is based on Ibsen’s play. This is a description of the film’s plot, not a claim about actual events or a medical recommendation.',
+ visual:'Original opposing light planes. Not Ganashatru footage, actual public-health data or a recreated Ray shot.',
+ prompt:'ONE VOICE AGAINST MANY',craftNote:'Original contrast exercise about aligning light and opposing forms. This is not a real frame from Ganashatru.',
+ bg:'radial-gradient(ellipse at 70% 40%,#b5aea1,#596e6d 43%,#202b36 92%)',sources:[0,1]},
+ {year:'1990',place:'SHakHA PRASHAKHA',name:'Branches of the Tree',mode:'branches',kind:'frame',observe:true,craft:'focus',
+ title:'A family tree.<br><em>Uneven branches.</em>',
+ lead:'Shakha Prashakha explored a family in which success and outward respectability conceal moral fractures.',
+ more:'In a relatively confined world, Ray returned to questions of integrity, generational differences and the choices made by adults.',
+ meaning:'A branching image can help us notice how one family contains very different paths.',
+ history:'Shakha Prashakha (Branches of the Tree, 1990) is one of Ray’s final three features. The graphic is original metaphor, not a still, film poster or family portrait.',
+ visual:'Original branching-line artwork, unrelated to any image from the film.',
+ prompt:'WHAT A FAMILY REVEALS',craftNote:'Original focus study isolating one branch from many. It is not a reproduction of Ray’s composition.',
+ bg:'radial-gradient(ellipse at 65% 38%,#b4ab91,#687467 42%,#222e2d 92%)',sources:[0,1]},
+ {year:'1991',place:'THE LAST FEATURE',name:'Agantuk',mode:'stranger',kind:'frame',observe:true,craft:'focus',
+ title:'A stranger arrives.<br><em>Questions remain.</em>',
+ lead:'Agantuk, Ray’s final feature, followed a long-absent relative whose sudden arrival unsettles a family.',
+ more:'Identity, trust, civilisation and openness become the subjects of a story built around conversation and doubt.',
+ meaning:'The last film does not simply conclude an artist’s career; it leaves his audience with questions.',
+ history:'Agantuk (The Stranger, 1991) is the last feature Ray completed. Ray’s filmography and the Ray Society agree on 1991; other film catalogues can give later release dates outside India.',
+ visual:'Original doorway and silhouette abstraction; not a likeness of Utpal Dutt, a film frame or production still.',
+ prompt:'THE FINAL QUESTION',craftNote:'Original doorway focus study about what we can and cannot know from a framed view. Not Ray’s exact shot.',
+ bg:'radial-gradient(ellipse at 73% 43%,#c8bd9f,#747368 42%,#252b2d 93%)',sources:[0,1]},
+ {year:'MARCH 1992',place:'THE 64TH ACADEMY AWARDS',name:'A voice from Calcutta',mode:'academy',kind:'symbol',
+ title:'Far from Hollywood,<br><em>his voice was heard.</em>',
+ lead:'Ray accepted an honorary Academy Award by video connection from Calcutta while seriously ill.',
+ more:'The recognition celebrated his lifetime of filmmaking. It belonged to the 64th Academy Awards, presented in 1992 and catalogued by the Academy as its 1991 award year.',
+ meaning:'The moment linked a hospital room in Calcutta to audiences and filmmakers far beyond India.',
+ history:'The Academy records Ray’s Honorary Award in the 1991 (64th) awards cycle, whose ceremony took place in 1992. The Ray Archive confirms remote acceptance from his sickbed. No video or actual award imagery is embedded.',
+ visual:'Original screen-and-light composition, not a recreation of the televised acceptance, Oscar statuette or Ray’s hospital room.',
+ prompt:'A LIFETIME ACKNOWLEDGED',
+ bg:'radial-gradient(ellipse at 70% 42%,#ddc39d,#7b7365 43%,#2b3136 91%)',sources:[0,2,5,6]},
+ {year:'1992',place:'INDIA’S HIGHEST CIVILIAN HONOUR',name:'Bharat Ratna',mode:'honour',kind:'symbol',
+ title:'His country honoured<br><em>the whole journey.</em>',
+ lead:'In 1992, Ray received the Bharat Ratna, India’s highest civilian award.',
+ more:'It recognised a life that had crossed film, literature, design and music—and the distinctive place his work held in Indian culture.',
+ meaning:'Recognition mattered, but the human and artistic journey behind the recognition matters too.',
+ history:'The Ray Archive records the Bharat Ratna in 1992. No certificate, ceremony, medal or private acceptance scene is fabricated.',
+ visual:'Original restrained concentric graphic, not India’s official award insignia or presentation footage.',
+ prompt:'A LIFE ACROSS THE ARTS',
+ bg:'radial-gradient(ellipse at 69% 40%,#d1bb9b,#898577 43%,#2e3536 92%)',sources:[2,0]},
+ {year:'23 APRIL 1992',place:'CALCUTTA',name:'The final day',mode:'farewell',kind:'transition',
+ title:'The journey ended.<br><em>The images remained.</em>',
+ lead:'Satyajit Ray died in Calcutta on 23 April 1992, aged 70.',
+ more:'The films, books, designs and music remained for others to discover. His life had ended; the life of the work would continue in preservation, study and new audiences.',
+ meaning:'This chapter closes Ray’s life. The final act asks what happens when a creator’s work outlives them.',
+ history:'The Ray Archive biography and final offerings give 23 April 1992 as Ray’s death date. He died in hospital. We do not reenact his last hours or invent last words.',
+ visual:'Original fading light and empty frame. Not a deathbed photo, funeral image or other archival material.',
+ prompt:'AN END, AND WHAT REMAINS',
+ bg:'radial-gradient(ellipse at 70% 37%,#a39e93,#4d5454 43%,#141a1d 91%)',sources:[0,3]}
+];
+const storeKey='origin_v10_act7_scene_v1';
+const stage=$('stage'),img=$('archiveImage'),copy=$('sceneCopy');
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let current=0,changing=false,focusReturn=null;
+try{const saved=localStorage.getItem(storeKey);if(saved!==null){const v=Number(saved);if(Number.isInteger(v)&&v>=0&&v<scenes.length)current=v;}}catch{}
+const hashMatch=/^#scene-(\d+)$/.exec(location.hash);
+if(hashMatch && +hashMatch[1] < scenes.length)current=+hashMatch[1];
+function persist(){try{localStorage.setItem(storeKey,String(current));}catch{}}
+function render(){
+ const scene=scenes[current];
+ stage.dataset.mode=scene.mode;stage.dataset.kind=scene.kind||'symbol';stage.dataset.photo=String(!!scene.asset);
+ stage.classList.toggle('dense-title',scene.title.replace(/<[^>]+>/g,'').length>33);
+ stage.style.setProperty('--stage-bg',scene.bg);
+ $('symbolicYear').textContent=scene.year.replace('AROUND ','').replace('MID-','');
+ $('yearPlace').textContent=scene.place+' · '+scene.year;
+ $('beatId').textContent=String(current+1).padStart(2,'0')+' / 12';
+ $('storyTitle').innerHTML=scene.title;
+ $('storyLead').textContent=scene.lead;
+ $('storyMore').textContent=scene.more;
+ $('visualOrigin').textContent=scene.asset?'ARCHIVAL PHOTO · DATE EXPLAINED IN CONTEXT':'ORIGINAL VISUAL INTERPRETATION · NOT AN ARCHIVAL PHOTOGRAPH';
+ const obs=$('observeButton');obs.hidden=!scene.observe;
+ obs.textContent=scene.craft==='contrast'?'Adjust the light ↗':'Focus the composition ↗';
+ obs.setAttribute('aria-pressed','false');
+ $('exerciseNote').hidden=true;$('exerciseNote').textContent='';
+ $('visualDetail').hidden=true;stage.classList.remove('observing');
+ $('frameLabel').textContent='ORIGINAL EDITORIAL HISTORICAL STUDY · NOT A FILM STILL';
+ stage.dataset.craft=scene.craft||'none';
+ $('storyPrompt').textContent=scene.prompt;
+ $('railCaption').textContent=String(current+1).padStart(2,'0')+' / 12';
+ $('railYear').textContent=scene.year;
+ $('railFill').style.height=Math.round((current+1)/scenes.length*100)+'%';
+ $('railFill').style.width=Math.round((current+1)/scenes.length*100)+'%';
+ $('prev').disabled=current===0;
+ if(current===0){$('prev').disabled=false;$('prev').setAttribute('aria-label','Return to the final scene of Act VI');}else{$('prev').setAttribute('aria-label','Previous scene');}
+ $('nextLabel').textContent=current===scenes.length-1?'Finish Act VII':'Continue the story';
+ $('contextEra').textContent=scene.place+' · '+scene.year;
+ $('imageExplanation').textContent=scene.visual;
+ $('documentaryNote').textContent=scene.history;
+ $('editorialMeaning').textContent=scene.meaning;
+ $('photoSource').hidden=!scene.assetLink;
+ if(scene.assetLink)$('photoSource').href=scene.assetLink;
+ const links=$('sourceLinks');links.replaceChildren();
+ for(const index of scene.sources){const source=archive[index];const a=document.createElement('a');a.href=source.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=source.label+' ↗';links.append(a);}
+ if(scene.asset){
+   $('archiveUnavailable').hidden=true;
+   img.hidden=false;
+   if(img.getAttribute('src')!==scene.asset)img.src=scene.asset;
+   img.alt=scene.visual;
+   if(img.complete&&img.naturalWidth===0){img.hidden=true;$('archiveUnavailable').hidden=false;}
+ }else{img.hidden=true;$('archiveUnavailable').hidden=true;}
+ document.querySelectorAll('#dots button').forEach((b,i)=>{b.classList.toggle('current',i===current);b.setAttribute('aria-current',i===current?'step':'false');});
+ document.querySelectorAll('#mapList button').forEach((b,i)=>{if(i===current)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+ history.replaceState(null,'','#scene-'+current);persist();
+}
+img.addEventListener('error',()=>{if(scenes[current].asset && img.src===scenes[current].asset){img.hidden=true;$('archiveUnavailable').hidden=false;}});
+img.addEventListener('load',()=>{if(scenes[current].asset && img.src===scenes[current].asset){img.hidden=false;$('archiveUnavailable').hidden=true;}});
+function move(next){
+ if(changing||next<0||next>=scenes.length)return;
+ changing=true;
+ stage.classList.add('changing');
+ const update=()=>{
+  current=next;render();stage.classList.remove('changing');
+  copy.style.animation='none';void copy.offsetWidth;copy.style.animation='';
+  $('storyTitle').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
+  changing=false;
+ };
+ if(reduceMotion)update();else setTimeout(update,165);
+}
+function complete(){
+ if(changing)return;
+ stage.hidden=true;$('completion').hidden=false;
+ window.scrollTo({top:0,behavior:'instant'});$('completeTitle').focus?.();
+}
+function restart(){
+ $('completion').hidden=true;stage.hidden=false;
+ current=0;render();$('storyTitle').focus({preventScroll:true});
+}
+for(let i=0;i<scenes.length;i++){
+ const d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Go to scene '+(i+1)+': '+scenes[i].name);d.addEventListener('click',()=>move(i));$('dots').append(d);
+ const b=document.createElement('button');b.type='button';const date=document.createElement('span');date.className='map-year';date.textContent=scenes[i].year;
+ const label=document.createElement('span');label.className='map-name';label.textContent=scenes[i].name;const flag=document.createElement('span');flag.className='map-stage';flag.textContent=String(i+1).padStart(2,'0')+'/12';
+ b.append(date,label,flag);b.addEventListener('click',()=>{$('mapDialog').close();move(i);});$('mapList').append(b);
+}
+$('prev').addEventListener('click',()=>{if(current===0)window.location.assign('/v10/journey/act6/#scene-12');else move(current-1);});
+$('next').addEventListener('click',()=>{if(current===scenes.length-1)complete();else move(current+1);});
+$('restart').addEventListener('click',restart);
+$('observeButton').addEventListener('click',()=>{
+ const scene=scenes[current];if(!scene.observe)return;
+ const active=!stage.classList.contains('observing');
+ stage.classList.toggle('observing',active);$('visualDetail').hidden=!active;
+ $('observeButton').setAttribute('aria-pressed',String(active));
+ $('observeButton').textContent=active?'Restore the original study ↗':scene.craft==='rhythm'?'Study visual rhythm ↗':scene.craft==='contrast'?'Change the contrast ↗':'Focus the scene ↗';
+ $('exerciseNote').hidden=!active;$('exerciseNote').textContent=active?(scene.craftNote||'Original demonstration, not an archival film image.'):'';
+});
+function showDialog(which,trigger){focusReturn=trigger;$(which).showModal();}
+function closeDialog(which){$(which).close();if(focusReturn?.isConnected)focusReturn.focus();}
+$('mapButton').addEventListener('click',e=>showDialog('mapDialog',e.currentTarget));
+$('contextButton').addEventListener('click',e=>showDialog('contextDialog',e.currentTarget));
+$('whyButton').addEventListener('click',e=>showDialog('contextDialog',e.currentTarget));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.close)));
+document.addEventListener('keydown',e=>{
+ const tag=e.target?.tagName;
+ if($('mapDialog').open||$('contextDialog').open||tag==='INPUT'||tag==='TEXTAREA')return;
+ if(e.key==='ArrowRight'&&current<scenes.length-1){e.preventDefault();move(current+1);}
+ if(e.key==='ArrowLeft'&&current>0){e.preventDefault();move(current-1);}
+});
+window.addEventListener('hashchange',()=>{const m=/^#scene-(\d+)$/.exec(location.hash);if(m&&+m[1]<scenes.length)move(+m[1]);});
+render();
+})();

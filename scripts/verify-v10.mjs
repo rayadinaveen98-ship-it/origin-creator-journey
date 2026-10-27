@@ -62,6 +62,15 @@ assert.ok(read('www/v10/journey/act5/index.html').includes('/v10/journey/act6/#s
 assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act6/'"),'Eight-act map includes Act VI');
 assert.ok(v10js.includes('origin_v10_act6_scene_v1'),'V10 home resumes Act VI');
 new Script(act6,{filename:'www/v10/journey/act6/act6.js'});
+const act7=read('www/v10/journey/act7/act7.js');
+assert.ok(act7.includes('origin_v10_act7_scene_v1'),'Act VII saves progress independently');
+assert.ok(act7.includes('Ghare Baire')&&act7.includes('Ganashatru')&&act7.includes('Agantuk')&&act7.includes('23 APRIL 1992'),'Act VII events present');
+assert.ok(act7.includes('https://www.oscars.org/oscars/ceremonies/1992/memorable-moments'),'Act VII Academy chronology sourced');
+assert.ok(read('www/v10/journey/act7/index.html').includes('id="filmStage"'));
+assert.ok(read('www/v10/journey/act6/index.html').includes('/v10/journey/act7/#scene-0'),'Act VI leads directly to Act VII');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act7/'"),'Life map includes Act VII');
+assert.ok(v10js.includes('origin_v10_act7_scene_v1'),'V10 home continues Act VII');
+new Script(act7,{filename:'www/v10/journey/act7/act7.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);
