@@ -20,7 +20,7 @@ let browser;
 const run=async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const base='http://127.0.0.1:'+server.address().port;
- browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({viewport:{width:1440,height:900}});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/v10/',{waitUntil:'domcontentloaded'});
@@ -50,6 +50,8 @@ const run=async()=>{
  await page.screenshot({path:'artifacts/origin-v10-family-desktop.png'});
  await page.locator('#mapButton').click();
  assert.equal(await page.locator('#mapList button').count(),8);
+ assert.equal(await page.locator('.life-arc-link').count(),8);
+ assert.match(await page.locator('.life-arc-link').nth(1).textContent(),/The Artist/);
  await page.locator('#mapList button').nth(4).click();
  await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('wonder'));
  assert.match(await page.locator('#imageExplanation').textContent(),/1930/);
@@ -77,7 +79,7 @@ const run=async()=>{
  await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('artist in waiting'));
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('a.complete-primary').getAttribute('href'),'/life/#moment-6');
+ assert.equal(await page.locator('a.complete-primary').getAttribute('href'),'/v10/journey/act2/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyTitle').textContent(),/Before cinema/);
  assert.deepEqual(errors,[],'Runtime errors in V10');

@@ -1,11 +1,12 @@
 name: ORIGIN V10 Living Journey QA
 on:
   push:
-    branches: [feature/v10-living-journey-pilot]
+    branches: [feature/v10-living-journey-pilot, feature/v10-act2-the-artist-1940-1943]
     paths:
       - 'www/v10/**'
       - 'scripts/verify-v10.mjs'
       - 'tests/v10-browser.mjs'
+      - 'tests/v10-act2-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   pull_request:
     branches: [main]
@@ -13,6 +14,7 @@ on:
       - 'www/v10/**'
       - 'scripts/verify-v10.mjs'
       - 'tests/v10-browser.mjs'
+      - 'tests/v10-act2-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   workflow_dispatch:
 permissions:
@@ -29,12 +31,14 @@ jobs:
           node-version: '22'
       - name: Verify preserved releases and exact V9 welcome animation
         run: node scripts/verify-v10.mjs
-      - name: Install Chromium browser
+      - name: Use installed system Chrome with Playwright harness
         run: |
           npm install --no-save playwright@1.56.1
-          npx playwright install --with-deps chromium
+          google-chrome --version
       - name: Verify experience and capture desktop/mobile views
         run: node tests/v10-browser.mjs
+      - name: Verify Act II story, transitions and progress
+        run: node tests/v10-act2-browser.mjs
       - name: Archive visual QA
         if: always()
         uses: actions/upload-artifact@v4
