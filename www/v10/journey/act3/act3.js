@@ -131,7 +131,7 @@ function render(){
  art.hidden=scene.kind!=='print'&&scene.kind!=='paper';
  if(!art.hidden){
    $('printEyebrow').textContent=scene.kind==='paper'?'STORY TREATMENT / EDITORIAL DEMO':'GRAPHIC STUDY / NOT A RAY DESIGN';
-   $('printTitle').innerHTML=(scene.artTitle||'STORY\\nIMAGE').replace(/\\n/g,'<br>');
+   $('printTitle').innerHTML=(scene.artTitle||'STORY\\nIMAGE').replaceAll(String.fromCharCode(10),'<br>');
  }
  $('storyPrompt').textContent=scene.prompt;
  $('railCaption').textContent=String(current+1).padStart(2,'0')+' / 11';
@@ -186,14 +186,14 @@ function restart(){
 for(let i=0;i<scenes.length;i++){
  const d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Go to scene '+(i+1)+': '+scenes[i].name);d.addEventListener('click',()=>move(i));$('dots').append(d);
  const b=document.createElement('button');b.type='button';const date=document.createElement('span');date.className='map-year';date.textContent=scenes[i].year;
- const label=document.createElement('span');label.className='map-name';label.textContent=scenes[i].name;const flag=document.createElement('span');flag.className='map-stage';flag.textContent=String(i+1).padStart(2,'0')+'/08';
+ const label=document.createElement('span');label.className='map-name';label.textContent=scenes[i].name;const flag=document.createElement('span');flag.className='map-stage';flag.textContent=String(i+1).padStart(2,'0')+'/11';
  b.append(date,label,flag);b.addEventListener('click',()=>{$('mapDialog').close();move(i);});$('mapList').append(b);
 }
 $('prev').addEventListener('click',()=>{if(current===0)window.location.assign('/v10/journey/act2/#scene-7');else move(current-1);});
 $('next').addEventListener('click',()=>{if(current===scenes.length-1)complete();else move(current+1);});
 $('restart').addEventListener('click',restart);
  $('observeButton').addEventListener('click',()=>{if(!scenes[current].observe)return;const active=!stage.classList.contains('observing');stage.classList.toggle('observing',active);$('visualDetail').hidden=!active;$('observeButton').setAttribute('aria-pressed',String(active));$('observeButton').textContent=active?'Restore the first version ↗':'Change the emphasis ◎';
- const scene=scenes[current];if(scene.kind==='print'||scene.kind==='paper')$('printTitle').innerHTML=(active?(scene.artAlt||scene.artTitle):scene.artTitle).replace(/\\n/g,'<br>');});
+ const scene=scenes[current];if(scene.kind==='print'||scene.kind==='paper')$('printTitle').innerHTML=(active?(scene.artAlt||scene.artTitle):scene.artTitle).replaceAll(String.fromCharCode(10),'<br>');});
 function showDialog(which,trigger){focusReturn=trigger;$(which).showModal();}
 function closeDialog(which){$(which).close();if(focusReturn?.isConnected)focusReturn.focus();}
 $('mapButton').addEventListener('click',e=>showDialog('mapDialog',e.currentTarget));
