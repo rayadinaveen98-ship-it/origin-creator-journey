@@ -40,6 +40,12 @@ jobs:
           test -s www/app/index.html
           test -s www/app/styles.css
           test -s www/app/app.js
+          test -s www/v10/index.html
+          test -s www/v10/app.js
+          test -s www/v10/styles.css
+          test -s www/v10/journey/index.html
+          test -s www/v10/journey/story.js
+          test -s www/v10/journey/styles.css
           echo '2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7  www/index.html' | sha256sum --check
           grep -q 'id="origin15"' www/story-first/index.html
           grep -q 'id="origin16"' www/story-first/index.html
@@ -69,7 +75,7 @@ jobs:
         run: |
           set -euo pipefail
           base='https://origin-creator-journey.rayadinaveen98.workers.dev'
-          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css /life/ /life/index.html /life/app.js /life/styles.css /app/ /app/index.html /app/app.js /app/styles.css; do
+          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css /life/ /life/index.html /life/app.js /life/styles.css /app/ /app/index.html /app/app.js /app/styles.css /v10/ /v10/index.html /v10/app.js /v10/styles.css /v10/journey/ /v10/journey/index.html /v10/journey/story.js /v10/journey/styles.css; do
             code="$(curl --retry 4 --retry-delay 3 --retry-all-errors -L -s -o /dev/null -w '%{http_code}' "$base$path")"
             if [[ "$code" != "200" ]]; then
               echo "::error::Cloudflare returned HTTP $code for $base$path"
@@ -98,6 +104,15 @@ jobs:
           curl --fail --silent --show-error --location "$base/app/app.js" --output "${RUNNER_TEMP}/origin-app-live.js"
           grep -q 'origin_v9_opening_seen' "${RUNNER_TEMP}/origin-app-live.js"
           echo 'V9 cinematic home HTML and actual JavaScript confirmed live.'
+          curl --fail --silent --show-error --location "$base/v10/index.html" --output "${RUNNER_TEMP}/origin-v10-live.html"
+          grep -q '<title>ORIGIN — V10 Cinematic Journey' "${RUNNER_TEMP}/origin-v10-live.html"
+          curl --fail --silent --show-error --location "$base/v10/app.js" --output "${RUNNER_TEMP}/origin-v10-live.js"
+          grep -q 'origin_v10_opening_seen' "${RUNNER_TEMP}/origin-v10-live.js"
+          curl --fail --silent --show-error --location "$base/v10/journey/index.html" --output "${RUNNER_TEMP}/origin-v10-story.html"
+          grep -q '<title>ORIGIN — The Boy, 1921–1939' "${RUNNER_TEMP}/origin-v10-story.html"
+          curl --fail --silent --show-error --location "$base/v10/journey/story.js" --output "${RUNNER_TEMP}/origin-v10-story.js"
+          grep -q 'origin_v10_act1_scene_v1' "${RUNNER_TEMP}/origin-v10-story.js"
+          echo 'V10 home and Act I story are deployed with actual JavaScript assets.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
@@ -115,7 +130,7 @@ jobs:
             echo
             echo "Cloudflare Worker: https://origin-creator-journey.rayadinaveen98.workers.dev/"
             echo
-            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home preview).'
+            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home), /v10/ (V10 home) and /v10/journey/ (V10 Living Act I).'
             echo
             echo 'Note: HTTP and asset checks prove deployment, not full real-device acceptance testing.'
           } > docs/ORIGIN_LIVE_VERIFIED.md
