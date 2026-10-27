@@ -8,6 +8,7 @@ Status: feature branch only until QA. **Do not replace** the original V6 home or
 - Chapter map for the verified 1955–1959 Story-First 1.6 journey; click **Enter Ray's journey** to load the **existing complete** Story-First app as an embedded same-origin experience.
 - **Composition** study with adjustable distance and contextual interpretation linked to themes in `Apur Sansar`.
 - **Atmosphere** study with adjustable light and contextual interpretation linked to `Jalsaghar`.
+- A context-aware **Try in Studio** bridge in the Story-First viewer: Jalsaghar's room and sound scenes suggest the atmosphere lab; other scenes suggest framing. Studio includes a **Return to Ray's journey** action in the same tab.
 - Access to the frozen V6 interactive experience from Studio, without changing its contents.
 - Browser-only reflections: save, review, delete (with confirmation), reload, export as JSON.
 - Limited in-tab progression hints when the Story-First document exposes visible chapter markers. **The original story's internal scene position is not restored after a full page refresh.** The iframe remains mounted while switching V7 views in the same tab.
@@ -35,5 +36,5 @@ Once tests pass, merge this **additive** feature branch to `main`. Existing Clou
 
 1. Manual creator walkthrough: the Ray journey feels coherent when transitioning from story to a craft choice.
 2. Restore a meaningful Story-First scene position after full reload via explicit integration with the Story-First engine (not DOM guessing).
-3. Deep linking from specific story choices to specific studio labs and back.
+3. Fine-grained deep linking from individual narrative choices, beyond the current chapter/act-based bridge; explicit cross-page state restoration.
 4. Accessibility QA with screen reader, physical mobile checks, better focus management, performance budget, Android packaging strategy.
