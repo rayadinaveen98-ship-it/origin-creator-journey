@@ -67,7 +67,7 @@ function render(index, options={}){
  if(index<0||index>=acts.length)return;
  current=index;
  const act=acts[index],media=records[act.image];
- $('sceneEra').textContent=act.era;
+ $('sceneEra').textContent=act.year+' · '+act.era;
  $('sceneCounter').textContent=String(index+1).padStart(2,'0')+' OF '+acts.length;
  $('sceneOverline').textContent=act.overline;
  $('sceneTitle').innerHTML=act.title;
