@@ -6,6 +6,8 @@ on:
       - 'www/v10/**'
       - 'scripts/verify-v10.mjs'
       - 'tests/v10-browser.mjs'
+      - 'tests/v10-act2-browser.mjs'
+      - 'tests/v10-act2-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   pull_request:
     branches: [main]
@@ -35,6 +37,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Verify experience and capture desktop/mobile views
         run: node tests/v10-browser.mjs
+      - name: Verify Act II story, transitions and progress
+        run: node tests/v10-act2-browser.mjs
       - name: Archive visual QA
         if: always()
         uses: actions/upload-artifact@v4
