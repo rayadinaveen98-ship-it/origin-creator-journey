@@ -128,6 +128,12 @@ try {
  await page.waitForTimeout(800);
  await page.screenshot({path:'artifacts/origin-v10-act8-ending-mobile.png',fullPage:true});
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)<=2,'Act VIII mobile horizontal overflow');
+ const mobileComposition=await page.evaluate(()=>({
+   artBottom:document.querySelector('#filmStage').getBoundingClientRect().bottom,
+   titleTop:document.querySelector('#storyTitle').getBoundingClientRect().top
+ }));
+ assert.ok(mobileComposition.artBottom<=mobileComposition.titleTop+4,
+   'Mobile final filmstrip must end before final story headline: '+JSON.stringify(mobileComposition));
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
  assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/#scene-0');
