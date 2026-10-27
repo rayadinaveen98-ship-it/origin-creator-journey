@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080d0d">
+<meta name="description" content="ORIGIN — a cinematic home for the lives and creative journeys of extraordinary filmmakers.">
+<title>ORIGIN — V10 Cinematic Journey</title><link rel="stylesheet" href="./styles.css"><script defer src="./app.js"></script></head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="welcome" class="welcome" aria-label="ORIGIN opening experience" aria-live="polite">
+  <div class="welcome-glow"></div><canvas id="particleCanvas" aria-hidden="true"></canvas>
+  <div class="welcome-copy"><span class="welcome-overline">A CINEMATIC EXPERIENCE</span><h1 class="welcome-brand">ORIGIN<span class="brand-period">.</span></h1><p>Every creator has a beginning.</p><div class="welcome-line"></div></div>
+</div>
+<div id="app" class="app-shell" aria-hidden="true">
+<header class="topbar" id="topbar">
+  <a href="./" class="logo" aria-label="ORIGIN home"><span class="logo-glyph">O<span>·</span></span><span>ORIGIN<small>THE CREATOR'S JOURNEY</small></span></a>
+  <nav class="desktop-nav" aria-label="Explore"><button type="button" data-nav="home" class="nav-active">Home</button><button type="button" data-nav="journeys">Journeys</button><button type="button" data-nav="library">My List</button></nav>
+  <div class="top-actions"><button id="searchToggle" class="icon-button" type="button" aria-label="Search ORIGIN" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button><button id="aboutToggle" class="top-pill" type="button">About <span aria-hidden="true">↗</span></button></div>
+</header>
+<div id="searchPanel" class="search-panel" hidden><label for="searchInput">Search experiences</label><input id="searchInput" autocomplete="off" type="search" placeholder="Try Satyajit Ray, childhood, filmmaking…"><button type="button" id="closeSearch" aria-label="Close search">×</button><div id="searchResults" class="search-results" role="status"></div></div>
+<main id="main">
+<section class="feature" aria-labelledby="featureTitle">
+  <div class="feature-photo-wrap"><img id="featurePortrait" class="feature-photo" src="https://upload.wikimedia.org/wikipedia/commons/1/14/Satyajit_Ray_in_New_York.jpg" alt="Satyajit Ray photographed in New York in 1981, by Dinu Alam." referrerpolicy="no-referrer" fetchpriority="high"><div class="feature-image-fallback" id="heroFallback" hidden aria-label="Archival image unavailable"></div></div>
+  <div class="feature-grad"></div><div class="feature-grain"></div>
+  <div class="feature-content"><div class="overline"><span class="feature-dot"></span> ORIGIN ORIGINAL · FEATURED CREATOR</div>
+    <div class="feature-portrait-label">SATYAJIT RAY <span>1921 — 1992</span></div>
+    <h1 id="featureTitle">Before the films,<br>there was <em>a life.</em></h1>
+    <p class="feature-description">Enter a childhood shaped by stories, loss and curiosity — the beginning of a life that would change cinema.</p>
+    <div class="feature-facts"><span>INDIA</span><span aria-hidden="true" class="fact-separator"></span><span>LIFE STORY</span><span aria-hidden="true" class="fact-separator"></span><span>ACT I · 1921–1939</span></div>
+    <div class="feature-cta"><button type="button" class="primary-cta" id="heroEnter"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 11 7-11 7z"></path></svg><span id="heroEnterText">Enter Ray's Journey</span></button><button type="button" class="secondary-cta" id="heroInfo">More about this journey <span aria-hidden="true">ⓘ</span></button></div>
+    <p class="feature-note" id="featureProgressNote">Begin in Calcutta, 1921, and follow the boy before the films.</p>
+  </div>
+  <div class="image-credit">ARCHIVAL PHOTO · NEW YORK, 1981 · <a href="https://commons.wikimedia.org/wiki/File:Satyajit_Ray_in_New_York.jpg" target="_blank" rel="noopener noreferrer">DINU ALAM / CC BY-SA 4.0 ↗</a></div>
+  <div class="hero-pagination" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+</section>
+
+<section class="shelf continue-shelf" id="continueShelf" aria-labelledby="continueTitle" hidden>
+  <div class="shelf-heading"><div><span class="kicker">PICK UP WHERE YOU LEFT OFF</span><h2 id="continueTitle">Continue your journey</h2></div></div>
+  <button id="continueCard" type="button" class="continue-card"><div class="continue-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Satyajit_ray_little.jpg" alt="Ray as a child, photographed around 1930." loading="lazy" referrerpolicy="no-referrer"></div><div><span class="card-eyebrow">SATYAJIT RAY · LIFE STORY</span><strong id="continueHeading">Continue from your last moment</strong><small id="continueSub">Resume the childhood chapter</small><span class="continue-track"><i id="continueFill"></i></span></div><span class="card-forward" aria-hidden="true">↗</span></button>
+</section>
+
+<section class="shelf discover-shelf" id="journeysSection" aria-labelledby="journeysHeading">
+  <div class="shelf-heading"><div><span class="kicker">A WORLD OF STORYTELLERS</span><h2 id="journeysHeading">Lives worth exploring.</h2></div><span class="shelf-side">ONE JOURNEY LIVE · MORE IN DEVELOPMENT</span></div>
+  <p class="catalogue-intro">Satyajit Ray is our first complete entry point. These filmmakers are future ORIGIN journeys — the posters below are original graphic placeholders, not archival photographs.</p>
+  <div class="future-tiles" aria-label="Upcoming filmmaker journeys">
+    <article class="future-card kurosawa" aria-label="Akira Kurosawa — coming soon"><div class="poster-design" aria-hidden="true"><span class="poster-kanji">映画</span><span class="poster-halo"></span><span class="poster-mark">01 / JAPAN</span></div><div class="future-copy"><span class="coming-label">COMING SOON</span><h3>Akira<br>Kurosawa</h3><p>Japan · A filmmaker's world</p></div></article>
+    <article class="future-card ghatak" aria-label="Ritwik Ghatak — coming soon"><div class="poster-design" aria-hidden="true"><span class="poster-arc"></span><span class="poster-mark">02 / INDIA</span></div><div class="future-copy"><span class="coming-label">COMING SOON</span><h3>Ritwik<br>Ghatak</h3><p>India · Cinema and memory</p></div></article>
+    <article class="future-card varda" aria-label="Agnès Varda — coming soon"><div class="poster-design" aria-hidden="true"><span class="poster-bubbles"></span><span class="poster-mark">03 / FRANCE</span></div><div class="future-copy"><span class="coming-label">COMING SOON</span><h3>Agnès<br>Varda</h3><p>France · An artist's gaze</p></div></article>
+    <article class="future-card kubrick" aria-label="Stanley Kubrick — coming soon"><div class="poster-design" aria-hidden="true"><span class="poster-portal"></span><span class="poster-mark">04 / USA</span></div><div class="future-copy"><span class="coming-label">COMING SOON</span><h3>Stanley<br>Kubrick</h3><p>United States · Cinema and control</p></div></article>
+  </div>
+  <div class="catalogue-after"><span class="catalogue-line"></span><span>Currently experiencing: Satyajit Ray — Act I, 1921–1939</span><button type="button" data-enter="life">Start his story <span aria-hidden="true">→</span></button></div>
+</section>
+
+<section class="shelf shelf--discover" aria-labelledby="exploreHeading">
+  <div class="shelf-heading"><div><span class="kicker">EXPLORE MORE OF ORIGIN</span><h2 id="exploreHeading">Go deeper into the craft</h2></div><span class="shelf-side">BEYOND THE BIOGRAPHY</span></div>
+  <div class="explore-grid">
+    <a class="explore-item craft" href="/story-first/"><div class="explore-visual"><span class="reel-shape" aria-hidden="true"></span><span class="explore-large">1955<br>—1959</span></div><div class="explore-copy"><span>FILM JOURNEY</span><h3>The first five years</h3><p>Explore the films that shaped Ray's early cinematic language.</p><small>Open Story-First 1.6 ↗</small></div></a>
+    <a class="explore-item studio" href="/v7/"><div class="explore-visual"><div class="frame-lines" aria-hidden="true"></div><span class="explore-large">THE<br>STUDIO</span></div><div class="explore-copy"><span>INTERACTIVE EXPERIENCE</span><h3>Make the creative choice</h3><p>Experiment with light, distance and emotion inside an original frame.</p><small>Open the Studio ↗</small></div></a>
+  </div>
+</section>
+
+<section id="librarySection" class="shelf mylist" aria-labelledby="libraryHeading">
+ <div class="shelf-heading"><div><span class="kicker">SAVE FOR LATER</span><h2 id="libraryHeading">My List</h2></div></div>
+ <div class="library-panel"><div><strong id="libraryStatus">Keep Ray's journey in your collection</strong><p id="libraryExplain">Save this creator to find his story easily the next time you visit.</p></div><button type="button" id="saveButton" class="secondary-cta"><span id="saveLabel">+ Add to My List</span></button></div>
+</section>
+<section class="mission"><div class="mission-ornament" aria-hidden="true">O</div><span class="kicker">THE IDEA BEHIND ORIGIN</span><h2>Every great work begins <em>somewhere.</em></h2><p>ORIGIN is a home for the human stories behind creative work. Satyajit Ray is our first journey. Other creator stories are planned, never represented as finished.</p><button id="missionInfo" type="button">What is ORIGIN? <span aria-hidden="true">↗</span></button></section>
+</main>
+<footer><div class="footer-brand">ORIGIN<span>.</span><small>THE CREATOR'S JOURNEY</small></div><p>Independent educational storytelling. Real archival imagery is dated and credited. ORIGIN is not affiliated with streaming services or the Satyajit Ray estate.</p><div class="footer-links"><a href="https://commons.wikimedia.org/wiki/File:Satyajit_Ray_in_New_York.jpg" target="_blank" rel="noopener noreferrer">Image credit</a><a href="/v10/journey/">Living chapter</a><a href="/v7/">V7 Studio</a></div></footer>
+<nav class="mobile-nav" aria-label="Mobile navigation"><button type="button" class="nav-active" data-nav="home"><span>⌂</span>Home</button><button type="button" data-nav="journeys"><span>◫</span>Journeys</button><button type="button" data-nav="library"><span>♡</span>My List</button></nav>
+</div>
+
+<div id="entry" class="entry" hidden aria-live="polite"><div class="entry-image"><img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Satyajit_ray_little.jpg" alt="Archival portrait of young Satyajit Ray." referrerpolicy="no-referrer"></div><div class="entry-dark"></div><div class="entry-content"><span class="entry-kicker">ORIGIN PRESENTS</span><span class="entry-rule"></span><h2>Satyajit Ray</h2><p>Before the films. Before the camera. There was a boy.</p><span class="entry-year">CALCUTTA · 1921</span><span class="entry-loader" aria-hidden="true"></span></div></div>
+
+<dialog id="infoDialog" aria-labelledby="infoTitle"><div class="dialog-head"><span class="kicker">ORIGIN ORIGINAL</span><button id="closeInfo" class="dialog-close" type="button" aria-label="Close information">×</button></div><h2 id="infoTitle">The life behind the work.</h2><p>ORIGIN invites you to experience a creator's life chronologically, beginning with the people and circumstances that shaped them. Our first featured journey follows Satyajit Ray from childhood into his filmmaking years.</p><p>V10 begins with a new cinematic Act I (1921–1939). The earlier V8 life reader covers later decades in overview form. Film and Studio journeys remain separate deeper experiences during development.</p><div class="dialog-actions"><button class="primary-cta" id="dialogEnter" type="button">Enter Ray's Journey <span aria-hidden="true">→</span></button></div></dialog>
+</body></html>
