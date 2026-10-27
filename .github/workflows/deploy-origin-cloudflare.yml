@@ -1,0 +1,70 @@
+name: Deploy ORIGIN V6 and Story-First to Cloudflare Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'www/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/deploy-origin-cloudflare.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: origin-cloudflare-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Verify and deploy both ORIGIN experiences
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out production assets
+        uses: actions/checkout@v4
+
+      - name: Verify immutable V6 and Story-First 1.6 assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s www/index.html
+          test -s www/story-first/index.html
+          echo '2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7  www/index.html' | sha256sum --check
+          grep -q 'id="origin15"' www/story-first/index.html
+          grep -q 'id="origin16"' www/story-first/index.html
+          echo "Both website entry points are present and the original V6 is unchanged."
+
+      - name: Check Cloudflare access configuration
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "::error::Cloudflare deployment is not configured. Add repository Actions secrets CLOUDFLARE_API_TOKEN (Workers Scripts Edit permission) and CLOUDFLARE_ACCOUNT_ID, then rerun this workflow. Do not paste credentials into chat or commit them."
+            exit 1
+          fi
+
+      - name: Publish complete ./www to existing Cloudflare Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.jsonc
+
+      - name: Verify live experience responds successfully
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://origin-creator-journey.rayadinaveen98.workers.dev'
+          for path in / /story-first/ /story-first/index.html; do
+            code="$(curl --retry 4 --retry-delay 3 --retry-all-errors -L -s -o /dev/null -w '%{http_code}' "$base$path")"
+            if [[ "$code" != "200" ]]; then
+              echo "::error::Cloudflare returned HTTP $code for $base$path"
+              exit 1
+            fi
+            echo "HTTP $code $base$path"
+          done
