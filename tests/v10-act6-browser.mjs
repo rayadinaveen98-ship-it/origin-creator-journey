@@ -55,7 +55,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),13);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(5).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/CINEMATIC ACT/);
 
  // Famine and documentary moments explicitly separate original artwork from historical evidence.
  await page.locator('#mapList button').nth(4).click();

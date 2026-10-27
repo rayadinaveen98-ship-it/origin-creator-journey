@@ -1,0 +1,40 @@
+/* ORIGIN Act VIII — an ending about preservation, not an obituary.
+   All material here is symbolic CSS. The 'restoration' control only changes fictional graphics. */
+@import url('../act7/act7.css');
+.legacy-stage .film-frame{background:radial-gradient(ellipse at 60% 42%,#bbb5a3,#687677 46%,#243538);border-color:#131c1b}
+.legacy-stage .final-pages,.legacy-stage .final-window,.legacy-stage .final-light,.legacy-stage .final-branches{opacity:0}
+.legacy-reel,.legacy-flame,.legacy-frames,.legacy-return{position:absolute;pointer-events:none;opacity:0;transition:opacity .45s,transform .45s,filter .45s}
+.legacy-reel{width:49%;height:75%;right:17%;top:12%;border:20px solid #e5d1ac8a;border-radius:28%;transform:rotate(-9deg);box-shadow:inset 0 0 0 7px #192627,0 0 0 14px #e4be8d38;background:linear-gradient(125deg,#233a3d,#536d67)}
+.legacy-reel span{position:absolute;left:16%;right:16%;height:12%;border-radius:4px;background:#e5d3ac91;box-shadow:0 0 0 4px #223b36;top:7%}
+.legacy-reel span:nth-child(2){top:30%}.legacy-reel span:nth-child(3){top:53%}.legacy-reel span:nth-child(4){top:76%}
+.legacy-flame{width:54%;height:93%;right:9%;bottom:-5%;background:radial-gradient(ellipse at 50% 73%,#db976760,#ab553e8c 37%,#edb47821 63%,transparent 76%);filter:blur(14px)}
+.legacy-frames{right:7%;top:13%;height:73%;width:61%;background:repeating-linear-gradient(90deg,#f9e6bd12 0 15px,#e3cba36e 16px 20px,#f9e6bd12 22px 39px);border:2px solid #d3c39e87;transform:perspective(470px) rotateY(12deg)}
+.legacy-return{width:65%;height:77%;right:7%;top:9%;border:3px solid #ddcca494;border-radius:50%;box-shadow:0 0 0 20px #ddba8135,inset 0 0 0 18px #e5d1ad2c;transform:rotate(-15deg)}
+.stage[data-mode="fragile"] .legacy-reel,.stage[data-mode="fire"] .legacy-reel,.stage[data-mode="restore"] .legacy-reel,.stage[data-mode="projection"] .legacy-reel,.stage[data-mode="cannes"] .legacy-reel{opacity:1}
+.stage[data-mode="fire"] .legacy-flame{opacity:1}
+.stage[data-mode="fragile"] .legacy-frames,.stage[data-mode="restore"] .legacy-frames{opacity:.55}
+.stage[data-mode="society"] .legacy-frames,.stage[data-mode="papers"] .legacy-frames{opacity:.94}
+.stage[data-mode="papers"] .final-pages,.stage[data-mode="society"] .final-pages{opacity:.72}
+.stage[data-mode="centenary"] .legacy-return,.stage[data-mode="return"] .legacy-return{opacity:.98}
+.stage[data-mode="centenary"] .final-light,.stage[data-mode="return"] .final-light{opacity:.8}
+.stage[data-mode="cinema"] .legacy-frames,.stage[data-mode="projection"] .legacy-frames,.stage[data-mode="cannes"] .legacy-frames{opacity:.82;transform:none}
+.stage[data-mode="cinema"] .final-light,.stage[data-mode="projection"] .final-light,.stage[data-mode="cannes"] .final-light{opacity:1}
+.stage[data-mode="return"] .legacy-reel{opacity:.13}
+.stage[data-mode="fire"] .film-frame{background:radial-gradient(ellipse at 72% 35%,#cd7857,#78483d 45%,#232525)}
+.stage[data-mode="restore"] .film-frame,.stage[data-mode="projection"] .film-frame{background:linear-gradient(145deg,#cfba92,#768d8a 51%,#31404b)}
+.stage[data-mode="papers"] .film-frame{background:linear-gradient(115deg,#d7c3a2,#807d64 58%,#394542)}
+.stage[data-mode="centenary"] .film-frame,.stage[data-mode="return"] .film-frame{background:radial-gradient(ellipse at 52% 42%,#e2d2aa,#768a76 51%,#25473d)}
+.stage[data-mode="society"] .film-frame{background:linear-gradient(135deg,#b8af90,#687e73 48%,#243c37)}
+.stage[data-craft="repair"].observing .legacy-frames{filter:contrast(.8) brightness(1.25);opacity:.16}
+.stage[data-craft="repair"].observing .legacy-flame{opacity:.15}
+.stage[data-craft="repair"].observing .legacy-reel{filter:saturate(.6) brightness(1.18);transform:rotate(-5deg)}
+.stage[data-craft="repair"].observing .film-frame{transform:none;filter:none}
+.stage[data-craft="reveal"].observing .legacy-frames{opacity:.2}
+.stage[data-craft="reveal"].observing .final-pages{opacity:1;transform:translateX(-6%) rotate(0)}
+.stage[data-craft="reveal"].observing .film-frame{transform:none}
+.stage.observing .visual-detail{background:none}
+.stage.observing .visual-detail .detail-focus,.stage.observing .visual-detail .detail-caption{display:none}
+@media(min-width:651px){.scene-art .legacy-stage{right:-8%;top:17%;width:51vw;max-width:740px;height:min(55vh,540px)}.stage.dense-title .story-copy h1{font-size:clamp(53px,5.1vw,76px)}}
+@media(min-width:651px) and (max-width:1199px){.scene-art .legacy-stage{right:-11%;top:18%;width:50vw;max-width:none;height:min(55vh,520px)}}
+@media(max-width:650px){.scene-art .legacy-stage{right:0;top:max(80px,8vh);width:100%;height:min(25vh,200px);transform:none}.legacy-reel{border-width:10px}.stage.dense-title .story-copy h1{font-size:clamp(41px,10.5vw,64px)}}
+@media(prefers-reduced-motion:reduce){.legacy-reel,.legacy-flame,.legacy-frames,.legacy-return{transition:none}}

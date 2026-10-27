@@ -50,7 +50,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),12);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(3).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/CINEMATIC ACT/);
  await page.locator('#mapList button').nth(1).click();
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('27 October 1952'));
  assert.equal(await page.locator('#observeButton').isVisible(),true);

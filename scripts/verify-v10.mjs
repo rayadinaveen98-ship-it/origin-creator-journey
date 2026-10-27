@@ -19,7 +19,9 @@ assert.equal(welcome(v10html),welcome(v9html),'Welcome artwork and wording must 
 assert.equal((v10html.match(/COMING SOON/g)||[]).length,4,'Four distinct future creators');
 for(const name of ['Akira','Ghatak','Varda','Kubrick'])assert.ok(v10html.includes(name));
 assert.ok(v10js.includes("'/v10/journey/act2/'") && v10js.includes("'/v10/journey/'"),'V10 should enter both cinematic acts');
-assert.ok(read('www/v10/journey/life-arc.js').includes('RESEARCHED OVERVIEW'),'Life map must label future acts honestly');
+const journeyMap=read('www/v10/journey/life-arc.js');
+assert.ok(journeyMap.includes('All eight narrative acts are now playable cinematic pilots'),'Full map states all eight playable without claiming production finish');
+assert.ok((journeyMap.match(/'CINEMATIC ACT'/g)||[]).length===8,'All eight acts must have matching cinematic availability');
 const act2=read('www/v10/journey/act2/act2.js');
 assert.ok(act2.includes('origin_v10_act2_scene_v1'),'Act II must save progress independently');
 assert.ok(act2.includes('satyajitray.org/at-shantiniketan'),'Act II needs historical reference');
@@ -71,6 +73,15 @@ assert.ok(read('www/v10/journey/act6/index.html').includes('/v10/journey/act7/#s
 assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act7/'"),'Life map includes Act VII');
 assert.ok(v10js.includes('origin_v10_act7_scene_v1'),'V10 home continues Act VII');
 new Script(act7,{filename:'www/v10/journey/act7/act7.js'});
+const act8=read('www/v10/journey/act8/act8.js');
+assert.ok(act8.includes('origin_v10_act8_scene_v1'),'Legacy needs independent progress');
+assert.ok(act8.includes('14 December 1993')&&act8.includes('8 May 2015')&&act8.includes('2026'),'Legacy chronology present');
+assert.ok(act8.includes('https://satyajitraysociety.org/the_society.html'),'Legacy sourced to preservation society');
+assert.ok(read('www/v10/journey/act8/index.html').includes('/v10/journey/#scene-0'),'Legacy closes at the beginning');
+assert.ok(read('www/v10/journey/act7/index.html').includes('/v10/journey/act8/#scene-0'),'Act VII leads directly to VIII');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act8/'"),'Full-life map includes Act VIII');
+assert.ok(v10js.includes('origin_v10_act8_scene_v1'),'Home resumes Legacy');
+new Script(act8,{filename:'www/v10/journey/act8/act8.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);

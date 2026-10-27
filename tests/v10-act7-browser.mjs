@@ -55,7 +55,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),12);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(6).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(7).textContent(),/CINEMATIC ACT/);
 
  await page.locator('#mapList button').nth(1).click();
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('Sandip Ray'));
@@ -106,7 +106,7 @@ try{
 
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-15');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act8/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyLead').textContent(),/Ghare Baire/);
  await page.locator('.reader-logo').click();

@@ -12,11 +12,11 @@
     ['V','1956–1969','Finding His Voice','/v10/journey/act5/','CINEMATIC ACT'],
     ['VI','1970–1983','The Wider World','/v10/journey/act6/','CINEMATIC ACT'],
     ['VII','1984–1992','The Final Years','/v10/journey/act7/','CINEMATIC ACT'],
-    ['VIII','1992 onward','The Legacy','/life/#moment-15','RESEARCHED OVERVIEW']
+    ['VIII','1992 onward','The Legacy','/v10/journey/act8/','CINEMATIC ACT']
   ];
-  const current=location.pathname.includes('/act7/')?6:location.pathname.includes('/act6/')?5:location.pathname.includes('/act5/')?4:location.pathname.includes('/act4/')?3:location.pathname.includes('/act3/')?2:location.pathname.includes('/act2/')?1:0;
+  const current=location.pathname.includes('/act8/')?7:location.pathname.includes('/act7/')?6:location.pathname.includes('/act6/')?5:location.pathname.includes('/act5/')?4:location.pathname.includes('/act4/')?3:location.pathname.includes('/act3/')?2:location.pathname.includes('/act2/')?1:0;
   const heading=document.createElement('h3');heading.textContent='His complete life · 1921–1992';
-  const detail=document.createElement('p');detail.textContent='Acts I–VII are playable cinematic chapters. Act VIII currently has a shorter researched overview.';
+  const detail=document.createElement('p');detail.textContent='All eight narrative acts are now playable cinematic pilots. Their archival imagery and final production review remain in development.';
   const list=document.createElement('div');list.className='life-arc-grid';
   acts.forEach(([n,years,title,href,status],i)=>{
     const a=document.createElement('a');a.href=href;a.className='life-arc-link'+(i===current?' life-arc-current':'');

@@ -1,7 +1,7 @@
 name: ORIGIN V10 Living Journey QA
 on:
   push:
-    branches: [feature/v10-living-journey-pilot, feature/v10-act2-the-artist-1940-1943, feature/v10-act3-dream-1943-1951, feature/v10-act4-first-film-1952-1955, feature/v10-act5-finding-his-voice-1956-1969, feature/v10-act6-wider-world-1970-1983, feature/v10-act7-final-years-1984-1992]
+    branches: [feature/v10-living-journey-pilot, feature/v10-act2-the-artist-1940-1943, feature/v10-act3-dream-1943-1951, feature/v10-act4-first-film-1952-1955, feature/v10-act5-finding-his-voice-1956-1969, feature/v10-act6-wider-world-1970-1983, feature/v10-act7-final-years-1984-1992, feature/v10-act8-legacy-1992-present]
     paths:
       - 'www/v10/**'
       - 'scripts/verify-v10.mjs'
@@ -12,6 +12,7 @@ on:
       - 'tests/v10-act5-browser.mjs'
       - 'tests/v10-act6-browser.mjs'
       - 'tests/v10-act7-browser.mjs'
+      - 'tests/v10-act8-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   pull_request:
     branches: [main]
@@ -25,6 +26,7 @@ on:
       - 'tests/v10-act5-browser.mjs'
       - 'tests/v10-act6-browser.mjs'
       - 'tests/v10-act7-browser.mjs'
+      - 'tests/v10-act8-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   workflow_dispatch:
 permissions:
@@ -59,6 +61,8 @@ jobs:
         run: node tests/v10-act6-browser.mjs
       - name: Test Act VII life conclusion and emotional navigation
         run: node tests/v10-act7-browser.mjs
+      - name: Test final Legacy act, all-eight life map and full-circle journey
+        run: node tests/v10-act8-browser.mjs
       - name: Archive visual QA
         if: always()
         uses: actions/upload-artifact@v4
