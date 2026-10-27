@@ -1,0 +1,60 @@
+/* ACT IV: A film production, not a biography card.
+   All drawings below are original CSS compositions, NOT Ray film stills. */
+:root{--gold:#eacc96}
+.scene-art .film-stage{position:absolute;right:4.2%;top:15%;width:min(60vw,910px);height:min(64vh,620px);z-index:0;transform:rotate(-1.5deg);filter:drop-shadow(0 27px 65px #0009);opacity:.97;transition:filter .3s,transform .3s}
+.film-frame{position:absolute;inset:8% 0;background:radial-gradient(ellipse at 61% 35%,#e4bc8b 0%,#a8aa89 36%,#576d5d 66%,#1a3638 100%);overflow:hidden;border:12px solid #0a1111;outline:1px solid #a29c79}
+.film-frame:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,#07110d0d 44%,#0b181b4d 100%);pointer-events:none}
+.film-horizon{position:absolute;top:52%;left:-10%;height:45%;width:125%;background:linear-gradient(180deg,#627964,#2f5b47 40%,#1c3c37);border-radius:50% 30% 0 0 / 22% 18% 0 0;filter:blur(1px)}
+.film-sun{position:absolute;right:18%;top:12%;height:22%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff0c1,#f2d9aa8c 47%,transparent 72%);filter:blur(7px)}
+.film-grass{position:absolute;bottom:-3%;left:-10%;width:125%;height:51%;background:repeating-linear-gradient(79deg,transparent 0 7px,#dfd5a369 8px 10px,transparent 11px 31px),repeating-linear-gradient(105deg,transparent 0 16px,#aebb8377 17px 20px,transparent 23px 47px);clip-path:polygon(0 23%,9% 0,17% 36%,22% 1%,30% 21%,38% 0,42% 33%,50% 4%,58% 25%,65% 0,71% 24%,80% 0,86% 31%,93% 0,100% 21%,100% 100%,0 100%)}
+.film-path{position:absolute;bottom:-10%;left:20%;width:50%;height:43%;clip-path:polygon(49% 0,65% 0,100% 100%,0 100%);background:#d8b88269;filter:blur(6px)}
+.film-subject{position:absolute;bottom:31%;width:5%;height:18%;border-radius:47% 47% 11% 11%;background:#223d36d9;box-shadow:0 0 12px #17282188}
+.film-subject:before{content:"";position:absolute;top:-30%;left:20%;width:60%;height:36%;border-radius:50%;background:#344d43}
+.film-subject-a{left:51%}.film-subject-b{left:61%;transform:scale(.80);transform-origin:bottom}
+.film-rails{position:absolute;bottom:17%;right:-7%;height:3px;width:40%;background:#ece7ca9a;box-shadow:0 13px 0 #f2e6c88c;transform:rotate(-14deg);opacity:0}
+.film-draw-lines{position:absolute;inset:7%;border:1px solid #eee4c554;pointer-events:none}.film-draw-lines:after,.film-draw-lines:before{content:"";position:absolute;inset:0;border-left:1px dashed #eee4c552;border-right:1px dashed #eee4c552;left:33%;right:33%}
+.film-frame-label{position:absolute;left:4%;top:5%;color:#fdf5e4;font-size:9px;letter-spacing:.16em;font-weight:750;text-shadow:0 2px 10px #15231a}
+.film-perforation{position:absolute;left:0;right:0;height:7.5%;background:#101715;display:flex;justify-content:space-around;align-items:center;background-image:repeating-linear-gradient(90deg,#080f0f 0 11px,#e2d4ac7d 12px 30px,#0a1212 31px 44px);background-size:65px 25px;background-repeat:repeat-x;background-position:center}
+.film-perforation-top{top:0}.film-perforation-bottom{bottom:0}
+.stage[data-mode="crew"] .film-frame{background:radial-gradient(ellipse at 60% 42%,#9e967b,#485c56 52%,#162624 95%)}
+.stage[data-mode="crew"] .film-grass{opacity:.08}.stage[data-mode="crew"] .film-path{opacity:0}
+.stage[data-mode="field"] .film-subject,.stage[data-mode="shooting"] .film-subject{opacity:1}
+.stage[data-mode="empty"] .film-grass{opacity:.12}
+.stage[data-mode="empty"] .film-subject,.stage[data-mode="empty"] .film-subject-b{opacity:0}
+.stage[data-mode="village"] .film-grass{clip-path:polygon(0 54%,15% 68%,39% 43%,57% 66%,76% 37%,100% 61%,100% 100%,0 100%);opacity:.7}
+.stage[data-mode="village"] .film-horizon{border-radius:0;clip-path:polygon(0 35%,14% 39%,14% 7%,26% 7%,27% 48%,46% 49%,46% 15%,61% 15%,63% 49%,84% 47%,85% 11%,100% 11%,100% 100%,0 100%)}
+.stage[data-mode="budget"] .film-frame{background:linear-gradient(120deg,#7f6c58,#3c4a44);filter:sepia(.4)}
+.stage[data-mode="budget"] .film-grass,.stage[data-mode="budget"] .film-subject{opacity:0}
+.stage[data-mode="budget"] .film-draw-lines{border:3px solid #dfd0a68c;inset:13%;transform:rotate(-7deg)}
+.stage[data-mode="sacrifice"] .film-frame{background:radial-gradient(circle at 55% 43%,#e9c49a5e,#443a39 51%,#1e2525 100%)}
+.stage[data-mode="sacrifice"] .film-grass,.stage[data-mode="sacrifice"] .film-subject{opacity:0}
+.stage[data-mode="support"] .film-frame{background:linear-gradient(145deg,#c7b896,#757c6b 43%,#293b36)}
+.stage[data-mode="support"] .film-grass{opacity:.08}.stage[data-mode="support"] .film-subject{opacity:0}
+.stage[data-mode="moma"] .film-frame,.stage[data-mode="premiere"] .film-frame,.stage[data-mode="release"] .film-frame{background:radial-gradient(ellipse at 70% 36%,#f1deac,#b0ae98 35%,#4b6364 77%,#152428)}
+.stage[data-mode="moma"] .film-horizon,.stage[data-mode="premiere"] .film-horizon,.stage[data-mode="release"] .film-horizon{top:20%;height:62%;left:15%;width:70%;border-radius:0;background:#d0cbaa45;border:6px solid #f0e3c1a3;box-shadow:0 0 60px #f1deb77a}
+.stage[data-mode="moma"] .film-grass,.stage[data-mode="premiere"] .film-grass,.stage[data-mode="release"] .film-grass,.stage[data-mode="moma"] .film-subject,.stage[data-mode="premiere"] .film-subject,.stage[data-mode="release"] .film-subject{opacity:0}
+.stage[data-mode="edit"] .film-frame{background:repeating-linear-gradient(90deg,#263533 0 19%,#af966e 20% 22%,#263533 23% 42%);filter:sepia(.25)}
+.stage[data-mode="edit"] .film-horizon,.stage[data-mode="edit"] .film-grass,.stage[data-mode="edit"] .film-subject{opacity:0}
+.stage[data-mode="edit"] .film-rails{opacity:1}
+.stage.observing .film-frame{transform:scale(1.23) translateX(-5%);transform-origin:64% 51%;transition:transform .35s}
+.stage.observing .film-draw-lines{border-color:#fff5dfaa}
+.stage.observing .film-frame-label{display:none}
+.stage.observing .visual-detail{background:none}
+.stage.observing .visual-detail .detail-focus{display:none}
+.stage.observing .visual-detail .detail-caption{display:none}
+.exercise-note{font-size:10px;line-height:1.5;max-width:480px;color:#f4ddb4}
+.stage[data-kind="symbol"] .film-frame,.stage[data-kind="screen"] .film-frame{opacity:.85}
+.stage[data-kind="symbol"] .art-vignette,.stage[data-kind="screen"] .art-vignette{background:linear-gradient(90deg,#07110ff7 0%,#0b1513de 35%,#0a161396 61%,#040a0a52 100%),linear-gradient(0deg,#080e0cef,transparent 37%)}
+.stage[data-kind="frame"] .art-vignette,.stage[data-kind="filmstrip"] .art-vignette{background:linear-gradient(90deg,#07100ef8,#0b1412df 38%,#0b16115e 80%),linear-gradient(0deg,#090e0cf2,transparent 39%)}
+@media(max-width:900px){.scene-art .film-stage{right:-8%;width:75vw;top:15%;height:60vh}}
+@media(max-width:650px){
+ .scene-art .film-stage{width:100%;height:42vh;top:8%;right:0;transform:rotate(0)}
+ .film-frame{border-width:8px}
+ .film-perforation{height:8%}
+ .stage[data-kind="frame"] .art-vignette,.stage[data-kind="symbol"] .art-vignette,.stage[data-kind="screen"] .art-vignette,.stage[data-kind="filmstrip"] .art-vignette{background:linear-gradient(0deg,#090e0dfa 5%,#0a1210eb 37%,#0b1612a6 64%,#0915105a)}
+ .story-shell{padding-top:90px}
+ .film-frame-label{font-size:7px}
+ .exercise-note{font-size:9px;order:3}
+ .stage.observing .film-frame{transform:scale(1.17) translateX(-4%)}
+}
+@media(prefers-reduced-motion:reduce){.stage.observing .film-frame{transition:none}}
