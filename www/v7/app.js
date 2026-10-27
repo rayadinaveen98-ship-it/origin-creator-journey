@@ -91,6 +91,10 @@
         (doc.getElementById('o16ActNumber')?.textContent || '') :
         nextPart === 2 ? (doc.getElementById('o15ActNumber')?.textContent || '') : '';
       const scene = rawScene.trim().slice(0,40);
+      const number = Number.parseInt(scene, 10);
+      const relatedLab = nextPart === 3 && (number === 4 || number === 5) ? 'lighting' : 'composition';
+      $('bridgeToStudio').dataset.targetLab = relatedLab;
+      $('bridgeToStudio').textContent = relatedLab === 'lighting' ? 'Try atmosphere in Studio ↗' : 'Try framing in Studio ↗';
       if (nextPart !== state.lastPart || scene !== state.lastScene) {
         state.lastPart = nextPart;
         state.lastScene = scene;
@@ -112,6 +116,7 @@
     const isStory = mode === 'story';
     ui.story.hidden = !isStory;
     ui.legacy.hidden = isStory;
+    $('bridgeToStudio').hidden = !isStory;
     $('experienceTitle').textContent = isStory ? "Ray's creator journey" : 'ORIGIN / The original studio worlds';
     $('experienceSub').textContent = isStory ? MIN_DATE + ' · Story-First 1.6' : 'V6 frozen release · Studio and interactive worlds';
     if (isStory) {
@@ -190,6 +195,12 @@
   ui.light.addEventListener('input',renderStage);
   $('saveExperiment').addEventListener('click',saveLab);
   $('openLegacyStudio').addEventListener('click',()=>experience('legacy'));
+  $('bridgeToStudio').addEventListener('click',()=>{
+    const lab = $('bridgeToStudio').dataset.targetLab || 'composition';
+    closeExperience();
+    view('studio', true);
+    studio(lab);
+  });
   $('closeExperience').addEventListener('click',closeExperience);
   $('exportNotes').addEventListener('click',exportNotes);
   ui.story.addEventListener('load',watchStory);
