@@ -1,12 +1,13 @@
 name: ORIGIN V10 Living Journey QA
 on:
   push:
-    branches: [feature/v10-living-journey-pilot, feature/v10-act2-the-artist-1940-1943]
+    branches: [feature/v10-living-journey-pilot, feature/v10-act2-the-artist-1940-1943, feature/v10-act3-dream-1943-1951]
     paths:
       - 'www/v10/**'
       - 'scripts/verify-v10.mjs'
       - 'tests/v10-browser.mjs'
       - 'tests/v10-act2-browser.mjs'
+      - 'tests/v10-act3-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   pull_request:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - 'scripts/verify-v10.mjs'
       - 'tests/v10-browser.mjs'
       - 'tests/v10-act2-browser.mjs'
+      - 'tests/v10-act3-browser.mjs'
       - '.github/workflows/origin-v10-living.yml'
   workflow_dispatch:
 permissions:
@@ -39,6 +41,8 @@ jobs:
         run: node tests/v10-browser.mjs
       - name: Verify Act II story, transitions and progress
         run: node tests/v10-act2-browser.mjs
+      - name: Test Act III design, documentary context and three-act continuity
+        run: node tests/v10-act3-browser.mjs
       - name: Archive visual QA
         if: always()
         uses: actions/upload-artifact@v4
