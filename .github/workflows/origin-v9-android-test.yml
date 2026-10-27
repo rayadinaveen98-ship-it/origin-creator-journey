@@ -36,8 +36,13 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Use preinstalled GitHub Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          command -v sdkmanager
+          sdkmanager --version
 
       - name: Install Android platform and build tools
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
