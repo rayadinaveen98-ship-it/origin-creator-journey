@@ -1,0 +1,128 @@
+{
+  "version": "1.3",
+  "title": "The Film That Almost Didn't Exist — Beyond the Director",
+  "creator": "Satyajit Ray",
+  "production_unchanged": true,
+  "insertion_points": {
+    "act3": "crew",
+    "act7": "sound",
+    "act8": "reception"
+  },
+  "crew": [
+    {
+      "name": "Satyajit Ray",
+      "role": "direction and screenplay",
+      "context": "Ray adapted the novel and directed his debut; his first-shoot account describes a largely new crew.",
+      "sources": [
+        "first_day",
+        "credits"
+      ]
+    },
+    {
+      "name": "Subrata Mitra",
+      "role": "cinematography",
+      "context": "A still photographer without movie-camera experience when the film began.",
+      "sources": [
+        "first_day",
+        "camera",
+        "credits"
+      ]
+    },
+    {
+      "name": "Bansi Chandragupta",
+      "role": "art direction",
+      "context": "Ray's first-day account identifies him as the member with previous professional filmmaking experience.",
+      "sources": [
+        "first_day",
+        "credits"
+      ]
+    },
+    {
+      "name": "Dulal Dutta",
+      "role": "editing",
+      "context": "Credited editor whose work unified footage recorded across a prolonged production.",
+      "sources": [
+        "credits"
+      ]
+    },
+    {
+      "name": "Ravi Shankar",
+      "role": "music",
+      "context": "Credited composer; Ray's retrospective account describes rushed recording near completion.",
+      "sources": [
+        "making",
+        "credits"
+      ]
+    }
+  ],
+  "sound_lab": {
+    "modes": [
+      "silence",
+      "environment",
+      "pulse"
+    ],
+    "asset_type": "original_synthesized_tones",
+    "autoplay": false,
+    "loudness": "low",
+    "historical_film_score": false,
+    "source": [
+      "making",
+      "credits"
+    ]
+  },
+  "reception": [
+    {
+      "date": "1955-05-03",
+      "event": "World premiere",
+      "place": "Museum of Modern Art, New York",
+      "source": [
+        "moma"
+      ]
+    },
+    {
+      "date": "1955-08-26",
+      "event": "Indian theatrical release",
+      "place": "Bengal",
+      "source": [
+        "bengal",
+        "credits"
+      ]
+    },
+    {
+      "date": "1956",
+      "event": "Best Human Document award",
+      "place": "Cannes Film Festival",
+      "source": [
+        "cannes"
+      ]
+    }
+  ],
+  "sources": {
+    "first_day": "https://bfidatadigipres.github.io/pdf/2022-07-03-pather-panchali.pdf",
+    "credits": "https://www.satyajitraysociety.org/cast_and_crew.html",
+    "camera": "https://satyajitray.org/cinematography-camera-and-lighting/",
+    "making": "https://satyajitray.org/making-of-pather-panchali/",
+    "moma": "https://www.moma.org/calendar/film/726",
+    "bengal": "https://www.bengalfilmarchive.com/filmography-details.php?t=NjY0",
+    "cannes": "https://www.moma.org/calendar/events/5898"
+  },
+  "qa": {
+    "tested_viewports": [
+      "1440x900",
+      "768x1024",
+      "390x844",
+      "320x700"
+    ],
+    "interaction": "pass",
+    "real_embedded_art_visual_check": "pass",
+    "full_device_audio_qa": "pending",
+    "physical_device": "pending"
+  },
+  "delivery": {
+    "standalone_html": "ORIGIN_Story_First_Chapter_1_3.html",
+    "sha256": "e400e2f632f410fb78d10488278601723e1e9ebd33c7e9fdbde1316130b6cedf",
+    "full_playable_html_in_git": false,
+    "archive": "ORIGIN_Story_First_Chapter_1_3_Source.zip",
+    "production_deployment": false
+  }
+}
