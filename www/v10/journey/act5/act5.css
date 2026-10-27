@@ -118,3 +118,25 @@
 @media(min-width:651px) and (max-width:1199px){.scene-art .voice-stage{right:-11%;top:18%;width:50vw;max-width:unset;height:min(55vh,520px)}.story-copy{max-width:47vw}.story-copy h1{font-size:clamp(48px,6.4vw,83px)}}
 @media(max-width:650px){.scene-art .voice-stage{right:0;top:8%;width:100%;height:42vh;transform:none}.story-copy{max-width:100%}.voice-stage .film-frame-label{font-size:7px}.stage[data-mode="music"] .voice-disc,.stage[data-mode="fantasy"] .voice-disc{top:6%}.scene-art .voice-stage{filter:drop-shadow(0 5px 25px #0008)}}
 @media(prefers-reduced-motion:reduce){.voice-stage .film-frame,.voice-disc,.voice-window{transition:none}}
+
+/* Avoid carrying Act IV's kaash-field drawing into unrelated Ray films. */
+.stage[data-mode="music"] .film-grass,.stage[data-mode="music"] .film-subject,.stage[data-mode="music"] .film-path,
+.stage[data-mode="multi"] .film-grass,.stage[data-mode="multi"] .film-subject,.stage[data-mode="multi"] .film-path,
+.stage[data-mode="fantasy"] .film-grass,.stage[data-mode="fantasy"] .film-subject,.stage[data-mode="fantasy"] .film-path,
+.stage[data-mode="festival"] .film-grass,.stage[data-mode="festival"] .film-subject,.stage[data-mode="festival"] .film-path,
+.stage[data-mode="belief"] .film-grass,.stage[data-mode="belief"] .film-subject,.stage[data-mode="belief"] .film-path,
+.stage[data-mode="attention"] .film-grass,.stage[data-mode="attention"] .film-subject,.stage[data-mode="attention"] .film-path,
+.stage[data-mode="hero"] .film-grass,.stage[data-mode="hero"] .film-subject,.stage[data-mode="hero"] .film-path,
+.stage[data-mode="city"] .film-grass,.stage[data-mode="city"] .film-subject,.stage[data-mode="city"] .film-path,
+.stage[data-mode="satire"] .film-grass,.stage[data-mode="satire"] .film-subject,.stage[data-mode="satire"] .film-path{opacity:0}
+.stage[data-mode="music"] .film-frame{background:radial-gradient(circle at 60% 48%,#91755e,#544b4f 42%,#232a2c 83%)}
+.stage[data-mode="music"] .voice-line-art{height:67%;bottom:14%;opacity:.8;transform:skew(-12deg)}
+.stage[data-mode="fantasy"] .film-frame{background:radial-gradient(circle at 60% 43%,#bcaaa0,#5f5888 46%,#262643 90%)}
+.stage[data-mode="fantasy"] .voice-line-art{height:57%;bottom:20%;opacity:.8;transform:rotate(-5deg)}
+.stage[data-mode="multi"] .film-frame{background:linear-gradient(110deg,#a4bbaa,#6b7e76,#394d4a)}
+.stage[data-mode="city"] .voice-window{border-width:3px;transform:skewY(-14deg);right:7%}
+.stage[data-mode="attention"] .film-draw-lines{opacity:.7}
+.stage[data-mode="belief"] .voice-window{width:26%;right:27%;opacity:.8;transform:none}
+.stage[data-mode="satire"] .film-frame{background:linear-gradient(145deg,#cbb47e,#897e6e,#344651)}
+.stage[data-mode="hero"] .film-frame{background:linear-gradient(122deg,#aeb5b4,#697484 48%,#333c47)}
+.stage[data-mode="festival"] .film-frame{background:linear-gradient(120deg,#b9aa94,#797e7d 58%,#434b54)}
