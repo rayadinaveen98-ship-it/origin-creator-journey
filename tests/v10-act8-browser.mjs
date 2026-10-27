@@ -129,9 +129,13 @@ try {
  await page.screenshot({path:'artifacts/origin-v10-act8-ending-mobile.png',fullPage:true});
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)<=2,'Act VIII mobile horizontal overflow');
  const mobileComposition=await page.evaluate(()=>({
+   artTop:document.querySelector('#filmStage').getBoundingClientRect().top,
+   headerBottom:document.querySelector('.header').getBoundingClientRect().bottom,
    artBottom:document.querySelector('#filmStage').getBoundingClientRect().bottom,
    titleTop:document.querySelector('#storyTitle').getBoundingClientRect().top
  }));
+ assert.ok(mobileComposition.artTop>=mobileComposition.headerBottom-4,
+   'Mobile final filmstrip must not sit underneath header controls: '+JSON.stringify(mobileComposition));
  assert.ok(mobileComposition.artBottom<=mobileComposition.titleTop+4,
    'Mobile final filmstrip must end before final story headline: '+JSON.stringify(mobileComposition));
  await page.locator('#next').click();
