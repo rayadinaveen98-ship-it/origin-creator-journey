@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: origin-cloudflare-production
@@ -31,6 +31,9 @@ jobs:
           set -euo pipefail
           test -s www/index.html
           test -s www/story-first/index.html
+          test -s www/v7/index.html
+          test -s www/v7/app.js
+          test -s www/v7/styles.css
           echo '2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7  www/index.html' | sha256sum --check
           grep -q 'id="origin15"' www/story-first/index.html
           grep -q 'id="origin16"' www/story-first/index.html
@@ -60,7 +63,7 @@ jobs:
         run: |
           set -euo pipefail
           base='https://origin-creator-journey.rayadinaveen98.workers.dev'
-          for path in / /story-first/ /story-first/index.html; do
+          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css; do
             code="$(curl --retry 4 --retry-delay 3 --retry-all-errors -L -s -o /dev/null -w '%{http_code}' "$base$path")"
             if [[ "$code" != "200" ]]; then
               echo "::error::Cloudflare returned HTTP $code for $base$path"
@@ -68,3 +71,42 @@ jobs:
             fi
             echo "HTTP $code $base$path"
           done
+
+      - name: Confirm V7 title and assets (not an SPA fallback)
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://origin-creator-journey.rayadinaveen98.workers.dev'
+          curl --fail --silent --show-error --location "$base/v7/index.html" --output "${RUNNER_TEMP}/origin-v7-live.html"
+          grep -q '<title>ORIGIN / V7 Alpha' "${RUNNER_TEMP}/origin-v7-live.html"
+          curl --fail --silent --show-error --location "$base/v7/app.js" --output "${RUNNER_TEMP}/origin-v7-live.js"
+          grep -q 'origin_v7_alpha_01' "${RUNNER_TEMP}/origin-v7-live.js"
+          echo 'V7 HTML and actual JavaScript are live (not a fallback from V6).'
+
+      - name: Record verified live deployment in GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs
+          {
+            echo '# ORIGIN — Verified Cloudflare Worker deployment'
+            echo
+            echo "Verified UTC: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo
+            echo "GitHub source commit: \`$GITHUB_SHA\`"
+            echo
+            echo "GitHub Actions run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "Cloudflare Worker: https://origin-creator-journey.rayadinaveen98.workers.dev/"
+            echo
+            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01).'
+            echo
+            echo 'Note: HTTP and asset checks prove deployment, not full real-device acceptance testing.'
+          } > docs/ORIGIN_LIVE_VERIFIED.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/ORIGIN_LIVE_VERIFIED.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record verified ORIGIN Cloudflare deployment [skip ci]'
+            git push origin HEAD:main
+          fi
