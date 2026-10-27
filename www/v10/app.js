@@ -38,48 +38,62 @@ function act5Moment(){
  const n=Number(raw);
  return Number.isInteger(n)&&n>=0&&n<13?n:null;
 }
+function act6Moment(){
+ const raw=memoryGet(localStorage,'origin_v10_act6_scene_v1');
+ if(raw===null)return null;
+ const n=Number(raw);
+ return Number.isInteger(n)&&n>=0&&n<13?n:null;
+}
 function syncProgress(){
  const m2=act2Moment();
  const m3=act3Moment();
  const m4=act4Moment();
  const m5=act5Moment();
+ const m6=act6Moment();
  const raw1=memoryGet(localStorage,KEY_PROGRESS);
  const m1=raw1===null?null:storedMoment();
- if(m5!==null){
+ if(m6!==null){
+   $('continueShelf').hidden=false;
+   $('heroEnterText').textContent="Continue Ray's Journey";
+   $('featureProgressNote').textContent='Act VI · The Wider World — your scene is saved in this browser.';
+   $('continueHeading').textContent=['A city under strain','Seemabaddha','Sikkim','The Inner Eye','Ashani Sanket','Sonar Kella','Jana Aranya','Bala','Shatranj Ke Khilari','Joi Baba Felunath','Hirak Rajar Deshe','Sadgati','A changing working life'][m6];
+   $('continueSub').textContent='Act VI · Scene '+(m6+1)+' of 13 · 1970–1983';
+   $('continueFill').style.width=Math.round((52+m6+1)/65*100)+'%';
+ }else if(m5!==null){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Act V · Finding His Voice — your scene is saved in this browser.';
    $('continueHeading').textContent=['Aparajito','Beyond Bengal','Parash Pathar','Jalsaghar','Apur Sansar','Devi','Music, stories and Sandesh','Kanchenjungha','Mahanagar','Charulata','Nayak','Goopy Gyne Bagha Byne','Aranyer Din Ratri'][m5];
    $('continueSub').textContent='Act V · Scene '+(m5+1)+' of 13 · 1956–1969';
-   $('continueFill').style.width=Math.round((39+m5+1)/52*100)+'%';
+   $('continueFill').style.width=Math.round((39+m5+1)/65*100)+'%';
  }else if(m4!==null){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Act IV · The First Film — your scene is saved in this browser.';
    $('continueHeading').textContent=['The first crew','The first shot','The lost field','Casting and the village','A production without enough money','The personal cost','Help to continue','The camera returns','The MoMA opportunity','The final edit','The first screening','A filmmaker emerges'][m4];
    $('continueSub').textContent='Act IV · Scene '+(m4+1)+' of 12 · 1952–1955';
-   $('continueFill').style.width=Math.round((27+m4+1)/52*100)+'%';
+   $('continueFill').style.width=Math.round((27+m4+1)/65*100)+'%';
  }else if(m3!==null){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Act III · The Dream — your exact scene is saved here.';
    $('continueHeading').textContent=['The working artist','A world of covers','The unexpected book','A room for cinema','Learning through critique','A life beyond the screen','The encounter with Renoir','London and its screens','The Bicycle Thieves effect','The return voyage','The dream faces reality'][m3];
    $('continueSub').textContent='Act III · Scene '+(m3+1)+' of 11 · 1943–1951';
-   $('continueFill').style.width=Math.round((16+m3+1)/52*100)+'%';
+   $('continueFill').style.width=Math.round((16+m3+1)/65*100)+'%';
  }else if(m2!==null){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Act II · The Artist — your exact scene is saved in this browser.';
    $('continueHeading').textContent=['The world widens','The eye learns','The teachers','More than one tradition','Beyond the classroom','Art and cinema','Leaving Santiniketan','The professional artist'][m2];
    $('continueSub').textContent='Act II · Scene '+(m2+1)+' of 8 · 1940–1943';
-   $('continueFill').style.width=Math.round((8+m2+1)/52*100)+'%';
+   $('continueFill').style.width=Math.round((8+m2+1)/65*100)+'%';
  }else if(m1!==null&&m1>0){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Resume Act I — The Boy, 1921–1939.';
    $('continueHeading').textContent=['The Beginning','A family of storytellers','The loss','A different home','Books and images','Discovering cinema','A wider world','The threshold'][m1]||'Continue Act I';
    $('continueSub').textContent='Act I · Scene '+(m1+1)+' of 8 · 1921–1939';
-   $('continueFill').style.width=Math.round((m1+1)/52*100)+'%';
+   $('continueFill').style.width=Math.round((m1+1)/65*100)+'%';
  }else{
    $('continueShelf').hidden=true;
    $('heroEnterText').textContent="Enter Ray's Journey";
@@ -154,6 +168,9 @@ function journeyTarget(type){
  if(type==='dream')return {path:'/v10/journey/act3/',moment:act3Moment()??0};
  if(type==='firstfilm')return {path:'/v10/journey/act4/',moment:act4Moment()??0};
  if(type==='voice')return {path:'/v10/journey/act5/',moment:act5Moment()??0};
+ if(type==='world')return {path:'/v10/journey/act6/',moment:act6Moment()??0};
+ const m6=act6Moment();
+ if(m6!==null)return {path:'/v10/journey/act6/',moment:m6};
  const m5=act5Moment();
  if(m5!==null)return {path:'/v10/journey/act5/',moment:m5};
  const m4=act4Moment();
@@ -184,12 +201,13 @@ function openAbout(){
 }
 function installSearch(){
  const results=[
-  {label:'Satyajit Ray',detail:'Five cinematic acts · 1921–1969',kind:'life'},
+  {label:'Satyajit Ray',detail:'Six cinematic acts · 1921–1983',kind:'life'},
   {label:'The boy · 1921–1939',detail:'The new cinematic childhood chapter',kind:'childhood'},
   {label:'The artist · 1940–1943',detail:'Santiniketan and artistic education',kind:'artist'},
   {label:'The Dream · 1943–1951',detail:'Advertising, film society, Renoir, London and Pather Panchali',kind:'dream'},
   {label:'The First Film · 1952–1955',detail:'Making Pather Panchali — cinematic Act IV',kind:'firstfilm'},
   {label:'Finding His Voice · 1956–1969',detail:'Aparajito, Jalsaghar, Mahanagar, Charulata — cinematic Act V',kind:'voice'},
+  {label:'The Wider World · 1970–1983',detail:'Calcutta, documentary, Feluda, Shatranj Ke Khilari — cinematic Act VI',kind:'world'},
   {label:'Film journey · 1955–1959',detail:'The first five years in cinema',kind:'film'},
   {label:'The Studio',detail:'Interactive filmmaking exercises',kind:'studio'}
  ];

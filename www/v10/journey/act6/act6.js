@@ -1,0 +1,245 @@
+/* ORIGIN V10 — Act VI: The Wider World (1970–1983)
+   Historical scenes are grounded in archives. Visual metaphors are explicitly labeled.
+   No invented dialogue, no impersonation, no film frames.
+*/
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const CHILD='https://upload.wikimedia.org/wikipedia/commons/8/86/Satyajit_ray_little.jpg';
+const PARENTS='https://upload.wikimedia.org/wikipedia/commons/0/0c/Sukumar_Ray_and_his_wife.jpg';
+const YOUNG='https://upload.wikimedia.org/wikipedia/commons/4/42/Satyajit-Ray-Young.jpg';
+const archive=[
+ {label:'Satyajit Ray Archive — Filmography',url:'https://satyajitray.org/filmography/'},
+ {label:'Satyajit Ray Archive — Awards and Festivals',url:'https://satyajitray.org/awards/'},
+ {label:'Satyajit Ray Society — Films',url:'https://satyajitraysociety.org/films.html'},
+ {label:'Satyajit Ray Society — Biography',url:'https://www.satyajitraysociety.org/biography.html'},
+ {label:'UCLA MANAS — Satyajit Ray and the Calcutta films',url:'https://southasia.ucla.edu/culture/cinema/directors/satyajit-ray/'}
+];
+const scenes=[
+ {year:'1970',place:'CALCUTTA',name:'A city under strain',mode:'city',kind:'frame',observe:true,craft:'contrast',
+ title:'The city was restless.<br><em>So was his cinema.</em>',
+ lead:'Pratidwandi follows an educated young man struggling to find a place in a city of uncertainty.',
+ more:'The personal search for work becomes inseparable from a larger social atmosphere. Ray returned to contemporary Calcutta with a sharper, more questioning gaze.',
+ meaning:'Social conditions can be felt through one character’s frustrations rather than reduced to a speech.',
+ history:'Pratidwandi (The Adversary, 1970) begins a group of contemporary Calcutta films often discussed as a loose trilogy. The visual here is neither a film frame nor a specific photographed Calcutta location.',
+ visual:'Original layered city grid and tonal study; not production photography from Pratidwandi.',
+ prompt:'A CHANGING CITY',craftNote:'Original contrast experiment: exaggerating light and shadow changes what attracts attention in a city scene. It is not a reconstruction of Ray’s actual cinematography.',
+ bg:'radial-gradient(ellipse at 70% 35%,#9eaca3,#43575e 42%,#17272e 89%)',sources:[0,4]},
+ {year:'1971',place:'THE WORLD OF CORPORATE POWER',name:'Seemabaddha',mode:'corporate',kind:'frame',observe:true,craft:'focus',
+ title:'Ambition moved<br><em>behind glass walls.</em>',
+ lead:'Seemabaddha examines a successful executive and the compromises surrounding advancement in corporate life.',
+ more:'Ray observed a different stratum of the same city: polished offices, social status and decisions whose consequences were easy to hide.',
+ meaning:'The way we frame a character inside an institution changes what we notice about power.',
+ history:'Seemabaddha (Company Limited, 1971) is associated with the contemporary Calcutta cycle. Its representation of corporate ambition is documented in film studies; the office abstraction is not a real Ray set.',
+ visual:'Original abstract window-grid composition, not a Seemabaddha still, production diagram or actual office.',
+ prompt:'BEHIND THE WINDOWS',craftNote:'Original framing experiment: narrow the visible area to notice how a controlled viewpoint creates a feeling of confinement. Not Ray’s shot.',
+ bg:'radial-gradient(ellipse at 72% 42%,#bbb5a0,#68726d 41%,#1f3435 90%)',sources:[0,4]},
+ {year:'1971',place:'BEYOND THE FEATURE FILM',name:'Sikkim',mode:'landscape',kind:'map',
+ title:'A camera travelled<br><em>beyond fiction.</em>',
+ lead:'Ray made the documentary Sikkim, exploring its landscapes, people and public life.',
+ more:'Documentary required a different relationship with the world in front of the camera. The film also developed a complex political and distribution history.',
+ meaning:'Not every filmmaking journey advances through feature films; documentary can broaden both subject and approach.',
+ history:'Sikkim is listed as a 1971 documentary in the Ray Archive filmography. Political circumstances affected the film’s distribution. This scene does not present an invented historical map or a recreation of the documentary.',
+ visual:'Original mountains and topographic bands, not historical footage, a map of political borders or a shot from Sikkim.',
+ prompt:'DOCUMENTARY AS OBSERVATION',
+ bg:'radial-gradient(ellipse at 71% 31%,#c6c6ac,#82958d 45%,#274246 88%)',sources:[0,2]},
+ {year:'1972',place:'SANTINIKETAN REVISITED',name:'The Inner Eye',mode:'portrait',kind:'frame',observe:true,craft:'focus',
+ title:'He returned<br><em>to a teacher’s vision.</em>',
+ lead:'The Inner Eye is Ray’s documentary portrait of his former Santiniketan teacher Binode Behari Mukherjee.',
+ more:'It reflects on an artist who continued his work after losing his sight. The story returns to the lessons that once changed the young Ray’s way of seeing.',
+ meaning:'A life journey becomes richer when a later work returns us to an earlier influence.',
+ history:'The Inner Eye (1972) documents artist Binode Behari Mukherjee. Ray studied under Mukherjee in Santiniketan; the portrait on screen is original graphic geometry, not the artist’s likeness.',
+ visual:'Original study of focused circles and lines; not a portrait of Binode Behari Mukherjee nor a frame from The Inner Eye.',
+ prompt:'BACK TO THE TEACHER',craftNote:'Original observation study about how framing a detail can change attention. This does not represent Mukherjee’s artwork or Ray’s documentary composition.',
+ bg:'radial-gradient(ellipse at 70% 35%,#d3c8b0,#6f7f72 40%,#243834 92%)',sources:[0,2]},
+ {year:'1973',place:'A FAMINE IN BENGAL',name:'Ashani Sanket',mode:'famine',kind:'landscape',observe:true,craft:'contrast',
+ title:'A harvest landscape.<br><em>A story of hunger.</em>',
+ lead:'Ashani Sanket (Distant Thunder) examines the Bengal famine of 1943 through the lives of villagers.',
+ more:'In a setting that can appear abundant, deprivation grows. Ray used historical fiction to explore how forces beyond a village reach its most vulnerable people.',
+ meaning:'The contrast between what a landscape looks like and what people experience can carry a devastating dramatic tension.',
+ history:'Ashani Sanket (1973) addresses the Bengal famine of 1943. The film won the Golden Bear in Berlin in 1973. The harvest field below is original illustration, not a frame from the film or a documentary image of the famine.',
+ visual:'Original abstract green-gold agricultural landscape; not film photography or a historical famine illustration.',
+ prompt:'BEAUTY AND CATASTROPHE',craftNote:'Original editorial contrast study: the same landscape can be rendered welcoming or foreboding through tone alone. No original Ray colour treatment is reproduced.',
+ bg:'radial-gradient(ellipse at 70% 39%,#c2b987,#7e936d 45%,#233f32 91%)',sources:[0,1,2]},
+ {year:'1974',place:'RAJASTHAN · A MYSTERY',name:'Sonar Kella',mode:'desert',kind:'map',observe:true,craft:'focus',
+ title:'A detective followed<br><em>a trail through the desert.</em>',
+ lead:'Sonar Kella brought Feluda, Ray’s beloved detective, into feature filmmaking.',
+ more:'A mystery travelled through Rajasthan and invited audiences to follow observations, clues and mistaken assumptions. The playful adventure broadened his connection with younger viewers.',
+ meaning:'A good mystery lets the audience observe and infer, not simply wait for an answer.',
+ history:'Sonar Kella (1974), based on Ray’s Feluda fiction, features a Rajasthan journey and the city of Jaisalmer. This visual is a fictional symbolic route, not the actual film itinerary or original poster.',
+ visual:'Original dune and route motif, not a historical map, Rajasthan location photograph, Feluda likeness or film still.',
+ prompt:'FOLLOW THE CLUE',craftNote:'Original clue-selection exercise: a small focused part of a scene becomes more prominent, illustrating attention rather than simulating any particular Feluda clue.',
+ bg:'radial-gradient(ellipse at 67% 38%,#ecc594,#ad7552 40%,#453737 92%)',sources:[0,2]},
+ {year:'1975',place:'THE CALCUTTA TRILOGY',name:'Jana Aranya',mode:'city',kind:'frame',observe:true,craft:'focus',
+ title:'Work became<br><em>a moral maze.</em>',
+ lead:'Jana Aranya follows a young man navigating business opportunities and ethically troubling choices in Calcutta.',
+ more:'The loose city cycle begun with Pratidwandi and continued through Seemabaddha closes with a different view of ambition and survival.',
+ meaning:'Related films can ask different questions about the same social world.',
+ history:'Jana Aranya (The Middleman, 1975) is widely considered the third film in Ray’s Calcutta trilogy. No fictional dialogue or exact shot has been recreated.',
+ visual:'Original urban line-work and corridors, not a film image, production blueprint or authentic city photograph.',
+ prompt:'THE CITY TRILOGY CLOSES',craftNote:'Original framing exercise: narrowing a route of lines can evoke restricted choices. It is not Ray’s original shot.',
+ bg:'radial-gradient(ellipse at 71% 37%,#ab9b83,#68605c 42%,#262c33 89%)',sources:[0,4]},
+ {year:'1976',place:'THE DANCE',name:'Bala',mode:'dance',kind:'rhythm',observe:true,craft:'rhythm',
+ title:'Movement itself<br><em>became the subject.</em>',
+ lead:'With Bala, Ray made a documentary about renowned Bharatanatyam dancer Balasaraswati.',
+ more:'The documentary centred on an artist and her performance tradition. The subject invited close attention to gesture, rhythm and artistic memory.',
+ meaning:'The best way to understand another art can begin by watching patiently.',
+ history:'Bala is listed as a 1976 documentary in the Satyajit Ray Archive filmography, centred on Balasaraswati. The design does not present a dance pose as an archival reconstruction.',
+ visual:'Original rhythmic light trails and circular forms, not footage or music from Bala.',
+ prompt:'RHYTHM WITHOUT WORDS',craftNote:'Silent original rhythm demonstration; not the dancer’s choreography, Ray’s recorded music or documentary editing.',
+ bg:'radial-gradient(ellipse at 70% 38%,#c3ac8b,#835e63 42%,#312c40 88%)',sources:[0,2]},
+ {year:'1977',place:'LUCKNOW · 1856',name:'Shatranj Ke Khilari',mode:'chess',kind:'history',observe:true,craft:'focus',
+ title:'On a chessboard,<br><em>history waited.</em>',
+ lead:'Shatranj Ke Khilari told a story in nineteenth-century Awadh amid British annexation and the private obsessions of two noblemen.',
+ more:'Ray directed a Hindi-language historical feature, moving beyond Bengal in language, setting, scale and production demands.',
+ meaning:'A historical film can place intimate behaviour beside the consequences of political power.',
+ history:'Shatranj Ke Khilari (The Chess Players, 1977) is Ray’s first Hindi-language feature, adapted from Premchand. This is an original generic chessboard illustration, not a film prop, actual historical chess set or still.',
+ visual:'Original chessboard abstraction with no identifiable movie pieces, costumes or historical images.',
+ prompt:'HISTORY AND THE BOARD',craftNote:'Original perspective study: emphasizing a small area of the board changes its perceived importance. This does not recreate the director’s camera placement.',
+ bg:'radial-gradient(ellipse at 69% 34%,#d2ae81,#74614c 43%,#2c292a 91%)',sources:[0,2,4]},
+ {year:'1978',place:'VARANASI · ANOTHER FELUDA CASE',name:'Joi Baba Felunath',mode:'mystery',kind:'map',
+ title:'A detective story<br><em>returned to the screen.</em>',
+ lead:'Joi Baba Felunath brought Feluda back, this time in the crowded sacred city of Varanasi.',
+ more:'Adventure and investigation became another continuing thread in Ray’s career, with their own visual atmosphere and narrative pace.',
+ meaning:'A filmmaker can return to a beloved character without repeating the world of an earlier film.',
+ history:'The Satyajit Ray Archive filmography dates Joi Baba Felunath (The Elephant God) to 1978, with Feluda investigating a case in Varanasi. We use an original symbolic river-and-lane pattern, not religious-site footage or film material.',
+ visual:'Original abstract river-line motif, not a photograph of Varanasi, Feluda likeness, film still or production map.',
+ prompt:'THE INVESTIGATION CONTINUES',
+ bg:'radial-gradient(ellipse at 64% 36%,#e0c2a4,#85746d 45%,#32404b 91%)',sources:[0,2]},
+ {year:'1980',place:'A KINGDOM OF DIAMONDS',name:'Hirak Rajar Deshe',mode:'kingdom',kind:'politics',observe:true,craft:'contrast',
+ title:'Fantasy became<br><em>a sharper instrument.</em>',
+ lead:'Hirak Rajar Deshe revisited Goopy and Bagha in a fantastical kingdom ruled through fear and manipulation.',
+ more:'Ray used songs, humour and a fictional setting to explore power and conformity. Entertainment and political allegory could share the same frame.',
+ meaning:'A film need not be literal to make viewers think about how authority works.',
+ history:'Hirak Rajar Deshe (1980) is the second Goopy and Bagha film, written and directed by Ray. Political allegory is a critical reading, not a transcript of the filmmaker’s personal political affiliations.',
+ visual:'Original faceted geometric palace and diamond shapes, not a film scene, character design or copyrighted production art.',
+ prompt:'THE POWER OF FANTASY',craftNote:'Original contrast study: light can draw attention to an imagined seat of power. Not a shot from Hirak Rajar Deshe.',
+ bg:'radial-gradient(ellipse at 72% 38%,#ddb697,#8769a2 39%,#2a2947 89%)',sources:[0,2]},
+ {year:'1981',place:'TELEVISION AND CASTE',name:'Sadgati',mode:'caste',kind:'frame',observe:true,craft:'focus',
+ title:'A shorter film.<br><em>A difficult truth.</em>',
+ lead:'Sadgati, made for television, adapted Premchand’s story about caste oppression and human exploitation.',
+ more:'The work used a different distribution medium and a concentrated running time to address a serious social subject.',
+ meaning:'A creator’s moral concerns can appear in formats and languages beyond the feature-length theatrical film.',
+ history:'Sadgati (The Deliverance, 1981) is a 52-minute Hindi-language television work adapted from Premchand. This original shadow tableau is not an image from the production and includes no real-person depiction.',
+ visual:'Original symbolic shadow composition; not documentary evidence, religious iconography or a Sadgati film frame.',
+ prompt:'THE COST OF INJUSTICE',craftNote:'Original framing study of imbalance and exclusion, offered as an editorial exercise—not Ray’s exact composition.',
+ bg:'radial-gradient(ellipse at 66% 44%,#9d9b91,#68645b 38%,#20252a 89%)',sources:[0,4]},
+ {year:'1983',place:'A DIFFICULT TURN',name:'A changing working life',mode:'threshold',kind:'transition',
+ title:'The work continued.<br><em>The conditions changed.</em>',
+ lead:'During the early 1980s, Ray was developing Ghare Baire; serious heart-related illness affected his working life in 1983.',
+ more:'His next completed feature, released in 1984, belongs to the following chapter. The filmmaker would keep working, but with new restrictions and a different rhythm.',
+ meaning:'The story is not simply a sequence of artistic triumphs; changes in health and circumstance also shape the work.',
+ history:'The Satyajit Ray Society’s biography identifies heart complications in 1983. The Ray Archive lists Ghare Baire in 1984, not 1983. No hospital scene or unverified diagnosis is reconstructed.',
+ visual:'Original narrowing doorway and archival-style light composition. Not a historical hospital or personal photograph.',
+ prompt:'THE NEXT ACT AWAITS',
+ bg:'radial-gradient(ellipse at 69% 38%,#9f9486,#555a61 42%,#222b38 89%)',sources:[0,3]}
+];
+const storeKey='origin_v10_act6_scene_v1';
+const stage=$('stage'),img=$('archiveImage'),copy=$('sceneCopy');
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let current=0,changing=false,focusReturn=null;
+try{const saved=localStorage.getItem(storeKey);if(saved!==null){const v=Number(saved);if(Number.isInteger(v)&&v>=0&&v<scenes.length)current=v;}}catch{}
+const hashMatch=/^#scene-(\d+)$/.exec(location.hash);
+if(hashMatch && +hashMatch[1] < scenes.length)current=+hashMatch[1];
+function persist(){try{localStorage.setItem(storeKey,String(current));}catch{}}
+function render(){
+ const scene=scenes[current];
+ stage.dataset.mode=scene.mode;stage.dataset.kind=scene.kind||'symbol';stage.dataset.photo=String(!!scene.asset);
+ stage.classList.toggle('dense-title',scene.title.replace(/<[^>]+>/g,'').length>38);
+ stage.style.setProperty('--stage-bg',scene.bg);
+ $('symbolicYear').textContent=scene.year.replace('AROUND ','').replace('MID-','');
+ $('yearPlace').textContent=scene.place+' · '+scene.year;
+ $('beatId').textContent=String(current+1).padStart(2,'0')+' / 13';
+ $('storyTitle').innerHTML=scene.title;
+ $('storyLead').textContent=scene.lead;
+ $('storyMore').textContent=scene.more;
+ $('visualOrigin').textContent=scene.asset?'ARCHIVAL PHOTO · DATE EXPLAINED IN CONTEXT':'ORIGINAL VISUAL INTERPRETATION · NOT AN ARCHIVAL PHOTOGRAPH';
+ const obs=$('observeButton');obs.hidden=!scene.observe;
+ obs.textContent=scene.craft==='rhythm'?'Study visual rhythm ↗':scene.craft==='contrast'?'Change the contrast ↗':'Focus the scene ↗';
+ obs.setAttribute('aria-pressed','false');
+ $('exerciseNote').hidden=true;$('exerciseNote').textContent='';
+ $('visualDetail').hidden=true;stage.classList.remove('observing');
+ $('frameLabel').textContent='ORIGINAL EDITORIAL HISTORICAL STUDY · NOT A FILM STILL';
+ stage.dataset.craft=scene.craft||'none';
+ $('storyPrompt').textContent=scene.prompt;
+ $('railCaption').textContent=String(current+1).padStart(2,'0')+' / 13';
+ $('railYear').textContent=scene.year;
+ $('railFill').style.height=Math.round((current+1)/scenes.length*100)+'%';
+ $('railFill').style.width=Math.round((current+1)/scenes.length*100)+'%';
+ $('prev').disabled=current===0;
+ if(current===0){$('prev').disabled=false;$('prev').setAttribute('aria-label','Return to the final scene of Act V');}else{$('prev').setAttribute('aria-label','Previous scene');}
+ $('nextLabel').textContent=current===scenes.length-1?'Finish Act VI':'Continue the story';
+ $('contextEra').textContent=scene.place+' · '+scene.year;
+ $('imageExplanation').textContent=scene.visual;
+ $('documentaryNote').textContent=scene.history;
+ $('editorialMeaning').textContent=scene.meaning;
+ $('photoSource').hidden=!scene.assetLink;
+ if(scene.assetLink)$('photoSource').href=scene.assetLink;
+ const links=$('sourceLinks');links.replaceChildren();
+ for(const index of scene.sources){const source=archive[index];const a=document.createElement('a');a.href=source.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=source.label+' ↗';links.append(a);}
+ if(scene.asset){
+   $('archiveUnavailable').hidden=true;
+   img.hidden=false;
+   if(img.getAttribute('src')!==scene.asset)img.src=scene.asset;
+   img.alt=scene.visual;
+   if(img.complete&&img.naturalWidth===0){img.hidden=true;$('archiveUnavailable').hidden=false;}
+ }else{img.hidden=true;$('archiveUnavailable').hidden=true;}
+ document.querySelectorAll('#dots button').forEach((b,i)=>{b.classList.toggle('current',i===current);b.setAttribute('aria-current',i===current?'step':'false');});
+ document.querySelectorAll('#mapList button').forEach((b,i)=>{if(i===current)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+ history.replaceState(null,'','#scene-'+current);persist();
+}
+img.addEventListener('error',()=>{if(scenes[current].asset && img.src===scenes[current].asset){img.hidden=true;$('archiveUnavailable').hidden=false;}});
+img.addEventListener('load',()=>{if(scenes[current].asset && img.src===scenes[current].asset){img.hidden=false;$('archiveUnavailable').hidden=true;}});
+function move(next){
+ if(changing||next<0||next>=scenes.length)return;
+ changing=true;
+ stage.classList.add('changing');
+ const update=()=>{
+  current=next;render();stage.classList.remove('changing');
+  copy.style.animation='none';void copy.offsetWidth;copy.style.animation='';
+  $('storyTitle').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
+  changing=false;
+ };
+ if(reduceMotion)update();else setTimeout(update,165);
+}
+function complete(){
+ if(changing)return;
+ stage.hidden=true;$('completion').hidden=false;
+ window.scrollTo({top:0,behavior:'instant'});$('completeTitle').focus?.();
+}
+function restart(){
+ $('completion').hidden=true;stage.hidden=false;
+ current=0;render();$('storyTitle').focus({preventScroll:true});
+}
+for(let i=0;i<scenes.length;i++){
+ const d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Go to scene '+(i+1)+': '+scenes[i].name);d.addEventListener('click',()=>move(i));$('dots').append(d);
+ const b=document.createElement('button');b.type='button';const date=document.createElement('span');date.className='map-year';date.textContent=scenes[i].year;
+ const label=document.createElement('span');label.className='map-name';label.textContent=scenes[i].name;const flag=document.createElement('span');flag.className='map-stage';flag.textContent=String(i+1).padStart(2,'0')+'/13';
+ b.append(date,label,flag);b.addEventListener('click',()=>{$('mapDialog').close();move(i);});$('mapList').append(b);
+}
+$('prev').addEventListener('click',()=>{if(current===0)window.location.assign('/v10/journey/act5/#scene-12');else move(current-1);});
+$('next').addEventListener('click',()=>{if(current===scenes.length-1)complete();else move(current+1);});
+$('restart').addEventListener('click',restart);
+$('observeButton').addEventListener('click',()=>{
+ const scene=scenes[current];if(!scene.observe)return;
+ const active=!stage.classList.contains('observing');
+ stage.classList.toggle('observing',active);$('visualDetail').hidden=!active;
+ $('observeButton').setAttribute('aria-pressed',String(active));
+ $('observeButton').textContent=active?'Restore the original study ↗':scene.craft==='rhythm'?'Study visual rhythm ↗':scene.craft==='contrast'?'Change the contrast ↗':'Focus the scene ↗';
+ $('exerciseNote').hidden=!active;$('exerciseNote').textContent=active?(scene.craftNote||'Original demonstration, not an archival film image.'):'';
+});
+function showDialog(which,trigger){focusReturn=trigger;$(which).showModal();}
+function closeDialog(which){$(which).close();if(focusReturn?.isConnected)focusReturn.focus();}
+$('mapButton').addEventListener('click',e=>showDialog('mapDialog',e.currentTarget));
+$('contextButton').addEventListener('click',e=>showDialog('contextDialog',e.currentTarget));
+$('whyButton').addEventListener('click',e=>showDialog('contextDialog',e.currentTarget));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.close)));
+document.addEventListener('keydown',e=>{
+ const tag=e.target?.tagName;
+ if($('mapDialog').open||$('contextDialog').open||tag==='INPUT'||tag==='TEXTAREA')return;
+ if(e.key==='ArrowRight'&&current<scenes.length-1){e.preventDefault();move(current+1);}
+ if(e.key==='ArrowLeft'&&current>0){e.preventDefault();move(current-1);}
+});
+window.addEventListener('hashchange',()=>{const m=/^#scene-(\d+)$/.exec(location.hash);if(m&&+m[1]<scenes.length)move(+m[1]);});
+render();
+})();

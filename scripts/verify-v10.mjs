@@ -53,6 +53,15 @@ assert.ok(read('www/v10/journey/act4/index.html').includes('/v10/journey/act5/#s
 assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act5/'"),'Life arc includes cinematic Act V');
 assert.ok(v10js.includes('origin_v10_act5_scene_v1'),'V10 homepage resumes Act V');
 new Script(act5,{filename:'www/v10/journey/act5/act5.js'});
+const act6=read('www/v10/journey/act6/act6.js');
+assert.ok(act6.includes('origin_v10_act6_scene_v1'),'Act VI keeps independent progress');
+assert.ok(act6.includes('Shatranj Ke Khilari')&&act6.includes('Ashani Sanket')&&act6.includes('Sadgati'));
+assert.ok(act6.includes('https://satyajitray.org/filmography/'));
+assert.ok(read('www/v10/journey/act6/index.html').includes('id="filmStage"'));
+assert.ok(read('www/v10/journey/act5/index.html').includes('/v10/journey/act6/#scene-0'),'Act V directly hands off');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act6/'"),'Eight-act map includes Act VI');
+assert.ok(v10js.includes('origin_v10_act6_scene_v1'),'V10 home resumes Act VI');
+new Script(act6,{filename:'www/v10/journey/act6/act6.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);
