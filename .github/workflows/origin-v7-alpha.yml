@@ -1,0 +1,41 @@
+name: ORIGIN V7 Alpha — regression and browser QA
+on:
+  push:
+    branches:
+      - feature/v7-unified-journey-alpha
+    paths:
+      - 'www/v7/**'
+      - 'tests/v7-browser.mjs'
+      - 'scripts/verify-v7-alpha.mjs'
+      - '.github/workflows/origin-v7-alpha.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Protect V6 and test V7 prototype
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source and original release verification
+        run: node scripts/verify-v7-alpha.mjs
+      - name: Install headless browser harness
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: V7 interaction tests at desktop and mobile widths
+        run: node tests/v7-browser.mjs
+      - name: Upload V7 screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-V7-Alpha-visual-QA
+          path: artifacts/*.png
+          if-no-files-found: ignore
+          retention-days: 7
