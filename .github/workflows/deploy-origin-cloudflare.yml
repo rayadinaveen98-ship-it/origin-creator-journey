@@ -141,8 +141,8 @@ jobs:
           curl --fail --silent --show-error --location "$base/v10/journey/act2/act2.js" --output "${RUNNER_TEMP}/origin-v10-act2.js"
           grep -q 'origin_v10_act2_scene_v1' "${RUNNER_TEMP}/origin-v10-act2.js"
           curl --fail --silent --show-error --location "$base/v10/journey/life-arc.js" --output "${RUNNER_TEMP}/origin-v10-life-arc.js"
-          grep -q 'RESEARCHED OVERVIEW' "${RUNNER_TEMP}/origin-v10-life-arc.js"
-          echo 'Act II and honest full-life navigation are live.'
+          grep -q 'All eight narrative acts are now playable cinematic pilots' "${RUNNER_TEMP}/origin-v10-life-arc.js"
+          echo 'Act II and current eight-act chapter map are live.'
           curl --fail --silent --show-error --location "$base/v10/journey/act3/index.html" --output "${RUNNER_TEMP}/origin-v10-act3.html"
           grep -q '<title>ORIGIN — The Dream, 1943–1951' "${RUNNER_TEMP}/origin-v10-act3.html"
           curl --fail --silent --show-error --location "$base/v10/journey/act3/act3.js" --output "${RUNNER_TEMP}/origin-v10-act3.js"
