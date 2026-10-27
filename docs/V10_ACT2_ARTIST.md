@@ -11,7 +11,7 @@ Expand immersive life-first storytelling beyond 1921–1939 Act I without redesi
 - One early-adult Wikimedia Commons Ray portrait (metadata approximately 1940–1943; uncertain date), correctly labeled as a period portrait, not a teacher photo or classroom scene.
 - Two optional small-detail observation studies using ORIGINAL CSS illustrations.
 - Separate local browser progress for Act II, with the V10 home resuming the newest Act rather than falling back to Act I.
-- Cross-document visual transitions where supported, disabled when reduced-motion is requested.
+- A consistent in-page entrance fade, with no experimental cross-document transition opt-in; reduced-motion users see no animation.
 
 ## Historic source anchors
 - Satyajit Ray Archive, At Shantiniketan (1940–42): https://satyajitray.org/at-shantiniketan/
