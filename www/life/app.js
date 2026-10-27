@@ -72,6 +72,7 @@ function render(index, options={}){
  $('sceneOverline').textContent=act.overline;
  $('sceneTitle').innerHTML=act.title;
  $('sceneLead').textContent=act.lead;
+ $('startJourney').hidden=index!==0;
  $('sceneBody').textContent=act.body;
  $('sceneMeaning').textContent=act.meaning;
  $('imageHeadline').textContent=act.head;
@@ -133,6 +134,7 @@ for(const item of CHAPTERS){
  b.addEventListener('click',()=>{closeDialog('timelineDialog');render(item.index,{focus:true});});
  $('timelineList').append(b);
 }
+$('startJourney').addEventListener('click',()=>render(1,{focus:true}));
 $('prevButton').addEventListener('click',()=>render(current-1,{focus:true}));
 $('nextButton').addEventListener('click',()=>render(current===acts.length-1?0:current+1,{focus:true}));
 $('overviewButton').setAttribute('aria-controls','timelineDialog');
