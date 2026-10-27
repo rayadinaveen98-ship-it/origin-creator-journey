@@ -1,0 +1,30 @@
+name: Story-first Chapter 1.5 preview artifact
+on:
+  push:
+    branches:
+      - story-first/pather-panchali-pilot
+    paths:
+      - 'experiments/story-first-1-5/**'
+      - '.github/workflows/story-first-1-5-preview.yml'
+  workflow_dispatch:
+jobs:
+  generate-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assemble playable Chapter 1.5 without changing V6
+        run: |
+          python experiments/story-first-1-5/build_v15.py --base-file experiments/story-first-1-4/ORIGIN_Story_First_Chapter_1_4.html --output dist/ORIGIN_Story_First_Chapter_1_5.html
+          test -s dist/ORIGIN_Story_First_Chapter_1_5.html
+          grep -q 'id="origin15"' dist/ORIGIN_Story_First_Chapter_1_5.html
+          sha256sum dist/ORIGIN_Story_First_Chapter_1_5.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-Story-First-1-5-Preview
+          path: dist/ORIGIN_Story_First_Chapter_1_5.html
+          if-no-files-found: error
