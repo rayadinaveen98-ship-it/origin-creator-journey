@@ -97,7 +97,7 @@ try{
 
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-10');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act4/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyTitle').textContent(),/artist/);
  await page.locator('.reader-logo').click();
