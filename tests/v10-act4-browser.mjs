@@ -34,6 +34,17 @@ try{
  assert.equal(await page.locator('#railCaption').textContent(),'01 / 12');
  assert.equal(await page.locator('#filmStage').isVisible(),true);
  await page.waitForTimeout(1050);
+ // Guard layout against filmstrip artwork covering the text on desktop and tablet.
+ for(const width of [1440,1180,960,800]){
+   await page.setViewportSize({width,height:900});
+   const v=await page.evaluate(()=>{
+     const art=document.querySelector('#filmStage').getBoundingClientRect();
+     const text=document.querySelector('#sceneCopy').getBoundingClientRect();
+     return {artLeft:art.left,textRight:text.right,artWidth:art.width};
+   });
+   assert.ok(v.artLeft>=v.textRight-5,'Film art overlaps narrative at '+width+'px: '+JSON.stringify(v));
+ }
+ await page.setViewportSize({width:1440,height:900});
  await page.screenshot({path:'artifacts/origin-v10-act4-opening-desktop.png'});
  await page.locator('#mapButton').click();
  assert.equal(await page.locator('#mapList button').count(),12);
