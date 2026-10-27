@@ -30,11 +30,13 @@ const run=async()=>{
  assert.equal(await page.locator('button.creator-tile').count(),0,'No repeated Ray cards');
  assert.equal(await page.locator('.future-card img').count(),0,'Future creators use original poster art, not misidentified photos');
  await mkdir('artifacts',{recursive:true});
+ await page.waitForTimeout(1150);
  await page.screenshot({path:'artifacts/origin-v10-home-desktop.png',fullPage:true});
  await page.locator('#heroEnter').click();
  await page.waitForURL('**/v10/journey/#scene-0',{timeout:10000});
  assert.match(await page.locator('#storyTitle').textContent(),/Before cinema/);
  assert.match(await page.locator('#yearPlace').textContent(),/1921/);
+ await page.waitForTimeout(1150);
  await page.screenshot({path:'artifacts/origin-v10-act1-desktop.png'});
  await page.locator('#contextButton').click();
  assert.equal(await page.locator('#contextDialog').isVisible(),true);
@@ -43,6 +45,8 @@ const run=async()=>{
  await page.locator('#next').click();
  await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('Stories were already'));
  assert.match(await page.locator('#imageExplanation').textContent(),/1914/);
+ await page.waitForFunction(() => { const img=document.querySelector('#archiveImage');return img?.naturalWidth>0 || (document.querySelector('#archiveUnavailable') && !document.querySelector('#archiveUnavailable').hidden); },null,{timeout:12000});
+ await page.waitForTimeout(1150);
  await page.screenshot({path:'artifacts/origin-v10-family-desktop.png'});
  await page.locator('#mapButton').click();
  assert.equal(await page.locator('#mapList button').count(),8);
@@ -54,6 +58,7 @@ const run=async()=>{
  assert.equal(await page.locator('#railCaption').textContent(),'05 / 08');
  await page.setViewportSize({width:390,height:844});
  await page.reload({waitUntil:'domcontentloaded'});
+ await page.waitForTimeout(1150);
  await page.screenshot({path:'artifacts/origin-v10-act1-mobile.png',fullPage:true});
  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
  assert.ok(overflow<=2,'Act I mobile horizontal overflow: '+overflow);
@@ -61,6 +66,7 @@ const run=async()=>{
  await page.waitForURL('**/v10/');
  await page.locator('#welcome').waitFor({state:'hidden',timeout:1000});
  assert.equal(await page.locator('#continueShelf').isVisible(),true);
+ await page.waitForTimeout(1150);
  await page.screenshot({path:'artifacts/origin-v10-home-mobile.png',fullPage:true});
  const overflowHome=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
  assert.ok(overflowHome<=2,'Home mobile overflow: '+overflowHome);
