@@ -24,14 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * ORIGIN V9 Android evaluation build.
+ * ORIGIN V10 Android evaluation build.
  *
- * Loads the EXISTING verified Cloudflare V9 app. No HTML/CSS/JS is modified.
+ * Loads the verified Cloudflare V10 journey app. No HTML/CSS/JS is modified.
  * The web experience needs network connectivity; this is not the final offline/native release.
  */
 public class MainActivity extends Activity {
     private static final String APP_URL =
-            "https://origin-creator-journey.rayadinaveen98.workers.dev/app/";
+            "https://origin-creator-journey.rayadinaveen98.workers.dev/v10/";
     private static final String APP_HOST =
             "origin-creator-journey.rayadinaveen98.workers.dev";
 
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         webView.setHorizontalScrollBarEnabled(false);
 
         WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);  // Required for V9's cinematic interactions.
+        settings.setJavaScriptEnabled(true);  // Required for V10's cinematic interactions.
         settings.setDomStorageEnabled(true);   // Required for Continue Journey and My List.
         settings.setMediaPlaybackRequiresUserGesture(true);
         settings.setAllowFileAccess(false);
