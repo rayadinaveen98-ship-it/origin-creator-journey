@@ -1,0 +1,44 @@
+/* ORIGIN Act II visual language. Separate from Act I so we can preserve it.
+   Every form is constructed with CSS; only the 1940–43 Ray portrait is archival. */
+.stage{background:#0d1712}
+.stage[data-mode="threshold"] .symbolic-year{font-size:min(25vw,360px);right:7%;top:8%;letter-spacing:-.15em;color:#f5deb022}
+.stage[data-mode="threshold"] .symbolic-ring{border-color:#dec28b52;right:0%;top:9%;height:72vh;width:72vh;transform:skewY(-13deg)}
+.stage[data-mode="threshold"] .symbolic-lines{background:repeating-linear-gradient(45deg,transparent 0 25px,#e8bb7c38 27px,#e8bb7c38 29px,transparent 31px 52px);height:72%;width:51%;bottom:6%;right:0;transform:skew(-19deg)}
+.stage[data-mode="observe"] .symbolic-year{font-size:min(22vw,335px);right:3%;top:15%;color:#e9d5ac18}
+.stage[data-mode="observe"] .symbolic-lines{background:repeating-linear-gradient(100deg,#d0bc8e15 0 7px,transparent 8px 35px);height:47%;width:50%;bottom:24%;right:5%;clip-path:polygon(0 50%,21% 32%,51% 64%,76% 0,100% 22%,100% 100%,0% 100%);transform:none}
+.stage[data-mode="observe"] .symbolic-ring{border-radius:12%;height:32vh;width:37vh;border:5px solid #c9d7b65e;transform:rotate(24deg);right:8%;top:17%}
+.stage[data-mode="observe"] .symbolic-ring.ring2{height:26vh;width:22vh;top:41%;right:25%;border:2px solid #e4d9b99a}
+.stage[data-mode="teachers"] .symbolic-year{font-size:min(20vw,300px);top:3%;right:8%}
+.stage[data-mode="teachers"] .symbolic-lines{height:69%;width:38%;right:8%;bottom:2%;background:linear-gradient(90deg,#dab89d1e,#d7c7a660,#b5c6ad1c);transform:rotate(9deg)}
+.stage[data-mode="art"] .symbolic-year{font-size:min(21vw,320px);right:3%;top:3%;color:#e0bf8e2c}
+.stage[data-mode="art"] .symbolic-ring{right:3%;top:10%;width:70vh;height:70vh;border:25px solid #f1cb8f20;box-shadow:inset 0 0 0 50px #ddaf7520,0 0 0 40px #c9c4a912}
+.stage[data-mode="art"] .symbolic-lines{right:18%;top:9%;height:77%;width:24%;background:repeating-linear-gradient(0deg,#f4e9cf44 0 2px,transparent 4px 19px);transform:skewY(-15deg)}
+.stage[data-mode="journey"] .symbolic-year{font-size:min(21vw,310px);top:17%;right:6%;color:#f1d6b01b}
+.stage[data-mode="journey"] .symbolic-ring{width:70vw;height:48vh;right:-12%;top:16%;border:2px solid #e7cc9c65;border-radius:50%;transform:rotate(-25deg)}
+.stage[data-mode="journey"] .symbolic-ring.ring2{width:56vw;height:35vh;right:0%;top:26%;border-width:9px;border-color:#dcc59c24}
+.stage[data-mode="cinema"] .symbolic-ring{right:5%;top:17%;height:60vh;width:60vh;border:36px solid #ebcd9e3d;box-shadow:inset 0 0 0 19px #121d19,0 0 0 18px #c6b28a20}
+.stage[data-mode="cinema"] .symbolic-lines{right:2%;bottom:16%;height:40%;width:58%;background:repeating-linear-gradient(0deg,transparent 0 23px,#ead0a43c 24px 27px,transparent 29px 42px);transform:rotate(-12deg)}
+.stage[data-mode="return"] .symbolic-year{right:-3%;top:23%;font-size:min(23vw,360px);color:#eacb8b15}
+.stage[data-mode="return"] .symbolic-lines{right:20%;bottom:2%;height:80%;width:22%;background:linear-gradient(90deg,transparent,#ffe4ae65,#fff0ca11);transform:skew(-9deg)}
+.stage[data-mode="work"] .symbolic-year{right:4%;top:8%;font-size:min(23vw,340px)}
+.stage[data-mode="work"] .symbolic-lines{right:8%;bottom:10%;height:62%;width:43%;background:repeating-linear-gradient(90deg,transparent 0 21px,#f3cb8b50 22px 27px,transparent 30px 47px);transform:skew(-10deg)}
+.stage[data-mode="work"] .symbolic-ring{border-radius:3px;border:3px solid #e5c5a685;right:15%;top:27%;height:46vh;width:29vh;transform:rotate(13deg)}
+.visual-detail{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle 12vmin at 74% 40%,transparent 40%,#07100b45 72%,#040b08ce 91%);z-index:2;animation:detail-fade .4s ease}
+.visual-detail .detail-focus{position:absolute;left:calc(74% - 11vmin);top:calc(40% - 11vmin);width:22vmin;height:22vmin;border-radius:50%;border:2px solid #f3dfad9e;box-shadow:0 0 0 11px #f5ce8f12}
+.visual-detail .detail-caption{position:absolute;right:11%;top:66%;font:italic clamp(16px,2vw,26px)/1.3 Georgia,serif;color:#f2d9a9;text-shadow:0 2px 12px #000;max-width:210px;text-align:right}
+.stage.observing .symbolic{filter:brightness(.78) contrast(1.1)}
+.stage.observing .symbolic-ring.ring2{border-color:#fff1ce}
+.observation-button[aria-pressed=true]{color:#fff1ce}
+.life-arc{margin-top:27px;border-top:1px solid #687b5d;padding-top:20px}
+.life-arc h3{font:normal clamp(23px,3vw,35px)/1.2 Georgia,serif;margin:0 0 9px;color:#f7e4c2}
+.life-arc>p{font-size:12px;color:#c9d0be;line-height:1.6;max-width:660px;margin-bottom:16px}
+.life-arc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.life-arc-link{display:flex;align-items:center;gap:10px;min-height:72px;border:1px solid #62775c;background:#192b22;text-decoration:none;padding:12px;color:#e9e9db}
+.life-arc-link:hover,.life-arc-link:focus-visible{border-color:#f4d5a1;background:#2a3d30}
+.life-arc-number{font:normal 27px Georgia,serif;color:#f3c68c;min-width:23px}
+.life-arc-meta{display:grid;gap:2px;min-width:0;flex:1}.life-arc-meta strong{font-size:12px}.life-arc-meta small{font-size:10px;color:#c0c9be}
+.life-arc-state{font-size:8px;max-width:78px;text-align:right;color:#e7be86;letter-spacing:.05em}
+.life-arc-current{border-color:#e4c292;background:#354735}
+@keyframes detail-fade{from{opacity:0}to{opacity:1}}
+@media(max-width:720px){.life-arc-grid{grid-template-columns:1fr}.visual-detail{background:radial-gradient(circle 14vmin at 71% 28%,transparent 40%,#060b0968 82%)}.visual-detail .detail-focus{left:calc(71% - 15vmin);top:calc(28% - 15vmin);width:30vmin;height:30vmin}.visual-detail .detail-caption{right:7%;top:53%;font-size:15px;max-width:170px}.stage[data-mode="observe"] .symbolic-year{top:9%;right:2%;font-size:39vw}.stage[data-mode="observe"] .symbolic-ring{top:10%;height:38vh;width:38vh}.stage[data-mode="cinema"] .symbolic-ring{top:3%;right:-16%;height:42vh;width:42vh}.story-shell{padding-top:110px}}
+@media(prefers-reduced-motion:reduce){.visual-detail{animation:none}}
