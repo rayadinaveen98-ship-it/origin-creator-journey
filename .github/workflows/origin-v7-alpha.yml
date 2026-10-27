@@ -8,6 +8,13 @@ on:
       - 'tests/v7-browser.mjs'
       - 'scripts/verify-v7-alpha.mjs'
       - '.github/workflows/origin-v7-alpha.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'www/v7/**'
+      - 'tests/v7-browser.mjs'
+      - 'scripts/verify-v7-alpha.mjs'
+      - '.github/workflows/origin-v7-alpha.yml'
   workflow_dispatch:
 
 permissions:
