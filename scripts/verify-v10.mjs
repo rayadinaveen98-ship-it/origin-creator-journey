@@ -36,6 +36,13 @@ assert.ok(read('www/v10/journey/act2/index.html').includes('/v10/journey/act3/#s
 assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act3/'"),'Full life map includes Act III');
 assert.ok(v10js.includes('origin_v10_act3_scene_v1'),'V10 home resumes Act III');
 new Script(act3,{filename:'www/v10/journey/act3/act3.js'});
+const act4=read('www/v10/journey/act4/act4.js');
+assert.ok(act4.includes('origin_v10_act4_scene_v1')&&act4.includes('27 October 1952')&&act4.includes('MoMA'),'Act IV researched scenes and independent resume');
+assert.ok(read('www/v10/journey/act4/index.html').includes('id="filmStage"'),'Act IV original film stage exists');
+assert.ok(read('www/v10/journey/act3/index.html').includes('/v10/journey/act4/#scene-0'),'Act III connects directly');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act4/'"),'Full life map includes cinematic Act IV');
+assert.ok(v10js.includes('origin_v10_act4_scene_v1'),'V10 home resumes Act IV');
+new Script(act4,{filename:'www/v10/journey/act4/act4.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);

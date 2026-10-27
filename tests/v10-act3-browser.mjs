@@ -60,7 +60,7 @@ try{
  assert.equal(await page.locator('#mapList button').count(),11);
  assert.equal(await page.locator('.life-arc-link').count(),8);
  assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/YOU ARE HERE/);
- assert.match(await page.locator('.life-arc-link').nth(3).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(4).textContent(),/RESEARCHED OVERVIEW/);
  await page.locator('#mapList button').nth(2).click();
  await page.waitForFunction(()=>document.querySelector('#storyTitle')?.textContent?.includes('Apu'));
  assert.match(await page.locator('#storyLead').textContent(),/Pather Panchali/);
@@ -97,7 +97,7 @@ try{
 
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-10');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act4/#scene-0');
  await page.locator('#restart').click();
  assert.match(await page.locator('#storyTitle').textContent(),/artist/);
  await page.locator('.reader-logo').click();
