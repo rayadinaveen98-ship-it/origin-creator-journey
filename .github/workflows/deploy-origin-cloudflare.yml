@@ -63,6 +63,9 @@ jobs:
           test -s www/v10/journey/act6/index.html
           test -s www/v10/journey/act6/act6.js
           test -s www/v10/journey/act6/act6.css
+          test -s www/v10/journey/act7/index.html
+          test -s www/v10/journey/act7/act7.js
+          test -s www/v10/journey/act7/act7.css
           echo '2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7  www/index.html' | sha256sum --check
           grep -q 'id="origin15"' www/story-first/index.html
           grep -q 'id="origin16"' www/story-first/index.html
@@ -92,7 +95,7 @@ jobs:
         run: |
           set -euo pipefail
           base='https://origin-creator-journey.rayadinaveen98.workers.dev'
-          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css /life/ /life/index.html /life/app.js /life/styles.css /app/ /app/index.html /app/app.js /app/styles.css /v10/ /v10/index.html /v10/app.js /v10/styles.css /v10/journey/ /v10/journey/index.html /v10/journey/story.js /v10/journey/styles.css /v10/journey/life-arc.js /v10/journey/life-arc.css /v10/journey/act2/ /v10/journey/act2/index.html /v10/journey/act2/act2.js /v10/journey/act2/act2.css /v10/journey/act3/ /v10/journey/act3/index.html /v10/journey/act3/act3.js /v10/journey/act3/act3.css /v10/journey/act4/ /v10/journey/act4/index.html /v10/journey/act4/act4.js /v10/journey/act4/act4.css /v10/journey/act5/ /v10/journey/act5/index.html /v10/journey/act5/act5.js /v10/journey/act5/act5.css /v10/journey/act6/ /v10/journey/act6/index.html /v10/journey/act6/act6.js /v10/journey/act6/act6.css; do
+          for path in / /story-first/ /story-first/index.html /v7/ /v7/index.html /v7/app.js /v7/styles.css /life/ /life/index.html /life/app.js /life/styles.css /app/ /app/index.html /app/app.js /app/styles.css /v10/ /v10/index.html /v10/app.js /v10/styles.css /v10/journey/ /v10/journey/index.html /v10/journey/story.js /v10/journey/styles.css /v10/journey/life-arc.js /v10/journey/life-arc.css /v10/journey/act2/ /v10/journey/act2/index.html /v10/journey/act2/act2.js /v10/journey/act2/act2.css /v10/journey/act3/ /v10/journey/act3/index.html /v10/journey/act3/act3.js /v10/journey/act3/act3.css /v10/journey/act4/ /v10/journey/act4/index.html /v10/journey/act4/act4.js /v10/journey/act4/act4.css /v10/journey/act5/ /v10/journey/act5/index.html /v10/journey/act5/act5.js /v10/journey/act5/act5.css /v10/journey/act6/ /v10/journey/act6/index.html /v10/journey/act6/act6.js /v10/journey/act6/act6.css /v10/journey/act7/ /v10/journey/act7/index.html /v10/journey/act7/act7.js /v10/journey/act7/act7.css; do
             code="$(curl --retry 4 --retry-delay 3 --retry-all-errors -L -s -o /dev/null -w '%{http_code}' "$base$path")"
             if [[ "$code" != "200" ]]; then
               echo "::error::Cloudflare returned HTTP $code for $base$path"
@@ -165,6 +168,13 @@ jobs:
           curl --fail --silent --show-error --location "$base/v10/journey/life-arc.js" --output "${RUNNER_TEMP}/origin-v10-life-arc-6.js"
           grep -q "'/v10/journey/act6/'" "${RUNNER_TEMP}/origin-v10-life-arc-6.js"
           echo 'Act VI and six-act life map verified live.'
+          curl --fail --silent --show-error --location "$base/v10/journey/act7/index.html" --output "${RUNNER_TEMP}/origin-v10-act7.html"
+          grep -q '<title>ORIGIN — The Final Years, 1984–1992' "${RUNNER_TEMP}/origin-v10-act7.html"
+          curl --fail --silent --show-error --location "$base/v10/journey/act7/act7.js" --output "${RUNNER_TEMP}/origin-v10-act7.js"
+          grep -q 'origin_v10_act7_scene_v1' "${RUNNER_TEMP}/origin-v10-act7.js"
+          curl --fail --silent --show-error --location "$base/v10/journey/life-arc.js" --output "${RUNNER_TEMP}/origin-v10-map-seven.js"
+          grep -q "'/v10/journey/act7/'" "${RUNNER_TEMP}/origin-v10-map-seven.js"
+          echo 'Act VII and seven-act map verified live.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
@@ -182,7 +192,7 @@ jobs:
             echo
             echo "Cloudflare Worker: https://origin-creator-journey.rayadinaveen98.workers.dev/"
             echo
-            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home), /v10/ (V10 home) and /v10/journey/ (V10 Living Act I), /v10/journey/act2/ (V10 Living Act II, 1940–1943), /v10/journey/act3/ (V10 Living Act III, 1943–1951), /v10/journey/act4/ (V10 Living Act IV, 1952–1955), /v10/journey/act5/ (V10 Living Act V, 1956–1969), /v10/journey/act6/ (V10 Living Act VI, 1970–1983).'
+            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home), /v10/ (V10 home) and /v10/journey/ (V10 Living Act I), /v10/journey/act2/ (V10 Living Act II, 1940–1943), /v10/journey/act3/ (V10 Living Act III, 1943–1951), /v10/journey/act4/ (V10 Living Act IV, 1952–1955), /v10/journey/act5/ (V10 Living Act V, 1956–1969), /v10/journey/act6/ (V10 Living Act VI, 1970–1983), /v10/journey/act7/ (V10 Living Act VII, 1984–1992).'
             echo
             echo 'Note: HTTP and asset checks prove deployment, not full real-device acceptance testing.'
           } > docs/ORIGIN_LIVE_VERIFIED.md
