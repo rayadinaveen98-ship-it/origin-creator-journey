@@ -41,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "ANDROID_HOME=$ANDROID_HOME"
-          sdk_bin="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager -printf '%h\\n' | sort -V | tail -n 1)"
+          sdk_bin="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | sed 's@/sdkmanager$@@' | sort -V | tail -n 1)"
           test -n "$sdk_bin"
           echo "$sdk_bin" >> "$GITHUB_PATH"
           "$sdk_bin/sdkmanager" --version
