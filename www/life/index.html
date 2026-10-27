@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111815">
+<meta name="description" content="ORIGIN: A Life in Frames. Explore Satyajit Ray's life from childhood to his final years, through verified events and archival photographs.">
+<title>ORIGIN / A Life in Frames — V8 Preview</title>
+<link rel="stylesheet" href="./styles.css">
+<script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#sceneTitle">Skip to story</a>
+<div class="app">
+<header class="masthead">
+<a class="wordmark" href="./" aria-label="ORIGIN A Life in Frames — start"><span class="mark">O<span>·</span></span><span class="brand">ORIGIN<small>A LIFE IN FRAMES</small></span></a>
+<div class="masthead-center"><span class="eyebrow">BIOGRAPHICAL EXPERIENCE</span><strong>SATYAJIT RAY <span>1921–1992</span></strong></div>
+<div class="header-actions">
+<button type="button" id="overviewButton" class="header-button" aria-haspopup="dialog" aria-expanded="false">Life timeline <span aria-hidden="true">☷</span></button>
+<button type="button" id="helpButton" class="header-button" aria-haspopup="dialog" aria-expanded="false">How it works <span aria-hidden="true">?</span></button>
+</div>
+</header>
+
+<div class="orientation" role="status"><span class="orientation-dot"></span><div><b>YOU ARE EXPERIENCING</b><span id="orientationText">A historical prologue. We'll then rewind to 1921.</span></div><span class="orientation-tag" id="orientationTag">PROLOGUE</span></div>
+
+<main id="main">
+<section class="scene-shell" aria-labelledby="sceneTitle">
+<div class="visual-column">
+ <div class="visual-card" id="visualCard">
+  <div class="image-frame"><img id="sceneImage" src="https://upload.wikimedia.org/wikipedia/commons/8/86/Satyajit_ray_little.jpg" alt="Archival portrait of young Satyajit Ray, circa 1930." loading="eager" referrerpolicy="no-referrer"><div id="imageFallback" class="image-fallback" hidden><span>ARCHIVAL IMAGE UNAVAILABLE</span><strong id="fallbackYear">1921</strong><small>Continue with the verified written account.</small></div></div>
+  <div class="visual-gradient"></div>
+  <div class="photo-index"><span id="photoCategory">ARCHIVAL PHOTOGRAPH · CIRCA 1930</span><span class="hairline"></span><span id="photoCount">01 / 14</span></div>
+  <div class="photo-title"><small id="imageContextLabel">EARLIER PHOTOGRAPH / NOT FROM 1992</small><strong id="imageHeadline">Every life has a beginning.</strong></div>
+ </div>
+ <div class="caption-band"><span class="photo-icon">▧</span><div><b>WHAT YOU ARE SEEING</b><p id="photoCaption">A portrait of Satyajit Ray as a child, photographed around 1930 — shown as a contrast to the 1992 prologue, not as an image from that year.</p></div><a id="imageAttribution" href="https://commons.wikimedia.org/wiki/File:Satyajit_ray_little.jpg" target="_blank" rel="noopener noreferrer">Image record ↗</a></div>
+</div>
+<div class="text-column">
+ <div class="scene-meta"><span id="sceneEra">PROLOGUE / 1992</span><span class="section-counter" id="sceneCounter">01 OF 14</span></div>
+ <p class="scene-overline" id="sceneOverline">A STORY TOLD BACKWARDS — JUST ONCE</p>
+ <h1 id="sceneTitle" tabindex="-1">The world knew his films. <em>Who was the boy?</em></h1>
+ <p id="sceneLead" class="lead">In March 1992, Satyajit Ray received an honorary Academy Award. In his recorded acceptance, he remembered being a schoolboy fascinated by cinema.</p>
+ <div class="story-block">
+   <div class="block-kicker"><span>01</span><b>WHAT HAPPENED</b></div>
+   <p id="sceneBody">Before we follow the filmmaker, we will rewind to the family, losses, drawings and films that shaped the child. The life comes first. The work will follow.</p>
+ </div>
+ <div class="significance">
+   <span class="significance-icon">✳</span>
+   <div><b>WHY THIS MOMENT MATTERS</b><p id="sceneMeaning">A career is easier to understand once you have met the person who built it.</p></div>
+ </div>
+ <div class="interaction" id="interaction" hidden><div class="interaction-heading"><span>LOOK CLOSER</span><strong id="questionTitle"></strong></div><div id="choiceContainer" class="choice-list"></div><p id="choiceResult" role="status" class="choice-result"></p></div>
+ <details class="evidence"><summary>Historical source and editorial notes <span>↗</span></summary><div class="evidence-inner" id="sourceContainer"></div></details>
+ <div class="story-footer">
+  <button type="button" id="prevButton" class="button ghost" disabled><span aria-hidden="true">←</span> Previous moment</button>
+  <button type="button" id="nextButton" class="button primary">Rewind to his childhood <span aria-hidden="true">→</span></button>
+ </div>
+ <div class="progress-area"><div class="progress-text"><span id="progressStatus">A 14-moment guided preview</span><span id="progressPercent">7%</span></div><div class="progress-track" role="progressbar" aria-label="Guided life journey completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="7" id="progressBar"><div id="progressFill"></div></div></div>
+</div>
+</section>
+
+<section class="below-story" aria-label="Explore ORIGIN further">
+<div><span class="eyebrow">BEYOND THIS PREVIEW</span><h2>The story continues in his films.</h2><p>This new life-first experience is an early narrative prototype. The original Story-First experience currently explores Ray's films from 1955–1959, while the V7 Studio offers filmmaking experiments.</p></div>
+<div class="related-links"><a href="/story-first/">Explore films, 1955–1959 <span>↗</span></a><a href="/v7/">Explore the V7 Studio <span>↗</span></a></div>
+</section>
+</main>
+<footer class="footer"><span>ORIGIN / A LIFE IN FRAMES</span><span>Verified history and editorial interpretation are labeled separately. Some portraits are approximate in date.</span><span>V8 NARRATIVE PROTOTYPE · NOT THE COMPLETE BIOGRAPHY</span></footer>
+</div>
+
+<dialog id="timelineDialog" aria-labelledby="timelineTitle">
+<div class="dialog-head"><div><span class="eyebrow">A LIFE, NOT A FILMOGRAPHY</span><h2 id="timelineTitle">1921 — 1992</h2></div><button type="button" data-close="timelineDialog" class="close-button" aria-label="Close timeline">×</button></div>
+<p class="dialog-note">Choose a period to jump to a verified life moment. The first years receive deeper treatment; later years are concise previews, not full chapters yet.</p>
+<div id="timelineList" class="timeline-list"></div>
+</dialog>
+<dialog id="helpDialog" aria-labelledby="helpTitle">
+<div class="dialog-head"><div><span class="eyebrow">HOW ORIGIN WORKS</span><h2 id="helpTitle">Know where you are.</h2></div><button type="button" data-close="helpDialog" class="close-button" aria-label="Close guide">×</button></div>
+<div class="guide-grid">
+<div><b>01 · The image</b><p>Look at a real historical image. Its caption tells you who or what is pictured and when. Sometimes an earlier photograph illustrates a later event; this is disclosed.</p></div>
+<div><b>02 · The story</b><p>Read what happened, followed by why it matters. We distinguish historical facts from our editorial interpretation.</p></div>
+<div><b>03 · Look closer</b><p>Optional interactions help you notice details. They never claim to rewrite Ray's life or reconstruct an undocumented conversation.</p></div>
+<div><b>04 · Continue</b><p>Use Previous and Continue to follow the chronological journey. The Life Timeline shows where you are and lets you jump between periods.</p></div>
+</div>
+<div class="guide-bottom"><button type="button" data-close="helpDialog" class="button primary">Enter the journey <span aria-hidden="true">→</span></button></div>
+</dialog>
+</body>
+</html>
