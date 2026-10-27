@@ -76,6 +76,12 @@ try{
  await page.waitForFunction(()=>document.querySelector('#storyLead')?.textContent?.includes('Sonar Kella'));
  assert.equal(await page.locator('#stage').getAttribute('data-mode'),'desert');
  await page.waitForTimeout(900);
+ const desertNav=await page.evaluate(()=>({
+   bottom:document.querySelector('.controls').getBoundingClientRect().bottom,
+   viewport:window.innerHeight,
+   scroll:document.documentElement.scrollHeight
+ }));
+ assert.ok(desertNav.bottom<=desertNav.viewport+2,'Desert scene bottom controls must remain visible without scrolling: '+JSON.stringify(desertNav));
  await page.screenshot({path:'artifacts/origin-v10-act6-desert-desktop.png'});
  await page.locator('#observeButton').click();
  assert.match(await page.locator('#exerciseNote').textContent(),/Original clue-selection/);
