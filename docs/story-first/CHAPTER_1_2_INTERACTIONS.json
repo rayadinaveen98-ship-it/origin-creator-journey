@@ -1,0 +1,70 @@
+{
+  "title": "ORIGIN Pather Panchali Production Journey",
+  "version": "1.2",
+  "branch": "story-first/pather-panchali-pilot",
+  "public_main_modified": false,
+  "deployment_modified": false,
+  "scenes": 8,
+  "implemented": [
+    {
+      "act": 2,
+      "type": "evidence-selector",
+      "options": 3,
+      "source": [
+        "BFI1970",
+        "RAYMAKING"
+      ]
+    },
+    {
+      "act": 5,
+      "type": "five-stage-funding-disclosure",
+      "stages": 5,
+      "source": [
+        "BFI1970",
+        "RAYMAKING"
+      ]
+    },
+    {
+      "act": 6,
+      "type": "temporal-lens",
+      "stages": 3,
+      "source": [
+        "BFI1970",
+        "RAYMAKING"
+      ]
+    },
+    {
+      "act": 7,
+      "type": "finishing-dependencies",
+      "nodes": 3,
+      "source": [
+        "MOMA1955",
+        "RAYMAKING"
+      ]
+    }
+  ],
+  "legacy_features": [
+    "continuity demonstration",
+    "chapter notes",
+    "source drawer",
+    "3-question recap",
+    "keyboard navigation"
+  ],
+  "qa": {
+    "viewports": [
+      "1440x900",
+      "768x1024",
+      "390x844",
+      "320x700"
+    ],
+    "chromium_interaction": "pass",
+    "visual_full_artworks": "pass with separately rendered screenshots",
+    "android_physical_test": "pending"
+  },
+  "artifact": {
+    "html": "ORIGIN_Story_First_Chapter_1_2.html",
+    "sha256": "e9d7cd9b19a453718995b5ad3ae6325d0b41e773e4fb3c4051db6a972545890a",
+    "git_has_html": false
+  },
+  "source_limits": "Historical records and retrospective testimony; artwork and controls are original teaching representations"
+}
