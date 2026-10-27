@@ -1,0 +1,14 @@
+{
+  "release": "origin-story-first-directors-cut-1.1",
+  "production_main_untouched": true,
+  "source_branch": "story-first/pather-panchali-pilot",
+  "scenes": 8,
+  "tested_viewports": ["1440x900", "768x1024", "390x844", "320x700"],
+  "checks": ["story progression", "3-item production status", "expanded research evidence", "interactive continuity comparison", "release chronology recap", "legacy scene navigation", "source links", "no page errors", "no document horizontal overflow"],
+  "automated_chromium_with_placeholder_images": "pass",
+  "original_artwork_loaded_separately_for_screenshots": "pass",
+  "full_self_contained_file_automated_navigation": "blocked by browser administrator",
+  "physical_device": "pending",
+  "public_deployment": "not deployed",
+  "historical_artwork": "original illustrations; not archival material"
+}
