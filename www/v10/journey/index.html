@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d0c"><meta name="description" content="ORIGIN Living Chapters: experience the early life of Satyajit Ray as an interactive historical documentary.">
+<title>ORIGIN — The Boy, 1921–1939</title><link rel="stylesheet" href="./styles.css"><script defer src="./story.js"></script></head>
+<body>
+<a class="skip" href="#storyTitle">Skip to the story</a>
+<main id="reader" class="reader" aria-label="Satyajit Ray, Act I: The Boy">
+  <div class="stage" id="stage">
+    <div class="scene-art" id="sceneArt">
+      <div class="symbolic symbolic-birth" id="symbolicArt" aria-hidden="true"><span class="symbolic-year" id="symbolicYear">1921</span><span class="symbolic-ring ring1"></span><span class="symbolic-ring ring2"></span><span class="symbolic-lines"></span></div>
+      <img id="archiveImage" class="archive-image" alt="" hidden referrerpolicy="no-referrer">
+      <div id="archiveUnavailable" class="photo-unavailable" hidden>Photograph unavailable · Continue the story</div>
+      <div class="art-vignette"></div><div class="art-grain"></div>
+    </div>
+    <header class="header">
+      <a href="/v10/" class="reader-logo" aria-label="Back to ORIGIN home"><span class="origin-name">ORIGIN<span>.</span></span><span class="origin-back">← <span>Home</span></span></a>
+      <div class="reader-ident"><span id="actName">ACT I / THE BOY</span><small>SATYAJIT RAY · 1921–1939</small></div>
+      <div class="reader-actions">
+        <button class="round-btn" type="button" id="mapButton" aria-label="Open life chapter timeline" aria-haspopup="dialog">☷<span class="action-label"> Chapters</span></button>
+        <button class="round-btn" type="button" id="contextButton" aria-label="Show archival context and sources" aria-haspopup="dialog">ⓘ<span class="action-label"> Context</span></button>
+      </div>
+    </header>
+    <div class="timeline-rail" aria-label="Chapter progress"><span class="rail-caption" id="railCaption">01 / 08</span><span class="rail-track" aria-hidden="true"><i id="railFill"></i></span><span class="rail-year" id="railYear">1921</span></div>
+    <div class="story-shell">
+      <section class="story-copy" id="sceneCopy" aria-labelledby="storyTitle">
+        <div class="chapter-eyebrow"><span class="eyebrow-line"></span><span id="yearPlace">CALCUTTA, 1921</span><span class="beat-id" id="beatId">01 / 08</span></div>
+        <h1 id="storyTitle" tabindex="-1">Before cinema.<br><em>A beginning.</em></h1>
+        <p class="story-line" id="storyLead">On 2 May 1921, a boy named Satyajit was born in Calcutta.</p>
+        <p class="story-more" id="storyMore">He would grow into a filmmaker. But this story begins long before his first camera, with a family of storytellers and images.</p>
+        <div class="scene-support">
+          <span class="visual-origin" id="visualOrigin">ORIGINAL GRAPHIC · NOT AN ARCHIVAL PHOTOGRAPH</span>
+          <button type="button" id="whyButton" class="why-button">Why this matters <span aria-hidden="true">↗</span></button>
+        </div>
+      </section>
+    </div>
+    <nav class="controls" aria-label="Story navigation">
+      <button type="button" class="nav-prev" id="prev" disabled aria-label="Previous scene">← <span>Previous</span></button>
+      <div class="controls-center"><span class="story-prompt" id="storyPrompt">THE STORY BEGINS</span><div class="scene-dots" id="dots" aria-label="Story scene progress"></div></div>
+      <button type="button" class="nav-next" id="next"><span id="nextLabel">Continue the story</span><span class="next-arrow" aria-hidden="true">→</span></button>
+    </nav>
+  </div>
+  <aside class="completion" id="completion" hidden aria-labelledby="completeTitle">
+    <span class="complete-label">ACT I · END</span><h2 id="completeTitle">The boy has become <em>an artist in waiting.</em></h2>
+    <p>You've reached the threshold of Ray's artistic education. Act II and the remainder of the biography are still presented in the earlier researched Life Reader while we build their cinematic chapters.</p>
+    <div class="completion-actions"><a href="/life/#moment-6" class="complete-primary">Continue into his art years <span aria-hidden="true">↗</span></a><button type="button" id="restart" class="complete-secondary">Revisit Act I</button><a href="/v10/" class="complete-secondary">Back to ORIGIN</a></div>
+  </aside>
+</main>
+
+<dialog id="contextDialog" class="reader-dialog" aria-labelledby="contextTitle">
+ <header class="dialog-head"><div><span class="dialog-eyebrow" id="contextEra">HISTORICAL NOTE</span><h2 id="contextTitle">Behind this moment</h2></div><button type="button" class="close-dialog" data-close="contextDialog" aria-label="Close context">×</button></header>
+ <div class="context-grid"><div><span class="dialog-kicker">WHAT YOU'RE SEEING</span><p id="imageExplanation"></p><a id="photoSource" target="_blank" rel="noopener noreferrer" hidden>View original image record ↗</a></div><div><span class="dialog-kicker">WHAT HISTORY RECORDS</span><p id="documentaryNote"></p></div><div><span class="dialog-kicker">WHY THE MOMENT MATTERS</span><p id="editorialMeaning"></p></div></div>
+ <div class="source-box"><span class="dialog-kicker">FURTHER READING</span><div id="sourceLinks"></div></div>
+ <p class="clarification">ORIGIN is an editorial documentary experience. Symbolic imagery is not presented as an actual photograph, and we do not reconstruct private conversations or make up historical dialogue.</p>
+</dialog>
+<dialog id="mapDialog" class="reader-dialog map-dialog" aria-labelledby="mapTitle">
+ <header class="dialog-head"><div><span class="dialog-eyebrow">THE LIFE IN CONTEXT</span><h2 id="mapTitle">Act I · The Boy</h2></div><button type="button" class="close-dialog" data-close="mapDialog" aria-label="Close timeline">×</button></header>
+ <p>Eight connected moments from 1921 to 1939. Choose a scene, or follow the story in sequence.</p>
+ <div class="map-list" id="mapList"></div>
+ <div class="map-footer">Next act: artistic education and the years before his first film · <a href="/life/#moment-6">Preview in the earlier life reader ↗</a></div>
+</dialog>
+</body></html>

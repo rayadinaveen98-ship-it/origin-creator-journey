@@ -1,0 +1,45 @@
+name: ORIGIN V10 Living Journey QA
+on:
+  push:
+    branches: [feature/v10-living-journey-pilot]
+    paths:
+      - 'www/v10/**'
+      - 'scripts/verify-v10.mjs'
+      - 'tests/v10-browser.mjs'
+      - '.github/workflows/origin-v10-living.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'www/v10/**'
+      - 'scripts/verify-v10.mjs'
+      - 'tests/v10-browser.mjs'
+      - '.github/workflows/origin-v10-living.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-qa:
+    name: V10 cinematic experience QA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify preserved releases and exact V9 welcome animation
+        run: node scripts/verify-v10.mjs
+      - name: Install Chromium browser
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Verify experience and capture desktop/mobile views
+        run: node tests/v10-browser.mjs
+      - name: Archive visual QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-V10-Living-Journey-QA
+          path: artifacts/*.png
+          if-no-files-found: ignore
+          retention-days: 7
