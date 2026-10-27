@@ -1,0 +1,64 @@
+name: Assemble V6 website and build Android APK
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source/parts/**'
+      - 'scripts/assemble-v6.mjs'
+      - 'package.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/origin-v6.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  assemble-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reconstruct original V6 with SHA-256 verification
+        run: node scripts/assemble-v6.mjs
+      - name: Commit generated website for Cloudflare Pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add www/index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish SHA-verified V6 website [skip ci]"
+            git push origin HEAD:main
+          fi
+  android-debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: yes | sdkmanager --licenses >/dev/null && sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Reconstruct original V6
+        run: node scripts/assemble-v6.mjs
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+      - name: Create Android project
+        run: npx cap add android && npx cap sync android
+      - name: Build debug APK
+        run: cd android && chmod +x gradlew && ./gradlew --no-daemon assembleDebug
+      - name: Stage APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk ORIGIN-V6-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-V6-Android-APK
+          path: ORIGIN-V6-debug.apk
+          if-no-files-found: error
+          retention-days: 30

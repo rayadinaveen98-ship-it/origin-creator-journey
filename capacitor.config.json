@@ -1,0 +1,8 @@
+{
+  "appId": "com.origin.creatorjourney",
+  "appName": "ORIGIN",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

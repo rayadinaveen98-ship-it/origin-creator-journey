@@ -1,0 +1,15 @@
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { join, resolve } from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const partsDir=join(root,'source','parts');
+const names=readdirSync(partsDir).filter(x=>/^v6-\d{3}\.txt$/.test(x)).sort();
+if(names.length!==51)throw Error('Expected 51 V6 source parts, got '+names.length);
+const original=names.map(x=>readFileSync(join(partsDir,x),'utf8')).join('');
+const hash=createHash('sha256').update(original,'utf8').digest('hex');
+const expected='2988addb825d5021c343e2969157ac602fbbf5db795821390c547705e9189cb7';
+if(hash!==expected)throw Error('Original V6 hash mismatch: '+hash);
+if(!original.includes('data:image/')||!original.includes('ORIGIN'))throw Error('Invalid original V6 document');
+mkdirSync(join(root,'www'),{recursive:true});
+writeFileSync(join(root,'www','index.html'),original,'utf8');
+console.log('ORIGIN V6 byte-identical rebuild OK: '+hash);
