@@ -1,8 +1,8 @@
-name: ORIGIN V9 Android Test APK
+name: ORIGIN V10 Android Test APK
 
 on:
   push:
-    branches: [feature/origin-v9-android-test-apk]
+    branches: [feature/origin-v10-android-review-apk, main]
     paths:
       - 'android-test/**'
       - '.github/workflows/origin-v9-android-test.yml'
@@ -49,6 +49,11 @@ jobs:
       - name: Install Android platform and build tools
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
+      - name: Confirm Android wrapper launches the complete V10 story
+        run: |
+          grep -q 'workers.dev/v10/' android-test/app/src/main/java/com/origin/creatorjourney/MainActivity.java
+          grep -q 'versionCode 10' android-test/app/build.gradle
+
       - name: Assemble signed debug APK
         run: gradle --project-dir android-test :app:assembleDebug --no-daemon --stacktrace
 
@@ -59,21 +64,21 @@ jobs:
           apk=android-test/app/build/outputs/apk/debug/app-debug.apk
           test -s "$apk"
           mkdir -p release
-          cp "$apk" release/ORIGIN-V9-Android-Test.apk
-          unzip -t release/ORIGIN-V9-Android-Test.apk | tail -n 2
-          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging release/ORIGIN-V9-Android-Test.apk | grep -E '^(package:|sdkVersion:|targetSdkVersion:|application-label:|launchable-activity:)'
-          if ! "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging release/ORIGIN-V9-Android-Test.apk | grep -q "name='com.origin.creatorjourney'"; then
+          cp "$apk" release/ORIGIN-V10-Android-Test.apk
+          unzip -t release/ORIGIN-V10-Android-Test.apk | tail -n 2
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging release/ORIGIN-V10-Android-Test.apk | grep -E '^(package:|sdkVersion:|targetSdkVersion:|application-label:|launchable-activity:)'
+          if ! "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging release/ORIGIN-V10-Android-Test.apk | grep -q "name='com.origin.creatorjourney'"; then
             echo "::error::APK does not match ORIGIN's package identifier."
             exit 1
           fi
-          sha256sum release/ORIGIN-V9-Android-Test.apk | tee release/SHA256.txt
+          sha256sum release/ORIGIN-V10-Android-Test.apk | tee release/SHA256.txt
 
       - name: Upload Android test release
         uses: actions/upload-artifact@v4
         with:
-          name: ORIGIN-V9-Android-Test-APK
+          name: ORIGIN-V10-Android-Test-APK
           path: |
-            release/ORIGIN-V9-Android-Test.apk
+            release/ORIGIN-V10-Android-Test.apk
             release/SHA256.txt
           if-no-files-found: error
           retention-days: 30
