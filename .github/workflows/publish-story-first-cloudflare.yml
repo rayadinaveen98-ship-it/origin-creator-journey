@@ -1,0 +1,66 @@
+name: Publish Story-First Chapter 1.6 to Cloudflare static path
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publish-story-first-cloudflare.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: origin-story-first-cloudflare-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out frozen production V6
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Check out validated story-first source separately
+        uses: actions/checkout@v4
+        with:
+          repository: rayadinaveen98-ship-it/origin-creator-journey
+          ref: story-first/pather-panchali-pilot
+          path: story-src
+          persist-credentials: false
+      - name: Install Python for the source build
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assemble all story-first chapters, preserve V6
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s www/index.html
+          before="$(sha256sum www/index.html | awk '{print $1}')"
+          python story-src/experiments/story-first-1-6/deploy_preview.py
+          test -s story-src/dist/index.html
+          grep -q 'id="origin15"' story-src/dist/index.html
+          grep -q 'id="origin16"' story-src/dist/index.html
+          mkdir -p www/story-first
+          cp story-src/dist/index.html www/story-first/index.html
+          test "$(sha256sum www/index.html | awk '{print $1}')" = "$before"
+          sha256sum www/story-first/index.html
+          du -h www/story-first/index.html
+      - name: Commit subpath preview to production assets only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add www/story-first/index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish story-first 1.6 at /story-first/ without changing V6"
+            git push origin HEAD:main
+          else
+            echo "Preview unchanged; no commit needed"
+          fi
