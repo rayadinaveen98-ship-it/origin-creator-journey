@@ -26,6 +26,16 @@ assert.ok(act2.includes('satyajitray.org/at-shantiniketan'),'Act II needs histor
 assert.ok(act2.includes('December 1942')&&act2.includes('April 1943'),'Act II covers departure and employment');
 assert.ok(read('www/v10/journey/index.html').includes('/v10/journey/act2/'),'Act I must link directly to Act II');
 new Script(act2,{filename:'www/v10/journey/act2/act2.js'});
+const act3=read('www/v10/journey/act3/act3.js');
+const act3html=read('www/v10/journey/act3/index.html');
+assert.ok(act3.includes('origin_v10_act3_scene_v1'),'Act III independent saved progress');
+assert.ok(act3.includes('https://satyajitray.org/calcutta-film-society/'),'Act III historically sourced');
+assert.ok(act3.includes('April 1943')&&act3.includes('1947')&&act3.includes('1950'));
+assert.ok(act3html.includes('id="printedArt"')&&act3html.includes('id="lifeArc"'));
+assert.ok(read('www/v10/journey/act2/index.html').includes('/v10/journey/act3/#scene-0'),'Act II must hand off to Act III');
+assert.ok(read('www/v10/journey/life-arc.js').includes("'/v10/journey/act3/'"),'Full life map includes Act III');
+assert.ok(v10js.includes('origin_v10_act3_scene_v1'),'V10 home resumes Act III');
+new Script(act3,{filename:'www/v10/journey/act3/act3.js'});
 new Script(read('www/v10/journey/life-arc.js'),{filename:'www/v10/journey/life-arc.js'});
 const story=read('www/v10/journey/story.js'),h=read('www/v10/journey/index.html'),css=read('www/v10/journey/styles.css');
 for(const id of ['archiveImage','storyTitle','storyLead','yearPlace','contextDialog','mapDialog','next','prev','completion','sourceLinks'])assert.ok(h.includes('id="'+id+'"'),'Missing journey element '+id);

@@ -1,0 +1,67 @@
+/* ORIGIN / Act III — A working artist finds the film.
+   Editorial print design: no copyright-protected historical documents rendered. */
+:root{--gold:#efc48f}
+.stage{background:#161c1a}
+.stage[data-mode="office"] .symbolic,.stage[data-mode="book"] .symbolic,.stage[data-mode="novel"] .symbolic,.stage[data-mode="critique"] .symbolic,.stage[data-mode="voyage"] .symbolic{opacity:.4}
+.stage[data-mode="office"] .symbolic-year,.stage[data-mode="book"] .symbolic-year,.stage[data-mode="novel"] .symbolic-year,.stage[data-mode="critique"] .symbolic-year{font-size:min(23vw,340px);right:8%;top:6%;opacity:.6}
+.stage[data-mode="office"] .symbolic-lines{height:80%;width:52%;right:8%;bottom:2%;transform:rotate(-6deg);background:repeating-linear-gradient(0deg,transparent 0 36px,#e1c19024 37px 39px,transparent 42px 60px)}
+.stage[data-mode="book"] .symbolic-ring{width:42vw;height:42vw;right:9%;top:18%;border-radius:0;transform:rotate(-8deg);border:1px solid #dfc69c50}
+.stage[data-mode="novel"] .symbolic-lines{height:78%;width:45%;right:0%;top:5%;background:repeating-linear-gradient(100deg,transparent 0 29px,#ead6a355 30px 32px,transparent 34px 51px);transform:rotate(-12deg)}
+.stage[data-mode="society"] .symbolic-year,.stage[data-mode="london"] .symbolic-year,.stage[data-mode="screen"] .symbolic-year{font-size:min(24vw,360px);top:9%;right:6%;color:#f4dca316}
+.stage[data-mode="society"] .symbolic-ring,.stage[data-mode="screen"] .symbolic-ring,.stage[data-mode="london"] .symbolic-ring{width:55vw;height:43vh;border-radius:3px;border:9px solid #e8d8b949;right:1%;top:17%;transform:rotate(-4deg);background:linear-gradient(130deg,#efe6bf1c,#c8d1ce34 48%,transparent 91%);box-shadow:0 0 80px #ebd3a42a}
+.stage[data-mode="society"] .symbolic-ring.ring2,.stage[data-mode="screen"] .symbolic-ring.ring2,.stage[data-mode="london"] .symbolic-ring.ring2{inset:auto 16% 22% auto;width:33vw;height:18vh;border:1px solid #fff7e35c;transform:rotate(6deg);background:none}
+.stage[data-mode="society"] .symbolic-lines,.stage[data-mode="london"] .symbolic-lines,.stage[data-mode="screen"] .symbolic-lines{width:52%;height:60%;right:1%;top:12%;transform:skewX(-12deg);background:linear-gradient(90deg,transparent 0%,#f0dbab23 48%,transparent 100%)}
+.stage[data-mode="renoir"] .symbolic-ring{width:70vh;height:70vh;right:6%;top:16%;border:2px solid #eace9f85;transform:rotate(8deg)}
+.stage[data-mode="renoir"] .symbolic-ring.ring2{right:26%;top:2%;height:48vh;width:48vh;border:2px solid #f1e3c245}
+.stage[data-mode="renoir"] .symbolic-lines{right:7%;bottom:15%;height:52%;width:47%;transform:skewY(-22deg);background:linear-gradient(90deg,#edd0a908,#eacba179,transparent)}
+.stage[data-mode="personal"] .symbolic-ring{height:60vh;width:60vh;right:7%;top:20%;border-color:#e9b9a761}.stage[data-mode="personal"] .symbolic-ring.ring2{height:58vh;width:58vh;right:30%;top:4%;border-color:#ebcfb57d}
+.stage[data-mode="personal"] .symbolic-lines{display:none}
+.stage[data-mode="voyage"] .symbolic-lines{height:50%;width:70%;right:-2%;bottom:14%;background:repeating-linear-gradient(0deg,transparent 0 31px,#f1dcb875 32px 34px,transparent 36px 68px);transform:rotate(-12deg)}
+.stage[data-mode="decision"] .symbolic-lines{height:76%;width:27%;right:17%;top:12%;transform:skew(-9deg);background:linear-gradient(90deg,transparent,#f8e0ac88,#ebce9738)}
+.stage[data-mode="decision"] .symbolic-ring{width:60vh;height:60vh;right:12%;top:17%;border-color:#fff0ca44;border-width:3px}
+.printed-art{position:absolute;z-index:0;right:6.3%;top:14%;height:min(71vh,680px);width:min(41vw,590px);transform:rotate(-5deg);box-shadow:0 38px 85px #0008;pointer-events:none;opacity:.96}
+.printed-frame{position:absolute;inset:0;padding:8.5%;background:linear-gradient(130deg,#d9c295,#c6b08b 60%,#ad9574);border:10px solid #1d2925;outline:1px solid #dac7a47c;display:flex;flex-direction:column;color:#142826;overflow:hidden;isolation:isolate}
+.printed-frame::before{content:"";position:absolute;inset:5%;border:1px solid #172a2977}
+.printed-frame::after{content:"";position:absolute;right:-23%;top:25%;height:65%;width:80%;border:42px solid #263f35;border-radius:46% 36% 17% 64%;transform:rotate(23deg);z-index:-1;opacity:.82}
+.print-eyebrow{font-size:clamp(9px,.9vw,12px);letter-spacing:.15em;font-weight:800;color:#324037}
+.print-title{font:900 clamp(45px,6vw,95px)/.91 Georgia,serif;letter-spacing:-.065em;margin:auto 0;display:block;position:relative;z-index:2;text-shadow:2px 2px 0 #d9c99e;max-width:105%;word-break:normal}
+.print-grid{height:32px;display:block;background:repeating-linear-gradient(90deg,#172c2a 0 5px,transparent 6px 14px);opacity:.8}
+.print-footnote{margin-top:15px;font-size:clamp(8px,.72vw,10px);line-height:1.4;letter-spacing:.08em;max-width:360px;font-weight:700}
+.stage[data-mode="book"] .printed-art{transform:rotate(6deg);top:10%;height:min(75vh,700px)}
+.stage[data-mode="book"] .printed-frame{background:linear-gradient(140deg,#abbaa2,#e5d6ad 65%,#bdab81)}
+.stage[data-mode="book"] .printed-frame::after{border-radius:6%;border-width:27px;transform:rotate(-14deg);border-color:#8c694c}
+.stage[data-mode="novel"] .printed-art{transform:rotate(-7deg);right:10%;top:12%}
+.stage[data-mode="novel"] .printed-frame{background:linear-gradient(120deg,#b6a768,#d3c697 60%,#a48d61)}
+.stage[data-mode="novel"] .printed-frame::after{border-color:#53603b;border-radius:70% 19% 48% 27%;transform:rotate(-25deg)}
+.stage[data-mode="critique"] .printed-art{transform:rotate(2deg)}
+.stage[data-mode="critique"] .printed-frame{background:repeating-linear-gradient(0deg,#c6b9a2 0 18px,#c4b69e 19px 21px);border-color:#353c34}
+.stage[data-mode="critique"] .printed-frame::after{border-color:#59675f;border-radius:0}
+.stage[data-mode="voyage"] .printed-art{transform:rotate(8deg);right:8%;height:67vh;top:15%}
+.stage[data-mode="voyage"] .printed-frame{background:linear-gradient(143deg,#efe5c8,#c8bb96);border-color:#263b45}
+.stage[data-mode="voyage"] .printed-frame::after{border-color:#3e6670;border-radius:16%;opacity:.6}
+.stage[data-kind="print"] .art-vignette,.stage[data-kind="paper"] .art-vignette{background:linear-gradient(90deg,#090e0cf9 0%,#0b1110e8 35%,#1216137d 58%,#090c0b12 87%),linear-gradient(0deg,#080e0cef 0%,transparent 44%);z-index:2}
+.stage[data-kind="print"] .printed-art,.stage[data-kind="paper"] .printed-art{z-index:0}
+.stage.observing .print-title{letter-spacing:.035em;transform:translateY(-7px) scale(.92);transition:transform .3s,letter-spacing .3s}
+.stage.observing .printed-frame::after{transform:translate(-17%,-10%) rotate(45deg);transition:transform .3s}
+.stage.observing .visual-detail{background:none;pointer-events:none}
+.stage.observing .visual-detail .detail-focus{display:none}
+.stage.observing .visual-detail .detail-caption{font-style:normal;font-size:13px;top:auto;bottom:12%;right:8%;max-width:230px;color:#fce2ac;background:#192a22c9;padding:10px 15px;border:1px solid #eacda480;text-align:center}
+.stage[data-mode="office"] .printed-art{filter:sepia(.08)}
+.stage[data-kind="screen"] .art-vignette{background:linear-gradient(90deg,#08110ff4,#0b1512b8 45%,#0c151360 74%),linear-gradient(0deg,#080d0cfa,transparent 35%)}
+.visual-detail{position:absolute;inset:0;z-index:3;pointer-events:none}
+.detail-caption{position:absolute;right:10%;top:68%;font:italic 22px Georgia,serif;color:#ffe4b4}
+.observation-button{color:#f7d5a3}
+@media(max-width:850px){.printed-art{right:1%;width:50vw;height:min(62vh,570px);top:17%}.print-title{font-size:clamp(43px,7vw,74px)}}
+@media(max-width:650px){
+ .printed-art{right:13%;width:75%;height:38vh;top:10%;opacity:.82;transform:rotate(-4deg)!important}
+ .printed-frame{padding:7%;border-width:6px}
+ .print-title{font-size:clamp(38px,11vw,67px)}
+ .print-eyebrow,.print-footnote{font-size:8px}
+ .stage[data-mode="voyage"] .printed-art,.stage[data-mode="book"] .printed-art,.stage[data-mode="novel"] .printed-art{height:40vh;top:9%}
+ .stage[data-kind="print"] .art-vignette,.stage[data-kind="paper"] .art-vignette{background:linear-gradient(0deg,#090e0dfc 3%,#09110fe3 33%,#0b1211a5 62%,#0a100f5a 100%);z-index:2}
+ .stage.observing .visual-detail .detail-caption{bottom:52%;right:12%;font-size:11px;max-width:160px}
+ .stage[data-mode="society"] .symbolic-ring,.stage[data-mode="screen"] .symbolic-ring,.stage[data-mode="london"] .symbolic-ring{right:-17%;width:90%;height:32vh;top:10%}
+ .stage[data-mode="personal"] .symbolic-ring{height:34vh;width:34vh;right:-12%;top:8%}
+ .story-shell{padding-top:102px}
+}
+@media(prefers-reduced-motion:reduce){.stage.observing .print-title{transition:none}}

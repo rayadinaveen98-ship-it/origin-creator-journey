@@ -20,24 +20,38 @@ function act2Moment(){
  const n=Number(stored);
  return Number.isInteger(n)&&n>=0&&n<8?n:null;
 }
+function act3Moment(){
+ const raw=memoryGet(localStorage,'origin_v10_act3_scene_v1');
+ if(raw===null)return null;
+ const n=Number(raw);
+ return Number.isInteger(n)&&n>=0&&n<11?n:null;
+}
 function syncProgress(){
  const m2=act2Moment();
+ const m3=act3Moment();
  const raw1=memoryGet(localStorage,KEY_PROGRESS);
  const m1=raw1===null?null:storedMoment();
- if(m2!==null){
+ if(m3!==null){
+   $('continueShelf').hidden=false;
+   $('heroEnterText').textContent="Continue Ray's Journey";
+   $('featureProgressNote').textContent='Act III · The Dream — your exact scene is saved here.';
+   $('continueHeading').textContent=['The working artist','A world of covers','The unexpected book','A room for cinema','Learning through critique','A life beyond the screen','The encounter with Renoir','London and its screens','The Bicycle Thieves effect','The return voyage','The dream faces reality'][m3];
+   $('continueSub').textContent='Act III · Scene '+(m3+1)+' of 11 · 1943–1951';
+   $('continueFill').style.width=Math.round((16+m3+1)/27*100)+'%';
+ }else if(m2!==null){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Act II · The Artist — your exact scene is saved in this browser.';
    $('continueHeading').textContent=['The world widens','The eye learns','The teachers','More than one tradition','Beyond the classroom','Art and cinema','Leaving Santiniketan','The professional artist'][m2];
    $('continueSub').textContent='Act II · Scene '+(m2+1)+' of 8 · 1940–1943';
-   $('continueFill').style.width=Math.round((8+m2+1)/16*100)+'%';
+   $('continueFill').style.width=Math.round((8+m2+1)/27*100)+'%';
  }else if(m1!==null&&m1>0){
    $('continueShelf').hidden=false;
    $('heroEnterText').textContent="Continue Ray's Journey";
    $('featureProgressNote').textContent='Resume Act I — The Boy, 1921–1939.';
    $('continueHeading').textContent=['The Beginning','A family of storytellers','The loss','A different home','Books and images','Discovering cinema','A wider world','The threshold'][m1]||'Continue Act I';
    $('continueSub').textContent='Act I · Scene '+(m1+1)+' of 8 · 1921–1939';
-   $('continueFill').style.width=Math.round((m1+1)/16*100)+'%';
+   $('continueFill').style.width=Math.round((m1+1)/27*100)+'%';
  }else{
    $('continueShelf').hidden=true;
    $('heroEnterText').textContent="Enter Ray's Journey";
@@ -109,7 +123,10 @@ function beginAnimation(){
 function journeyTarget(type){
  if(type==='childhood')return {path:'/v10/journey/',moment:0};
  if(type==='artist')return {path:'/v10/journey/act2/',moment:act2Moment()??0};
+ if(type==='dream')return {path:'/v10/journey/act3/',moment:act3Moment()??0};
  if(type==='firstfilm')return {path:'/life/',moment:10};
+ const m3=act3Moment();
+ if(m3!==null)return {path:'/v10/journey/act3/',moment:m3};
  const m2=act2Moment();
  if(m2!==null)return {path:'/v10/journey/act2/',moment:m2};
  const v=memoryGet(localStorage,KEY_PROGRESS);
@@ -134,9 +151,10 @@ function openAbout(){
 }
 function installSearch(){
  const results=[
-  {label:'Satyajit Ray',detail:'Living Act I · 1921–1939',kind:'life'},
+  {label:'Satyajit Ray',detail:'Three cinematic acts · 1921–1951',kind:'life'},
   {label:'The boy · 1921–1939',detail:'The new cinematic childhood chapter',kind:'childhood'},
-  {label:'The artist · 1940–1950',detail:'Later overview (V8 reader)',kind:'artist'},
+  {label:'The artist · 1940–1943',detail:'Santiniketan and artistic education',kind:'artist'},
+  {label:'The Dream · 1943–1951',detail:'Advertising, film society, Renoir, London and Pather Panchali',kind:'dream'},
   {label:'Making the first film',detail:'Later overview (V8 reader)',kind:'firstfilm'},
   {label:'Film journey · 1955–1959',detail:'The first five years in cinema',kind:'film'},
   {label:'The Studio',detail:'Interactive filmmaking exercises',kind:'studio'}

@@ -39,7 +39,8 @@ try{
  await page.locator('#mapButton').click();
  assert.equal(await page.locator('#mapList button').count(),8);
  assert.equal(await page.locator('.life-arc-link').count(),8);
- assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/RESEARCHED OVERVIEW/);
+ assert.match(await page.locator('.life-arc-link').nth(2).textContent(),/CINEMATIC ACT/);
+ assert.match(await page.locator('.life-arc-link').nth(3).textContent(),/RESEARCHED OVERVIEW/);
  assert.match(await page.locator('.life-arc-link').nth(1).textContent(),/YOU ARE HERE/);
  await page.locator('[data-close="mapDialog"]').click();
  await page.locator('#contextButton').click();
@@ -76,7 +77,7 @@ try{
  assert.match(await page.locator('#yearPlace').textContent(),/1943/);
  await page.locator('#next').click();
  assert.equal(await page.locator('#completion').isVisible(),true);
- assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/life/#moment-7');
+ assert.equal(await page.locator('.complete-primary').getAttribute('href'),'/v10/journey/act3/#scene-0');
  await page.locator('#restart').click();
  await page.locator('.reader-logo').click();
  await page.waitForURL('**/v10/');
