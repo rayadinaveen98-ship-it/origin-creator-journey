@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10171b"><title>ORIGIN — A Film's Life After the Premiere</title>
+<style>
+:root{color-scheme:dark;--gold:#e8c58b;--ink:#0e1419}*{box-sizing:border-box}
+html{font-family:system-ui,Segoe UI,sans-serif;background:var(--ink);color:#edeae0}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% 55%,#53372f88,transparent 43%),linear-gradient(125deg,#0c1116,#161d20)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px clamp(20px,5vw,70px);border-bottom:1px solid #6c624b66;gap:10px}
+.brand{font-family:Georgia,serif;font-size:1.5rem;letter-spacing:.22em;color:#f7e7cb}
+.meta{font-size:.65rem;letter-spacing:.14em;color:var(--gold);text-align:right}
+.shell{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);min-height:calc(100vh - 80px)}
+.poster{position:relative;min-height:75vh;background:linear-gradient(to bottom,#1c2126bb,#15151699 55%,#0d1117),radial-gradient(ellipse at 60% 53%,#86624f 0%,#2b3338 41%,#0e1319 75%);border-right:1px solid #81705977;overflow:hidden}
+.poster:before{content:'';position:absolute;inset:-25%;border:1px solid #bfa77b22;border-radius:50%;transform:rotate(-30deg)}
+.poster:after{content:'';position:absolute;inset:22% -20%;border:1px solid #bfa77b2b;border-radius:50%}
+.poster .scene{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.7}
+.scene .beam{position:absolute;left:-10%;top:18%;width:110%;height:4px;background:#e9c6944d;box-shadow:0 0 45px 24px #b79a6830;transform:rotate(-9deg)}
+.scene .silhouette{position:absolute;bottom:0;left:13%;right:11%;height:44%;background:linear-gradient(90deg,transparent 0 8%,#151b1c 8% 16%,transparent 16% 19%,#12191a 19% 39%,transparent 39% 42%,#171c1b 42% 56%,transparent 56% 60%,#171d1e 60% 74%,transparent 74% 76%,#121919 76% 89%,transparent 89%)}
+.caption{position:absolute;left:clamp(20px,6vw,78px);top:clamp(35px,8vw,96px);max-width:80%}
+.kicker{font-size:.68rem;letter-spacing:.22em;color:var(--gold)}
+h1{font:400 clamp(2.7rem,6vw,6.5rem)/1.06 Georgia,serif;letter-spacing:-.05em;margin:23px 0;color:#fff1d9}
+.caption p{font-size:clamp(.85rem,1.5vw,1rem);max-width:45ch;line-height:1.8;color:#d3d2c9}
+.smallprint{position:absolute;left:clamp(20px,6vw,78px);bottom:30px;font-size:.62rem;letter-spacing:.12em;color:#bba98a}
+.controls{padding:clamp(24px,4vw,60px);min-width:0}
+.tabs{display:flex;gap:7px;margin-bottom:26px}
+button{font:inherit;cursor:pointer}
+.tab,.step,.arrow,.reveal{color:#e7ddca;background:#1d272b;border:1px solid #625c4e;min-height:44px;padding:11px 14px;border-radius:3px}
+.tab[aria-selected="true"],.step[aria-current="step"]{background:#493d2b;color:#fff1d6;border-color:var(--gold)}
+button:focus-visible{outline:2px solid #f1d9a3;outline-offset:3px}
+.subtitle{font:400 clamp(1.5rem,2.7vw,2.35rem)/1.2 Georgia,serif;color:#f9e7c9;margin:0 0 12px}
+.lead{line-height:1.7;color:#c6cec9;font-size:.89rem;max-width:60ch;margin:0 0 25px}
+.timeline{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:16px}
+.step{min-width:112px;flex:1;text-align:left;font:400 .72rem/1.5 Georgia,serif}
+.step small{font:400 .65rem/1.5 system-ui,sans-serif;color:#b7b7b1;display:block}
+.detail{min-height:225px;padding:23px;background:linear-gradient(145deg,#34372f,#1b2325);border:1px solid #807560}
+.detail .no{font:400 2rem Georgia,serif;color:#bca477}
+.detail h3{font:400 1.55rem/1.3 Georgia,serif;color:#f4dfb8;margin:7px 0 10px}
+.detail p{font-size:.85rem;line-height:1.75;color:#d9dbd3}
+.detail .why{border-top:1px solid #82755a;padding-top:13px;color:#ecd5a9}
+.actions{display:flex;justify-content:flex-end;gap:7px;margin:14px 0 18px}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+.source,.disclaimer{font-size:.7rem;line-height:1.7;color:#b6c1bd}
+.source a{color:#f0cf93;text-decoration-thickness:1px;text-underline-offset:3px}
+.disclaimer{border-left:2px solid #8e7958;padding:12px;background:#151f20;margin-top:12px}
+.revealarea{margin-top:25px;padding:20px;border:1px solid #887757;background:#252723}
+.revealarea p{line-height:1.7;color:#d1d5cd;font-size:.82rem}
+#continuation[hidden]{display:none}
+@media(max-width:850px){.shell{grid-template-columns:1fr}.poster{min-height:53vh}.caption{top:55px}.controls{padding:25px 18px}.smallprint{bottom:17px}.poster .silhouette{height:35%}}
+@media(max-width:400px){.meta{font-size:.52rem}.tabs{flex-wrap:wrap}.step{flex:0 0 135px}h1{font-size:3.1rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important}}
+</style></head>
+<body><header class="top"><div class="brand">ORIGIN</div><div class="meta">STORY-FIRST RESEARCH PREVIEW · 1.4<br>NOT THE LIVE V6 APPLICATION</div></header>
+<main class="shell"><section class="poster" aria-label="Original illustrative cinema artwork"><div class="scene" aria-hidden="true"><div class="beam"></div><div class="silhouette"></div></div><div class="caption"><div class="kicker" id="eyebrow">1955 / THE AFTERMATH</div><h1 id="hero">The film<br>was finished.</h1><p id="heroDesc">The story of its reception was only beginning.</p></div><div class="smallprint">ORIGINAL VISUAL STUDY · NOT ARCHIVAL FOOTAGE</div></section>
+<section class="controls"><div class="tabs" role="tablist" aria-label="Choose investigation"><button class="tab" type="button" role="tab" aria-selected="true" data-tab="cost">The private cost</button><button class="tab" type="button" role="tab" aria-selected="false" data-tab="reception">After the premiere</button></div><h2 class="subtitle" id="heading"></h2><p class="lead" id="lead"></p><div class="timeline" id="timeline" role="group" aria-label="Evidence timeline"></div><section class="detail" id="detail" aria-live="polite"></section><div class="actions"><button class="arrow" type="button" id="prev">← Previous</button><button class="arrow" type="button" id="next">Next →</button></div><p class="source" id="source"></p><p class="disclaimer" id="limit"></p><aside class="revealarea" id="final" hidden><h3 class="subtitle">Was the Apu Trilogy planned from the start?</h3><p>Discover what followed this first feature without assuming that the later films were always inevitable.</p><button type="button" class="reveal" id="reveal" aria-expanded="false" aria-controls="continuation">Reveal the continuation</button><p id="continuation" hidden>Ray went on to make <em>Aparajito</em> and <em>Apur Sansar</em>. His later account describes the trilogy forming through new creative decisions. <a href="https://satyajitray.org/apu-trilogy/" target="_blank" rel="noopener noreferrer" style="color:#ecd09b">Explore Ray's trilogy account ↗</a></p></aside></section></main>
+<script>
+(()=>{
+ const bfi='https://www.bfi.org.uk/sight-and-sound/features/satyajit-ray-conversation-1970-folke-isaksson';
+ const moma='https://www.moma.org/calendar/film/726';
+ const rows={
+ cost:[
+ ['EMPLOYMENT','The salary that continued','Ray was still employed in advertising while making the film. His later account identifies part of his salary among the small amounts used to keep production moving.','A day job and a creative ambition were intertwined.',bfi,'Ray interview, 1970'],
+ ['FOOTAGE','Proof that carried risk','Ray recalled beginning production to convince potential backers that the team could make the film, then running out of money after about 4,000 feet of footage.','Proof could show that the film was possible, but not finance completion.',bfi,'Ray interview, 1970'],
+ ['HOUSEHOLD','The private cost','Ray described borrowing against insurance and selling or pawning books, records and some of his wife’s jewellery when the money became scarce.','Finishing the film depended on resources beyond the camera crew.',bfi,'Ray interview, 1970']
+ ],
+ reception:[
+ ['03 MAY 1955','Before India had seen it','MoMA hosted the world premiere of Pather Panchali. The museum records assistance that helped complete a suitable print for the screening.','A museum premiere is not the same as an Indian theatrical release.',moma,'MoMA premiere record'],
+ ['26 AUG 1955','The home release','The film opened theatrically in India. Ray later recalled that its opening response was uncertain.','A completed film still needed to find an audience.',bfi,'Ray interview, 1970'],
+ ['WEEKS 1–2','No instant full houses','In his later account, Ray said the film’s first two weeks in India did not go particularly well.','The eventual reputation should not erase the uncertainty of the opening.',bfi,'Ray interview, 1970'],
+ ['FROM WEEK 3','The audience grows','Ray recalled full houses from the third week, followed by a further run after the initial booking.','Reception developed over time, rather than arriving fully formed.',bfi,'Ray interview, 1970'],
+ ['1956 CANNES','Festival recognition','Pather Panchali received the Best Human Document award at Cannes the following year.','International recognition came after the earlier premiere and domestic release.','https://www.moma.org/calendar/events/5898','MoMA film record']
+ ]};
+ let tab='cost',step=0;
+ const $=x=>document.getElementById(x);
+ function show(){
+  const rec=tab==='reception';
+  $('eyebrow').textContent=rec?'1955–56 / THE AFTERMATH':'1952–55 / THE PERSONAL COST';
+  $('hero').innerHTML=rec?'The film was<br>finished.':'The film almost<br>stopped.';
+  $('heroDesc').textContent=rec?'But who was watching, and when?':'Behind every completed scene were resources at risk.';
+  $('heading').textContent=rec?'A breakthrough does not happen in one night.':'Two lives were running at once.';
+  $('lead').textContent=rec?'Move through the first screening, the uncertain Indian opening, Ray’s later account of full houses, and 1956 festival recognition.':'Discover how Ray’s job, his unfinished footage and household sacrifices became connected to the production.';
+  document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',String(x.dataset.tab===tab)));
+  const data=rows[tab];$('timeline').innerHTML=data.map((x,i)=>'<button class="step" type="button" data-step="'+i+'" aria-current="'+(i===step?'step':'false')+'">'+x[0]+'<small>'+String(i+1).padStart(2,'0')+' / '+String(data.length).padStart(2,'0')+'</small></button>').join('');
+  const x=data[step];
+  $('detail').innerHTML='<div class="no">'+String(step+1).padStart(2,'0')+'</div><h3>'+x[1]+'</h3><p>'+x[2]+'</p><p class="why">WHY IT MATTERS · '+x[3]+'</p>';
+  $('source').innerHTML='SOURCE · <a rel="noopener noreferrer" target="_blank" href="'+x[4]+'">'+x[5]+' ↗</a>';
+  $('limit').textContent='Evidence is based on named archive records or Ray’s retrospective interview. This original visual study does not recreate archival images, actual conversations or exact private emotions.';
+  $('prev').disabled=step===0;$('next').disabled=step===data.length-1;$('final').hidden=!rec;
+  document.querySelectorAll('[data-step]').forEach(x=>x.onclick=()=>{step=Number(x.dataset.step);show()});
+ }
+ document.querySelectorAll('[data-tab]').forEach(x=>x.onclick=()=>{tab=x.dataset.tab;step=0;show()});
+ $('prev').onclick=()=>{step=Math.max(0,step-1);show()};
+ $('next').onclick=()=>{step=Math.min(rows[tab].length-1,step+1);show()};
+ $('reveal').onclick=()=>{const open=$('continuation').hidden;$('continuation').hidden=!open;$('reveal').setAttribute('aria-expanded',String(open));$('reveal').textContent=open?'Hide continuation':'Reveal the continuation'};
+ show();
+})();
+</script></body></html>
