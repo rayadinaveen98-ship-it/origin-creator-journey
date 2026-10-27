@@ -31,10 +31,10 @@ jobs:
           node-version: '22'
       - name: Verify preserved releases and exact V9 welcome animation
         run: node scripts/verify-v10.mjs
-      - name: Install Chromium browser
+      - name: Use installed system Chrome with Playwright harness
         run: |
           npm install --no-save playwright@1.56.1
-          npx playwright install --with-deps chromium
+          google-chrome --version
       - name: Verify experience and capture desktop/mobile views
         run: node tests/v10-browser.mjs
       - name: Verify Act II story, transitions and progress
