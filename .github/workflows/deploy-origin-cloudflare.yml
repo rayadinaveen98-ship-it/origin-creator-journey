@@ -229,6 +229,16 @@ jobs:
           curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-studio-bridge.html"
           grep -q './studio/preview.js' "${RUNNER_TEMP}/origin-studio-bridge.html"
           echo 'V11.3 local-only Creator Studio, schema, editor, styles and validated preview bridge verified live.'
+          curl --fail --silent --show-error --location "$base/v11/studio/governance.js" --output "${RUNNER_TEMP}/origin-studio-governance.js"
+          grep -q 'ORIGIN_STUDIO_GOVERNANCE' "${RUNNER_TEMP}/origin-studio-governance.js"
+          curl --fail --silent --show-error --location "$base/v11/studio/index.html" --output "${RUNNER_TEMP}/origin-studio-review.html"
+          grep -q 'id="reviewPacket"' "${RUNNER_TEMP}/origin-studio-review.html"
+          grep -q 'id="createCheckpoint"' "${RUNNER_TEMP}/origin-studio-review.html"
+          grep -q 'id="restoreCheckpoint"' "${RUNNER_TEMP}/origin-studio-review.html"
+          curl --fail --silent --show-error --location "$base/v11/studio/editor.js" --output "${RUNNER_TEMP}/origin-studio-review-editor.js"
+          grep -q 'governance.createPacket' "${RUNNER_TEMP}/origin-studio-review-editor.js"
+          grep -q 'governance.createCheckpoint' "${RUNNER_TEMP}/origin-studio-review-editor.js"
+          echo 'V11.4 local editorial attestation and checkpoint assets verified live (no publishing backend).'
 
       - name: Record verified live deployment in GitHub
         shell: bash
