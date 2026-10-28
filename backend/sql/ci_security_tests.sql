@@ -91,6 +91,29 @@ begin
   raise exception 'Same revision staged twice';
  exception when unique_violation then null;
  end;
+ -- Even service-level application credentials cannot rewrite a published revision's text
+ -- or erase independently recorded decisions / audit events.
+ begin
+  update public.origin_revisions set content='{"tampered":true}'::jsonb where id=first_revision;
+  raise exception 'Approved revision content overwritten';
+ exception when insufficient_privilege then null;
+ end;
+ begin
+  update public.origin_revisions set state='draft' where id=first_revision;
+  raise exception 'Approved revision state rolled back';
+ exception when insufficient_privilege then null;
+ end;
+ begin
+  update public.origin_review_decisions set decision='request_changes'
+   where revision_id=first_revision;
+  raise exception 'Independent review decision modified';
+ exception when insufficient_privilege then null;
+ end;
+ begin
+  delete from public.origin_audit_events where journey_id=journey;
+  raise exception 'Audit history erased';
+ exception when insufficient_privilege then null;
+ end;
  newer_revision:=public.origin_append_revision(owner,journey,content);
  if (select revision_no from public.origin_revisions where id=newer_revision)<>2 then
   raise exception 'Revision numbering failed';
