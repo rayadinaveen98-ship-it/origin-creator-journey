@@ -1,0 +1,70 @@
+name: ORIGIN V11.5 Editorial Backend Security QA
+on:
+  push:
+    branches: [main, feature/origin-v11-5-backend-security-foundation]
+    paths:
+      - 'backend/**'
+      - 'tests/v11-backend-api.mjs'
+      - '.github/workflows/origin-v11-5-backend.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'tests/v11-backend-api.mjs'
+      - '.github/workflows/origin-v11-5-backend.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  api-role-guards:
+    name: Authenticated worker and cross-role guard tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Worker syntax
+        run: node --check backend/worker.mjs
+      - name: Reject forged sessions, wrong roles and exposed secrets
+        run: node tests/v11-backend-api.mjs
+  postgres-rls:
+    name: Real PostgreSQL 17 role separation and revision workflow
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: local_ci_only_not_a_real_secret
+          POSTGRES_DB: origin_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d origin_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: local_ci_only_not_a_real_secret
+      PGDATABASE: origin_ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare ephemeral PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql --version
+      - name: Create disposable Auth role simulation
+        run: psql -v ON_ERROR_STOP=1 -f backend/sql/ci_auth_fixture.sql
+      - name: Install RLS and atomic service-role write functions
+        run: psql -v ON_ERROR_STOP=1 -f backend/sql/initial_schema.sql
+      - name: Exercise three-person review and direct-access denials
+        run: psql -v ON_ERROR_STOP=1 -f backend/sql/ci_security_tests.sql
