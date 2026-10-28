@@ -28,6 +28,7 @@ const html=read('www/v11/index.html'),player=read('www/v11/player.js');
 for(const id of ['catalogHeading','catalogItems','viewer','stage','storyTitle','storyLead','storyMore','openChapters','openContext','chapterList','contextSources','nextButton','prevButton','ending','progressBar']){
  assert.ok(html.includes('id="'+id+'"'),'Missing player DOM ID '+id);
 }
+for(const [,usedId] of player.matchAll(/\$\('([A-Za-z][A-Za-z0-9_-]*)'\)/g))assert.ok(html.includes('id="'+usedId+'"'),'Player binds missing DOM ID '+usedId);
 for(const path of boot.concat(['www/v11/player.js'])){
  assert.ok(html.includes('src="./'+path.replace('www/v11/','')+'"'),'Script not registered: '+path);
 }
