@@ -1,0 +1,46 @@
+name: ORIGIN V11 Universal Journey Engine QA
+on:
+  push:
+    branches: [feature/origin-v11-universal-engine-foundation]
+    paths:
+      - 'www/v11/**'
+      - 'scripts/verify-v11.mjs'
+      - 'tests/v11-browser.mjs'
+      - '.github/workflows/origin-v11-engine.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'www/v11/**'
+      - 'scripts/verify-v11.mjs'
+      - 'tests/v11-browser.mjs'
+      - '.github/workflows/origin-v11-engine.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v11-engine-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify unchanged V10 releases and preserved V9 opening
+        run: node scripts/verify-v10.mjs
+      - name: Validate universal content schema and lossless Ray migration
+        run: node scripts/verify-v11.mjs
+      - name: Install Chrome browser test driver
+        run: |
+          npm install --no-save playwright@1.56.1
+          google-chrome --version
+      - name: Test V11 engine in desktop and mobile Chrome
+        run: node tests/v11-browser.mjs
+      - name: Archive V11 mobile and desktop review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ORIGIN-V11-Engine-QA
+          path: artifacts/origin-v11-*.png
+          if-no-files-found: ignore
+          retention-days: 7

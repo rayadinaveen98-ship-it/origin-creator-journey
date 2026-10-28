@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<meta name="description" content="ORIGIN V11 Journey Engine: a cinematic storytelling laboratory for thousands of original, responsibly researched creator journeys.">
+<title>ORIGIN — Journey Engine Preview</title>
+<link rel="stylesheet" href="./styles.css">
+<script defer src="./registry.js"></script>
+<script defer src="./data/ray-profile.js"></script>
+<script defer src="./data/ray-act-1.js"></script>
+<script defer src="./data/ray-act-2.js"></script>
+<script defer src="./data/ray-act-3.js"></script>
+<script defer src="./data/ray-act-4.js"></script>
+<script defer src="./data/ray-act-5.js"></script>
+<script defer src="./data/ray-act-6.js"></script>
+<script defer src="./data/ray-act-7.js"></script>
+<script defer src="./data/ray-act-8.js"></script>
+<script defer src="./data/kurosawa-preview.js"></script>
+<script defer src="./player.js"></script>
+</head>
+<body>
+<a class="skip" href="#catalogHeading">Skip to journeys</a>
+<main id="app">
+  <section id="catalog" class="catalog">
+    <header class="catalog-bar"><a class="logo" href="/v10/" aria-label="Return to ORIGIN V10 home">ORIGIN<span>.</span></a><span class="lab-tag">V11 / ENGINE LAB</span></header>
+    <div class="catalog-hero"><p class="eyebrow">EVERY LIFE HAS A STORY</p><h1 id="catalogHeading" tabindex="-1">A thousand lives.<br><em>One place to discover them.</em></h1><p>Step inside the lives of the artists who changed how we see the world. Each journey has its own voice; the technology underneath is shared.</p></div>
+    <div class="catalog-section"><div class="section-bar"><h2>Begin a journey</h2><span>RESEARCHED STORIES · ORIGINAL VISUAL STUDIES</span></div><div id="catalogItems" class="catalog-grid"></div></div>
+    <footer class="catalog-footer">EARLY ENGINE PREVIEW · The finished V10 experience remains available at <a href="/v10/">ORIGIN V10 ↗</a>. Visuals are original illustrations; archival sources are linked within individual scenes.</footer>
+  </section>
+  <section id="viewer" class="viewer" hidden aria-label="Cinematic journey player">
+    <div class="stage" id="stage" data-kind="symbol">
+      <div class="scene-art" aria-hidden="true">
+        <div class="art-year" id="artYear"></div>
+        <div class="art-horizon"></div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-paper"></div><div class="art-frame"></div><div class="art-sun"></div><div class="art-strip"></div><div class="art-figures"></div>
+        <img id="archiveImage" alt="" hidden referrerpolicy="no-referrer">
+        <div class="art-veil"></div><div class="art-grain"></div>
+      </div>
+      <header class="viewer-bar">
+        <button id="homeButton" class="logo logo-button" aria-label="Back to ORIGIN journey catalogue">ORIGIN<span>.</span> <small>← Library</small></button>
+        <div class="viewer-ident"><strong id="creatorName"></strong><small id="creatorDates"></small></div>
+        <div class="viewer-tools">
+          <button id="openChapters" class="tool" aria-haspopup="dialog">☷ <span>Chapters</span></button>
+          <button id="openContext" class="tool" aria-haspopup="dialog">ⓘ <span>Context</span></button>
+        </div>
+      </header>
+      <div class="stage-progress"><div class="progress-label"><span id="chapterName"></span><span id="totalMeter">01 / 87</span></div><div class="progress-track"><div id="progressBar" role="progressbar" aria-label="Overall journey progress" aria-valuemin="0" aria-valuemax="87" aria-valuenow="1"></div></div></div>
+      <section class="story-shell" aria-labelledby="storyTitle">
+        <div class="story-copy"><div class="scene-eyebrow"><span id="sceneYear" class="scene-year"></span><span id="scenePlace"></span><span id="chapterMeter"></span></div>
+        <h1 id="storyTitle" tabindex="-1"></h1><p id="storyLead" class="story-lead"></p><p id="storyMore" class="story-more"></p>
+        <button class="inspect" id="inspectButton" hidden aria-pressed="false"></button><p class="detail-panel" id="detailPanel" hidden></p></div>
+      </section>
+      <div class="story-bottom"><div class="scene-credit"><span id="scenePrompt">ORIGINAL VISUAL STUDY</span><small id="visualFootnote"></small></div><div class="story-controls"><span class="scene-period" id="chapterPeriod"></span><button class="prev" id="prevButton" aria-label="Previous story moment">←</button><button class="next" id="nextButton">Next moment →</button></div></div>
+    </div>
+    <div class="ending" id="ending" hidden><p class="eyebrow">THE FRAME CLOSES. THE STORIES CONTINUE.</p><h2 id="endingHeading" tabindex="-1"></h2><p id="endingText"></p><div class="ending-actions"><button id="endingRestart">Revisit first scene</button><button id="endingHome">Explore other lives</button></div></div>
+  </section>
+</main>
+<dialog class="panel-dialog" id="contextDialog" aria-labelledby="contextTitle"><div class="dialog-head"><span>THE STORY BEHIND THE FRAME</span><button id="contextClose" aria-label="Close source context">✕</button></div><h2 id="contextTitle"></h2><h3>Documented context</h3><p id="contextFacts"></p><h3>Why it matters</h3><p id="contextMeaning"></p><h3>Visual provenance</h3><p id="contextVisual"></p><h3>Sources and image attribution</h3><div class="source-links" id="contextSources"></div></dialog>
+<dialog class="panel-dialog timeline-dialog" id="chaptersDialog" aria-label="Navigate chapters and story moments"><div class="dialog-head"><span>THE COMPLETE STORY MAP</span><button id="chaptersClose" aria-label="Close chapter map">✕</button></div><div id="chapterList" class="chapter-list"></div></dialog>
+</body></html>
