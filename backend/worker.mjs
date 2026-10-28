@@ -3,6 +3,7 @@
  * Requires a dedicated ORIGIN Supabase project, secure secrets, and production
  * authorization tests before deployment. No frontend service-role secrets.
  */
+import {validateEditorialDraft} from './validate-draft.mjs';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SLUG=/^[a-z0-9][a-z0-9-]{1,62}$/;
 const ALLOWED_ROLES=new Set(['contributor','reviewer','publisher','admin']);
@@ -24,12 +25,20 @@ function cleanOrigin(request,env){
 }
 function configuration(env){
  const url=String(env.ORIGIN_SUPABASE_URL||'');
- const key=String(env.ORIGIN_SUPABASE_SERVICE_ROLE_KEY||'');
- if(!/^https:\/\/[a-z0-9.-]+$/i.test(url)||key.length<40)throw Error('Backend configuration incomplete');
- return {url,key};
+ const publishable=String(env.ORIGIN_SUPABASE_PUBLISHABLE_KEY||'');
+ const secret=String(env.ORIGIN_SUPABASE_SECRET_KEY||'');
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url)||
+    !/^sb_publishable_[a-zA-Z0-9_]{24,}$/.test(publishable)||
+    !/^sb_secret_[a-zA-Z0-9_]{24,}$/.test(secret))
+    throw Error('Backend configuration incomplete');
+ // Secrets are independent of user access tokens. They are only passed via apikey.
+ return {url,publishable,secret};
 }
-function supabaseHeaders(key,auth){
- return {'apikey':key,'Authorization':'Bearer '+auth};
+function authenticatedHeaders(publishable,userJwt){
+ return {'apikey':publishable,'Authorization':'Bearer '+userJwt};
+}
+function adminHeaders(secret){
+ return {'apikey':secret};
 }
 async function parseJson(request){
  if(!request.headers.get('content-type')?.toLowerCase().startsWith('application/json'))throw Error('type');
@@ -45,7 +54,7 @@ async function parseJson(request){
 }
 async function getAuthUser(fetcher,cfg,token){
  const r=await fetcher(cfg.url+'/auth/v1/user',{
-  headers:supabaseHeaders(cfg.key,token),redirect:'error',cache:'no-store'
+  headers:authenticatedHeaders(cfg.publishable,token),redirect:'error',cache:'no-store'
  });
  if(!r.ok)return null;
  const user=await r.json().catch(()=>null);
@@ -55,7 +64,7 @@ async function getAuthUser(fetcher,cfg,token){
 }
 async function serviceFetch(fetcher,cfg,pathname,options={}){
  const r=await fetcher(cfg.url+pathname,{...options,headers:{
-  ...supabaseHeaders(cfg.key,cfg.key),
+  ...adminHeaders(cfg.secret),
   'Accept':'application/json',...(options.headers||{})
  },redirect:'error',cache:'no-store'});
  if(!r.ok){
@@ -72,11 +81,6 @@ async function memberRole(fetcher,cfg,userId){
  const member=Array.isArray(rows)?rows[0]:null;
  if(member?.user_id!==userId||member?.active!==true||!ALLOWED_ROLES.has(member.role))return null;
  return member.role;
-}
-function validContent(v){
- return v&&typeof v==='object'&&!Array.isArray(v)&&v.schemaVersion===1
-  &&v.profile&&typeof v.profile==='object'&&!Array.isArray(v.profile)
-  &&Array.isArray(v.acts)&&v.acts.length>=1&&v.acts.length<=12;
 }
 function route(method,pathname){
  if(method==='GET'&&pathname==='/v1/me')return {roles:ALLOWED_ROLES,op:'me'};
@@ -119,7 +123,7 @@ export async function handle(request,env,fetcher=fetch){
     return invalid(400,'invalid_journey',cors);
    fn='origin_create_journey';params={p_actor:user.id,p_slug:data.slug,p_title:data.title};
   }else if(action.op==='append'){
-   if(!UUID.test(data.journeyId||'')||!validContent(data.content))
+   if(!UUID.test(data.journeyId||'')||!validateEditorialDraft(data.content).ok)
     return invalid(400,'invalid_revision',cors);
    fn='origin_append_revision';params={p_actor:user.id,p_journey:data.journeyId,p_content:data.content};
   }else if(action.op==='submit'){
