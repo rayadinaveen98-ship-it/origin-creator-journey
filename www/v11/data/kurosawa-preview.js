@@ -2,7 +2,8 @@
 window.ORIGIN_V11.registerCreator({
  id:'kurosawa',name:'Akira Kurosawa',subtitle:'The painter who made the screen move',
  role:'Filmmaker · writer',years:'1910–1998 · discovery preview',culture:'Japan',preview:true,accent:'#dfaaa0',
- description:'A five-scene technical proof of the universal journey engine—not a finished or complete life story.'
+ description:'A five-scene technical proof of the universal journey engine—not a finished or complete life story.',
+ identity:{accent:'#efad90',glow:'#9c3f35',shadow:'#111622',paper:'#f9eee1',typography:'graphic',composition:'angular',motion:'cut',signature:'MOVEMENT AND CONTRAST'}
 });
 window.ORIGIN_V11.registerAct({
  creatorId:'kurosawa',index:1,name:'The First Frame',period:'1936–1954',
