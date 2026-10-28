@@ -40,6 +40,8 @@ try{
  assert.equal(await page.locator('#stage').getAttribute('data-visual'),'field','Act IV landscape gets distinct reusable art direction');
  assert.equal(await page.locator('#visualSet .visual-shape').count(),5,'Landscape composition uses real decorative layers');
  assert.match(await page.locator('#visualTechnique').textContent(),/ORIGINAL LANDSCAPE STUDY/);
+ await page.waitForFunction(()=>!document.querySelector('#stage')?.classList.contains('changing'));
+ await page.waitForTimeout(800);
  await page.screenshot({path:'artifacts/origin-v11-landscape-desktop.png'});
  await page.locator('#openContext').click();
  assert.equal(await page.locator('#contextDialog').isVisible(),true);
@@ -63,6 +65,8 @@ try{
  await page.locator('.map-scene[data-act="8"][data-scene="0"]').click();
  await page.waitForFunction(()=>document.querySelector('#stage')?.dataset.visual==='negative');
  assert.match(await page.locator('#visualTechnique').textContent(),/ORIGINAL FILM MATERIAL STUDY/);
+ await page.waitForFunction(()=>!document.querySelector('#stage')?.classList.contains('changing'));
+ await page.waitForTimeout(800);
  await page.screenshot({path:'artifacts/origin-v11-negative-mobile.png',fullPage:true});
  const templateInfo=await page.evaluate(()=>{
   const all=ORIGIN_V11.creators().flatMap(c=>ORIGIN_V11.acts(c.id).flatMap(a=>a.scenes));
@@ -77,6 +81,7 @@ try{
  assert.match(await page.locator('#storyTitle').textContent(),/painter enters/i);
  assert.equal((await page.locator('#totalMeter').textContent()).trim(),'01 / 05');
  assert.equal(await page.locator('#visualSet .visual-shape').count()>0,true,'Same art director renders Kurosawa');
+ await page.waitForTimeout(800);
  await page.screenshot({path:'artifacts/origin-v11-kurosawa-mobile.png',fullPage:true});
  await page.locator('#nextButton').click();
  await page.waitForFunction(()=>document.querySelector('#chapterMeter')?.textContent==='02 / 05');
