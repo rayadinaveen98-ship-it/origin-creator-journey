@@ -76,6 +76,42 @@ create index origin_reviews_reviewer_idx on public.origin_review_decisions(revie
 create index origin_candidates_journey_idx on public.origin_release_candidates(journey_id);
 create index origin_audit_journey_idx on public.origin_audit_events(journey_id,occurred_at desc);
 
+-- Preserve provenance under normal application-level database credentials.
+-- State transitions remain possible through the authenticated backend RPCs,
+-- but content and authorship of an existing revision can never be overwritten.
+create function public.origin_protect_revision_history()
+ returns trigger language plpgsql security invoker set search_path = '' as $
+begin
+ if new.id is distinct from old.id or new.journey_id is distinct from old.journey_id
+  or new.revision_no is distinct from old.revision_no
+  or new.content is distinct from old.content
+  or new.created_by is distinct from old.created_by
+  or new.created_at is distinct from old.created_at then
+  raise exception 'revision content is immutable' using errcode='42501';
+ end if;
+ if new.state is distinct from old.state and not (
+   (old.state='draft' and new.state='submitted') or
+   (old.state='submitted' and new.state in ('approved','changes_requested'))
+  ) then
+  raise exception 'invalid revision state transition' using errcode='42501';
+ end if;
+ return new;
+end $;
+create trigger origin_revisions_immutable before update
+ on public.origin_revisions for each row execute function public.origin_protect_revision_history();
+
+create function public.origin_block_audit_mutation()
+ returns trigger language plpgsql security invoker set search_path = '' as $
+begin
+ raise exception 'audit events cannot be changed or deleted' using errcode='42501';
+end $;
+create trigger origin_audit_no_changes before update or delete
+ on public.origin_audit_events for each row execute function public.origin_block_audit_mutation();
+revoke all on function
+ public.origin_protect_revision_history(),
+ public.origin_block_audit_mutation() from public,anon,authenticated;
+-- Trigger execution itself does not require client-side EXECUTE permission.
+
 -- Explicitly deny browser writes. RLS is a second boundary, not the only one.
 alter table public.origin_memberships enable row level security;
 alter table public.origin_journeys enable row level security;
@@ -180,7 +216,7 @@ declare v_revision public.origin_revisions%rowtype;v_head integer;
 begin
  select * into v_revision from public.origin_revisions where id=p_revision for update;
  if not found then raise exception 'revision not found' using errcode='22023';end if;
- select head_revision into v_head from public.origin_journeys where id=v_revision.journey_id;
+ select head_revision into v_head from public.origin_journeys where id=v_revision.journey_id for update;
  if v_revision.state<>'draft' or v_revision.revision_no<>v_head
   or v_revision.created_by<>p_actor
   or not exists(select 1 from public.origin_memberships where user_id=p_actor and active
@@ -224,7 +260,7 @@ declare v_revision public.origin_revisions%rowtype;v_head integer;v_reviewer uui
 begin
  select * into v_revision from public.origin_revisions where id=p_revision for update;
  if not found then raise exception 'revision not found' using errcode='22023';end if;
- select head_revision into v_head from public.origin_journeys where id=v_revision.journey_id;
+ select head_revision into v_head from public.origin_journeys where id=v_revision.journey_id for update;
  select reviewer_id into v_reviewer from public.origin_review_decisions
   where revision_id=p_revision and decision='approve';
  if v_revision.state<>'approved' or v_head<>v_revision.revision_no
