@@ -53,9 +53,12 @@ function validate(doc){
  }
  if(!Array.isArray(doc.acts)||doc.acts.length<1||doc.acts.length>12){fail('Chapters','need 1–12 chapters');return {ok:false,errors,warnings};}
  let total=0;
+ const chapterIds=new Set();
  for(const [a,chapter] of doc.acts.entries()){
   const path='Chapter '+(a+1);
   if(!chapter||typeof chapter!=='object'||Array.isArray(chapter)){fail(path,'invalid chapter');continue;}
+  if(!sourceId(chapter.id)||chapterIds.has(chapter.id))fail(path+' identity','unique chapter ID required');
+  chapterIds.add(chapter.id);
   for(const [key,min,max] of [['name',2,100],['period',2,80]]){const v=text(chapter[key]);if(v.length<min||v.length>max||/[<>]/.test(v))fail(path+' '+key,'plain text required');}
   if(!Array.isArray(chapter.archive)||chapter.archive.length<1||chapter.archive.length>40)fail(path+' sources','add 1–40 documented sources');
   const known=new Set();
@@ -68,9 +71,12 @@ function validate(doc){
   }
   if(!Array.isArray(chapter.scenes)||chapter.scenes.length<1||chapter.scenes.length>40){fail(path+' scenes','need 1–40 scenes');continue;}
   total+=chapter.scenes.length;
+  const sceneIds=new Set();
   for(const [s,beat] of chapter.scenes.entries()){
    const pth=path+' / scene '+(s+1);
    if(!beat||typeof beat!=='object'){fail(pth,'invalid');continue;}
+   if(!sourceId(beat.id)||sceneIds.has(beat.id))fail(pth+' identity','unique scene ID required');
+   sceneIds.add(beat.id);
    for(const [key,min,max] of [['year',1,50],['place',2,120],['title',3,220],['lead',15,1200],['more',15,2500],['history',12,2200],['meaning',5,1400],['visual',12,1000],['prompt',2,70]]){
     const v=text(beat[key]);if(v.length<min||v.length>max||/[<>]/.test(v))fail(pth+' '+key,'plain text ('+min+'–'+max+' chars) required');
    }
