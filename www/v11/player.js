@@ -105,7 +105,7 @@ function render(mode){
  $('chapterName').textContent='ACT '+String(chapter.index).padStart(2,'0')+' · '+chapter.name.toUpperCase();
  $('chapterPeriod').textContent=chapter.period||'';
  $('sceneYear').textContent=s.year;
- $('scenePlace').textContent=s.place+' · '+s.year;
+ $('scenePlace').textContent=s.place;
  $('scenePrompt').textContent=s.prompt||'THE STORY CONTINUES';
  $('chapterMeter').textContent=String(sceneIndex+1).padStart(2,'0')+' / '+String(chapter.scenes.length).padStart(2,'0');
  $('totalMeter').textContent=String(linearPosition()).padStart(2,'0')+' / '+String(totals()).padStart(2,'0');
