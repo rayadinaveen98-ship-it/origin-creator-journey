@@ -2,6 +2,7 @@
 (()=>{'use strict';
 const data=window.ORIGIN_V11;
 const visualDirector=window.ORIGIN_VISUAL_DIRECTOR;
+const identityEngine=window.ORIGIN_CINEMATIC_IDENTITY;
 const $=id=>document.getElementById(id);
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const registry=data.inspect();
@@ -72,6 +73,7 @@ function catalog(){
   const b=create('button','journey-card');
   b.type='button';b.setAttribute('aria-label','Enter '+p.name+' journey');
   b.style.setProperty('--creator-accent',p.accent||'#e8c999');
+  identityEngine.apply(b,p);
   const surface=create('span','card-art');
   surface.setAttribute('aria-hidden','true');
   surface.append(create('span','card-orbit'),create('span','card-monogram',p.name.split(' ').map(x=>x[0]).join('')));
@@ -97,10 +99,12 @@ function start(id,where,mode){
 function render(mode){
  const chapter=chapters[actIndex],s=currentScene();
  if(!s)return;
+ const identity=identityEngine.apply(el.stage,active);
+ $('identitySignature').textContent=identity.signature;
  el.stage.dataset.kind=String(s.kind||s.mode||'symbol').replace(/[^a-z0-9-]/gi,'').toLowerCase();
  el.stage.dataset.mode=String(s.mode||'symbol').replace(/[^a-z0-9-]/gi,'').toLowerCase();
  el.stage.style.setProperty('--stage-bg',s.bg||'radial-gradient(ellipse at 60% 40%,#685343,#232b33 60%,#0b1016)');
- el.stage.style.setProperty('--accent',active.accent||'#e1b981');
+ el.stage.style.setProperty('--accent',identity.accent);
  $('creatorName').textContent=active.name;
  $('creatorDates').textContent=active.years;
  $('chapterName').textContent='ACT '+String(chapter.index).padStart(2,'0')+' · '+chapter.name.toUpperCase();
@@ -148,7 +152,7 @@ function showAt(act,scene,mode){
  if(reduceMotion){go();return;}
  transitioning=true;
  el.stage.classList.add('changing');
- window.setTimeout(()=>{go();el.stage.classList.remove('changing');},180);
+ window.setTimeout(()=>{go();el.stage.classList.remove('changing');},identityEngine.transitionMilliseconds(active,reduceMotion));
 }
 function next(){
  const n=chapters[actIndex].scenes.length;
