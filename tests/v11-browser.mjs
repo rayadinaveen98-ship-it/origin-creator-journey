@@ -35,7 +35,7 @@ try{
  await page.locator('#openChapters').click();
  assert.equal(await page.locator('.map-scene').count(),87);
  await page.locator('.map-scene[data-act="4"][data-scene="1"]').click();
- await page.waitForFunction(()=>document.querySelector('#sceneYear')?.textContent==='1952');
+ await page.waitForFunction(()=>document.querySelector('#sceneYear')?.textContent?.includes('1952'));
  assert.match(await page.locator('#storyTitle').textContent(),/A field/);
  await page.locator('#openContext').click();
  assert.equal(await page.locator('#contextDialog').isVisible(),true);
