@@ -30,6 +30,10 @@ assert.equal(state.handoffReady,true,'All self-attestations allow review packet 
 assert.equal(state.issues.length,0);
 assert.equal(state.counts.checkedScenes,1);
 assert.equal(state.counts.reviewedMedia,1);
+const badIds=plain(doc);badIds.acts[0].scenes.push(plain(badIds.acts[0].scenes[0]));
+assert.equal(s.validate(badIds).ok,false,'Duplicate scene IDs must not share review attestations');
+const badChapter=plain(doc);badChapter.acts.push(plain(badChapter.acts[0]));
+assert.equal(s.validate(badChapter).ok,false,'Duplicate chapter IDs must not share attestations');
 const packet=plain(g.createPacket(doc,review,s));
 assert.equal(packet.status,'self-attested-handoff-ready');
 assert.match(packet.disclaimer,/Not editorial approval/);
