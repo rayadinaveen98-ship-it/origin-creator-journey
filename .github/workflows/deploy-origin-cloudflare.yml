@@ -204,6 +204,17 @@ jobs:
           curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-v11-visual-index.html"
           grep -q './visual-director.js' "${RUNNER_TEMP}/origin-v11-visual-index.html"
           echo 'V11.1 original cinematic art-director and CSS templates verified live.'
+          curl --fail --silent --show-error --location "$base/v11/identity.js" --output "${RUNNER_TEMP}/origin-v11-identity.js"
+          grep -q 'ORIGIN_CINEMATIC_IDENTITY' "${RUNNER_TEMP}/origin-v11-identity.js"
+          curl --fail --silent --show-error --location "$base/v11/identities.css" --output "${RUNNER_TEMP}/origin-v11-identities.css"
+          grep -q 'data-composition="angular"' "${RUNNER_TEMP}/origin-v11-identities.css"
+          curl --fail --silent --show-error --location "$base/v11/data/ray-profile.js" --output "${RUNNER_TEMP}/origin-v11-profile-ray.js"
+          grep -q "typography:'literary'" "${RUNNER_TEMP}/origin-v11-profile-ray.js"
+          curl --fail --silent --show-error --location "$base/v11/data/kurosawa-preview.js" --output "${RUNNER_TEMP}/origin-v11-profile-kurosawa.js"
+          grep -q "typography:'graphic'" "${RUNNER_TEMP}/origin-v11-profile-kurosawa.js"
+          curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-v11-identity-index.html"
+          grep -q './identity.js' "${RUNNER_TEMP}/origin-v11-identity-index.html"
+          echo 'V11.2 creator-specific identity config and shared CSS/JS verified live.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
