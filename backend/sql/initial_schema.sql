@@ -80,7 +80,7 @@ create index origin_audit_journey_idx on public.origin_audit_events(journey_id,o
 -- State transitions remain possible through the authenticated backend RPCs,
 -- but content and authorship of an existing revision can never be overwritten.
 create function public.origin_protect_revision_history()
- returns trigger language plpgsql security invoker set search_path = '' as $
+ returns trigger language plpgsql security invoker set search_path = '' as $origin_trigger$
 begin
  if new.id is distinct from old.id or new.journey_id is distinct from old.journey_id
   or new.revision_no is distinct from old.revision_no
@@ -96,15 +96,15 @@ begin
   raise exception 'invalid revision state transition' using errcode='42501';
  end if;
  return new;
-end $;
+end $origin_trigger$;
 create trigger origin_revisions_immutable before update
  on public.origin_revisions for each row execute function public.origin_protect_revision_history();
 
 create function public.origin_block_append_only_mutation()
- returns trigger language plpgsql security invoker set search_path = '' as $
+ returns trigger language plpgsql security invoker set search_path = '' as $origin_trigger$
 begin
  raise exception 'append-only records cannot be changed or deleted' using errcode='42501';
-end $;
+end $origin_trigger$;
 create trigger origin_audit_no_changes before update or delete
  on public.origin_audit_events for each row execute function public.origin_block_append_only_mutation();
 create trigger origin_review_decisions_no_changes before update or delete
