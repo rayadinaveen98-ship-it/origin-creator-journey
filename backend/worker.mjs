@@ -84,6 +84,13 @@ async function memberRole(fetcher,cfg,userId){
 }
 function route(method,pathname){
  if(method==='GET'&&pathname==='/v1/me')return {roles:ALLOWED_ROLES,op:'me'};
+ if(method==='GET'&&pathname==='/v1/journeys')return {roles:ALLOWED_ROLES,op:'list'};
+ const journeyRevisions=/^\/v1\/journeys\/([0-9a-f-]+)\/revisions$/.exec(pathname);
+ if(method==='GET'&&journeyRevisions&&UUID.test(journeyRevisions[1]))
+  return {roles:ALLOWED_ROLES,op:'revisionList',id:journeyRevisions[1]};
+ const singleRevision=/^\/v1\/revisions\/([0-9a-f-]+)$/.exec(pathname);
+ if(method==='GET'&&singleRevision&&UUID.test(singleRevision[1]))
+  return {roles:ALLOWED_ROLES,op:'revisionRead',id:singleRevision[1]};
  if(method==='POST'&&pathname==='/v1/journeys')return {roles:new Set(['contributor','admin']),op:'create'};
  if(method==='POST'&&pathname==='/v1/revisions')return {roles:new Set(['contributor','admin']),op:'append'};
  const match=/^\/v1\/revisions\/([0-9a-f-]+)\/(submit|review|stage)$/.exec(pathname);
@@ -115,6 +122,26 @@ export async function handle(request,env,fetcher=fetch){
   const role=await memberRole(fetcher,cfg,user.id);
   if(!role||!action.roles.has(role))return invalid(403,'role_denied',cors);
   if(action.op==='me')return reply(200,{userId:user.id,role,authenticated:true},cors);
+  // All reads use pre-approved, fixed PostgREST query shapes: no user-provided filters.
+  // Membership is rechecked per request; SQL's authenticated/RLS read-only rules remain.
+  if(action.op==='list'){
+   const rows=await serviceFetch(fetcher,cfg,
+    '/rest/v1/origin_journeys?select=id,slug,title,head_revision,updated_at&order=updated_at.desc&limit=30');
+   return reply(200,{journeys:rows},cors);
+  }
+  if(action.op==='revisionList'){
+   const rows=await serviceFetch(fetcher,cfg,
+    '/rest/v1/origin_revisions?select=id,revision_no,state,created_at,submitted_at,reviewed_at&journey_id=eq.'+
+    encodeURIComponent(action.id)+'&order=revision_no.desc&limit=40');
+   return reply(200,{revisions:rows},cors);
+  }
+  if(action.op==='revisionRead'){
+   const rows=await serviceFetch(fetcher,cfg,
+    '/rest/v1/origin_revisions?select=id,journey_id,revision_no,state,content,created_at&id=eq.'+
+    encodeURIComponent(action.id)+'&limit=1');
+   if(!Array.isArray(rows)||rows.length===0)return invalid(404,'revision_not_found',cors);
+   return reply(200,{revision:rows[0]},cors);
+  }
   const data=(action.op==='create'||action.op==='append'||action.op==='review')?await parseJson(request):{};
   let fn,params;
   if(action.op==='create'){
