@@ -4,7 +4,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>ORIGIN — Creator Studio Lab</title>
 <link rel="stylesheet" href="./studio.css">
-<script defer src="./schema.js"></script><script defer src="./editor.js"></script>
+<script defer src="./schema.js"></script><script defer src="./governance.js"></script><script defer src="./editor.js"></script>
 </head><body>
 <a class="skip" href="#studioHeading">Skip to editor</a>
 <main class="studio-app">
@@ -28,6 +28,7 @@
  <button id="exportDraft" type="button" class="subtle">Export JSON</button>
  <label class="upload-control">Import JSON<input id="importDraft" type="file" accept=".json,application/json"></label>
  <button id="checkDraft" type="button" class="subtle">Run editorial checks</button>
+ <button id="reviewPacket" type="button" class="subtle">Export review packet</button>
  <a id="previewDraft" href="/v11/?person=studio-local&amp;draft=1#act=1&amp;scene=0" target="_blank" rel="noopener noreferrer" class="primary">Preview cinematic journey <span aria-hidden="true">↗</span></a>
 </div>
 <p id="status" role="status" aria-live="polite" class="status">Ready to create a local draft.</p>
@@ -49,6 +50,8 @@
   <h2>Story integrity</h2><p class="qa-description">A source trail and image-rights review are required before content is ready for professional publication.</p>
   <div class="qa-metrics"><div><strong id="validScenes">0</strong><span>Story moments</span></div><div><strong id="validSources">0</strong><span>Research sources</span></div></div>
   <p class="qa-status" id="qaStatus">Draft incomplete</p><div id="qaResults" class="qa-results" aria-live="polite"></div>
+  <div class="governance-section"><p class="panel-kicker">REVIEW GATE · LOCAL ATTESTATIONS</p><p id="reviewGateStatus" class="qa-status">Editorial review incomplete</p><div id="reviewMetrics" class="review-metrics"></div><div id="reviewIssues" class="review-issues" aria-live="polite"></div><p class="qa-disclaimer">These records are self-attested on this browser. They cannot prove a reviewer’s identity, source truth, media licensing, or production approval.</p></div>
+  <div class="governance-section"><p class="panel-kicker">LOCAL VERSION HISTORY</p><label class="field"><span class="field-label">Saved checkpoints</span><select id="checkpointList" aria-label="Choose a saved checkpoint"><option value="">No checkpoints yet</option></select></label><div class="checkpoint-actions"><button id="createCheckpoint" type="button" class="secondary-action">Save checkpoint</button><button id="restoreCheckpoint" type="button" class="secondary-action">Restore selected</button></div><p class="qa-disclaimer">At most six browser-local checkpoints. Export JSON for backups; this is not an immutable audit log.</p></div>
   <p class="qa-disclaimer">Passing these checks only means a draft meets structural requirements. It is not historical verification, rights clearance or editorial approval.</p>
  </aside>
 </div>

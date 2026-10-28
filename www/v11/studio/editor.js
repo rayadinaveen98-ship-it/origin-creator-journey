@@ -1,9 +1,11 @@
 /* ORIGIN V11.3 — Local editorial workbench. No backend, uploads, or publish action. */
 (()=>{'use strict';
 const schema=window.ORIGIN_STUDIO_SCHEMA;
+const governance=window.ORIGIN_STUDIO_GOVERNANCE;
 const $=id=>document.getElementById(id);
 const text=value=>typeof value==='string'?value:'';
 let draft,selected={kind:'profile',act:0,scene:0},hasReviewed=false;
+let reviews=governance.blankReview(),history=[];
 function make(tag,cls,content){
  const e=document.createElement(tag);if(cls)e.className=cls;
  if(content!==undefined)e.textContent=content;
@@ -46,8 +48,72 @@ function normalize(input){
  });
  return clean;
 }
+function saveReviews(){
+ try{localStorage.setItem(governance.REVIEW_KEY,JSON.stringify(reviews));return true;}
+ catch{status('Review storage failed. Export a review packet to preserve records.',true);return false;}
+}
+function saveHistory(){
+ try{localStorage.setItem(governance.HISTORY_KEY,JSON.stringify(history));return true;}
+ catch{status('Checkpoint storage full. Export your draft, or reduce saved checkpoints.',true);return false;}
+}
+function reviewControls(host,section,item,chapter,label){
+ const wrap=make('div','attestation');
+ wrap.append(make('p','attestation-label',label+' · SELF-ATTESTED, NOT APPROVED'));
+ const entry=reviews[section][governance.reviewKey(chapter,item)];
+ const states=section==='sources'?governance.SOURCE_STATES:section==='scenes'?governance.SCENE_STATES:governance.ASSET_STATES;
+ const choices=states.map(x=>[x,x.replace(/-/g,' ')]);
+ const selectedState={status:entry?.status||'unreviewed'};
+ const pick=addSelect(wrap,selectedState,'status','Review status',choices);
+ const noteArea=make('label','field');
+ noteArea.append(make('span','field-label','Reason / evidence checked'));
+ const area=document.createElement('textarea');area.rows=2;area.maxLength=1000;area.value=entry?.note||'';
+ area.placeholder='Explain what you checked and what remains uncertain (at least 12 characters)';
+ noteArea.append(area);wrap.append(noteArea);
+ const previous=entry?.tag===governance.fingerprint(section==='sources'?governance.sourceContent(item):governance.sceneContent(item,chapter));
+ const badge=make('small','attestation-indicator',entry?(previous?'Local review recorded · self-attested':'Outdated — content changed since review'):'Not reviewed');
+ if(entry&&!previous)badge.dataset.stale='true';
+ wrap.append(badge);
+ const btn=action('Record local review',()=>{
+  try{
+   reviews=governance.mark(reviews,section,item,chapter,pick.value,area.value);
+   if(!saveReviews())return;
+   updateReviewGate();paint();
+   status('Local review recorded. This is not a verified editorial approval.');
+  }catch(err){status(String(err.message).slice(0,130),true);}
+ });
+ wrap.append(btn);host.append(wrap);
+}
+function updateReviewGate(){
+ const r=governance.assess(draft,reviews,schema);
+ const el=$('reviewGateStatus');
+ el.textContent=r.handoffReady?'Self-attested handoff checklist complete':'Not ready for editorial handoff';
+ el.dataset.valid=String(r.handoffReady);
+ const m=$('reviewMetrics');m.replaceChildren();
+ for(const [name,passed,total] of [['Sources checked',r.counts.checkedSources,r.counts.sources],['Scenes fact-reviewed',r.counts.checkedScenes,r.counts.scenes],['Original visuals declared',r.counts.reviewedMedia,r.counts.media]]){
+  const b=make('div','review-metric');
+  b.append(make('span','',name),make('strong','',passed+' / '+total));
+  m.append(b);
+ }
+ const messages=$('reviewIssues');messages.replaceChildren();
+ for(const s of r.issues.slice(0,6))messages.append(make('p','qa-error',s));
+ if(r.issues.length>6)messages.append(make('p','qa-tip','And '+(r.issues.length-6)+' remaining checks'));
+ if(!r.issues.length)messages.append(make('p','qa-success','Checklist complete for local handoff only. No authentication or independent approval.'));
+ return r;
+}
+function updateCheckpoints(){
+ const sel=$('checkpointList'),keep=sel.value;sel.replaceChildren();
+ const empty=document.createElement('option');empty.value='';empty.textContent=history.length?'Choose a checkpoint':'No checkpoints yet';sel.append(empty);
+ for(const [index,item] of history.entries()){
+  const option=document.createElement('option');option.value=String(index);
+  option.textContent=item.title+' · '+item.timestamp.slice(0,16).replace('T',' ');
+  sel.append(option);
+ }
+ if([...sel.options].some(o=>o.value===keep))sel.value=keep;
+}
 function initial(){
  draft=safeRestore()||schema.blank();
+ try{reviews=governance.cleanReviews(JSON.parse(localStorage.getItem(governance.REVIEW_KEY)||'null'));}catch{reviews=governance.blankReview();}
+ try{history=governance.cleanHistory(JSON.parse(localStorage.getItem(governance.HISTORY_KEY)||'null'));}catch{history=[];}
  selected={kind:'profile',act:0,scene:0};
  paint();
  status('Draft is local to this browser. Nothing has been uploaded or published.');
@@ -57,6 +123,7 @@ function set(valueOwner,key,value){
  const saved=safeStore();
  if(saved)status('Draft autosaved locally · Not published');
  if(hasReviewed)review(false);
+ updateReviewGate();
  updateNumbers();
 }
 function section(parent,title,hint){
@@ -173,6 +240,7 @@ function showChapter(host){
    c.scenes.forEach(scene=>scene.sources=scene.sources.filter(ref=>ref!==s.id));
    safeStore();paint();
   },'danger-action'));
+  reviewControls(group,'sources',s,c,'SOURCE '+(index+1));
   sources.append(group);
  }
 }
@@ -211,6 +279,9 @@ function showScene(host){
  addSelect(visuals,s,'rights','External image-rights review',schema.RIGHTS.map(k=>[k,k.replace(/-/g,' ')]));
  addField(visuals,s,'rightsNote','Rights evidence / notes',{multiline:true,max:1200,rows:2,placeholder:'Permission details and permitted uses, if any'});
  visuals.append(make('p','rights-note','Marking “cleared” does not grant rights. Media is not uploaded or displayed in this prototype, regardless of status.'));
+ const checks=section(host,'Local editorial attestations','Record what was checked; changing this scene or its cited sources makes the attestation stale. No reviewer identity is verified.');
+ reviewControls(checks,'scenes',s,c,'HISTORICAL FACTS');
+ reviewControls(checks,'assets',s,c,'VISUAL & RIGHTS DECLARATION');
  const buttons=make('div','actions-row');visuals.append(buttons);
  buttons.append(action('Duplicate moment',()=>{
   if(c.scenes.length>=40){status('Maximum 40 moments per chapter.',true);return;}
@@ -230,6 +301,7 @@ function paint(){
  else if(selected.kind==='chapter')showChapter(host);
  else showScene(host);
  review(false);
+ updateReviewGate();updateCheckpoints();
 }
 function review(showDetails=true){
  const r=schema.validate(draft);
@@ -251,12 +323,48 @@ async function importFile(file){
  try{
   const imported=normalize(JSON.parse(await file.text()));
   if(!confirm('Replace this browser’s current draft with the imported local JSON?'))return;
-  draft=imported;selected={kind:'profile',act:0,scene:0};hasReviewed=false;
+  draft=imported;reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;
   if(!safeStore())return;
   paint();status('JSON imported locally. Review the citations before preview.');
  }catch(error){status('Import rejected: '+String(error.message).slice(0,130),true);}
  finally{$('importDraft').value='';}
 }
+$('reviewPacket').addEventListener('click',()=>{
+ const packet=governance.createPacket(draft,reviews,schema);
+ const blob=new Blob([JSON.stringify(packet,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='origin-editorial-review-packet-v1.json';document.body.append(a);
+ a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+ status(packet.status==='self-attested-handoff-ready'?
+  'Local review packet exported. Independent approval and publication are NOT enabled.':
+  'Review packet exported with pending issues. Not approved or published.');
+});
+$('createCheckpoint').addEventListener('click',()=>{
+ const title=prompt('Short description of this local checkpoint (no private information):');
+ if(title===null)return;
+ try{
+  const next=governance.createCheckpoint(draft,reviews,title,history);
+  const old=history;history=next;
+  if(!saveHistory()){history=old;return;}
+  updateCheckpoints();$('checkpointList').value='0';
+  status('Local checkpoint saved. Export JSON for a durable backup; this is not an audit log.');
+ }catch(err){status(String(err.message).slice(0,140),true);}
+});
+$('restoreCheckpoint').addEventListener('click',()=>{
+ const n=Number($('checkpointList').value);
+ if($('checkpointList').value===''||!Number.isInteger(n)||n<0||n>=history.length){
+  status('Choose a saved checkpoint to restore.',true);return;
+ }
+ if(!confirm('Restore this browser-local checkpoint? Unsaved current changes will be replaced.'))return;
+ try{
+  const snap=history[n];const restored=normalize(snap.draft);
+  // Restored review records are still checked against exact content fingerprints.
+  draft=restored;reviews=governance.cleanReviews(snap.reviews);
+  selected={kind:'profile',act:0,scene:0};hasReviewed=false;
+  if(!safeStore()||!saveReviews())return;
+  paint();status('Checkpoint restored locally; review the story before exporting.');
+ }catch(err){status('Could not restore selected checkpoint: '+String(err.message).slice(0,100),true);}
+});
 $('profileTab').addEventListener('click',()=>{selected={kind:'profile',act:0,scene:0};paint();});
 $('addAct').addEventListener('click',()=>{
  if(draft.acts.length>=12){status('Maximum 12 chapters in a draft.',true);return;}
@@ -265,12 +373,12 @@ $('addAct').addEventListener('click',()=>{
 $('saveDraft').addEventListener('click',()=>{if(safeStore())status('Saved locally. Export JSON for a backup; nothing is published.');});
 $('newDraft').addEventListener('click',()=>{
  if(!confirm('Replace the current local draft with a blank one? Export first to keep a backup.'))return;
- draft=schema.blank();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
+ draft=schema.blank();reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
  status('A new blank local draft is ready.');
 });
 $('loadSample').addEventListener('click',()=>{
  if(!confirm('Replace the current local draft with the documented example? Export first to keep your work.'))return;
- draft=schema.demo();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
+ draft=schema.demo();reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
  status('Research example loaded. You can preview it or adapt it.');
 });
 $('exportDraft').addEventListener('click',()=>{
