@@ -47,6 +47,12 @@ jobs:
             const data=await response.json().catch(()=>null);
             if(!response.ok||!data?.success){
               const codes=(Array.isArray(data?.errors)?data.errors:[]).slice(0,4).map(e=>String(e.code||'unknown')).join(',')||'not_provided';
+              if(method==='GET'){
+                const looksLikeAccount=/^[0-9a-f]{32}$/i.test(account);
+                console.log('Cloudflare account identifier shape valid: '+looksLikeAccount);
+                const workerCheck=await fetch('https://api.cloudflare.com/client/v4/accounts/'+encodeURIComponent(account)+'/workers/scripts/origin-creator-journey',{headers});
+                console.log('Read existing public ORIGIN Worker: HTTP '+workerCheck.status+' (used only to distinguish account identity from D1 token scope).');
+              }
               throw new Error('D1 API '+method+' denied (HTTP '+response.status+', Cloudflare code(s): '+codes+'). Existing token may require account-level D1 Read / D1 Write. No other projects modified.');
             }
             return data.result;
