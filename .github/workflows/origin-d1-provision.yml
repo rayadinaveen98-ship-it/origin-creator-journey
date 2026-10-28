@@ -1,0 +1,90 @@
+name: Provision isolated ORIGIN D1 database (no app deployment)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/origin-d1-provision.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: origin-d1-provision-once
+  cancel-in-progress: false
+jobs:
+  provision:
+    name: Create ORIGIN-only database and run tracked migration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify D1 identity and access security before provisioning
+        run: node --experimental-sqlite tests/v11-d1-integration.mjs
+      - name: Validate existing Cloudflare credential availability
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "::error::Cloudflare credentials unavailable. ORIGIN D1 NOT created."
+            exit 1
+          fi
+      - name: Provision ONLY origin-editorial-v1 if absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import {writeFileSync} from 'node:fs';
+          const account=process.env.CLOUDFLARE_ACCOUNT_ID,token=process.env.CLOUDFLARE_API_TOKEN;
+          const endpoint='https://api.cloudflare.com/client/v4/accounts/'+encodeURIComponent(account)+'/d1/database';
+          const headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'};
+          async function call(method,path='',body){
+            const response=await fetch(endpoint+path,{method,headers,body:body?JSON.stringify(body):undefined});
+            const data=await response.json().catch(()=>null);
+            if(!response.ok||!data?.success){
+              throw new Error('D1 API '+method+' failed (HTTP '+response.status+'). Existing token may require D1 Read and D1 Write permissions. No other projects modified.');
+            }
+            return data.result;
+          }
+          let found=null, page=1;
+          do {
+            const result=await call('GET','?per_page=100&page='+page);
+            const items=Array.isArray(result)?result:result?.results||[];
+            found=items.find(v=>v.name==='origin-editorial-v1')||found;
+            if(found||items.length<100)break;
+            page++;
+          }while(page<=15);
+          if(!found){
+            found=await call('POST','',{name:'origin-editorial-v1',primary_location_hint:'apac'});
+            console.log('Dedicated ORIGIN D1 database created with APAC location hint.');
+          }else console.log('Dedicated ORIGIN D1 database already exists; safe to apply pending migrations.');
+          const id=found.uuid||found.id;
+          if(!/^[0-9a-f-]{36}$/i.test(id||''))throw Error('Cloudflare did not return a valid D1 database ID.');
+          const config={
+            name:'origin-d1-migration-tool',compatibility_date:'2026-10-28',
+            d1_databases:[{binding:'ORIGIN_EDITORIAL_DB',database_name:'origin-editorial-v1',
+              database_id:id,migrations_dir:'backend/d1/migrations'}]
+          };
+          writeFileSync('origin.d1.provision.jsonc',JSON.stringify(config,null,2));
+          console.log('Isolated migration binding prepared. No Worker or public route deployed.');
+          NODE
+      - name: Apply tracked initial migration to ORIGIN only
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: d1 migrations apply origin-editorial-v1 --remote --config origin.d1.provision.jsonc
+      - name: Confirm server-side editorial schema exists
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: d1 execute origin-editorial-v1 --remote --config origin.d1.provision.jsonc --command "SELECT COUNT(*) AS count FROM origin_revisions;"
+      - name: Document separation from ORIGIN public website
+        run: |
+          echo 'ORIGIN D1 schema initialized without deploying or publishing an editorial API.'
+          echo 'Real Cloudflare Access application and verified team memberships are REQUIRED before any authenticated Studio release.'
