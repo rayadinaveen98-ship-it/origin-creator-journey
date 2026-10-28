@@ -19,6 +19,7 @@ function fingerprint(value){
  return h.toString(16).padStart(8,'0')+':'+str.length;
 }
 const sourceContent=s=>({label:text(s.label),url:text(s.url)});
+const reviewKey=(chapter,item)=>text(chapter?.id)+'__'+text(item?.id);
 const sceneContent=(s,chapter)=>({
   year:text(s.year),place:text(s.place),title:text(s.title),lead:text(s.lead),
   more:text(s.more),history:text(s.history),meaning:text(s.meaning),
@@ -36,7 +37,7 @@ function cleanReviews(raw){
   if(!raw[section]||typeof raw[section]!=='object'||Array.isArray(raw[section]))continue;
   let count=0;
   for(const [key,value] of Object.entries(raw[section])){
-   if(count>=160||!/^[a-z0-9][a-z0-9-]{0,63}$/i.test(key))continue;
+   if(count>=160||!/^[a-z0-9][a-z0-9_-]{0,127}$/i.test(key))continue;
    if(!value||typeof value!=='object'||Array.isArray(value))continue;
    const states=section==='sources'?SOURCE_STATES:section==='scenes'?SCENE_STATES:ASSET_STATES;
    if(!states.includes(value.status))continue;
@@ -56,7 +57,7 @@ function mark(reviews,section,item,chapter,status,reason,when){
  const tag=section==='sources'?fingerprint(sourceContent(item)):fingerprint(sceneContent(item,chapter));
  const target=cleanReviews(reviews);
  const result={status,note:note(reason),tag,updatedAt:when||new Date().toISOString()};
- target[section][item.id]=result;
+ target[section][reviewKey(chapter,item)]=result;
  return target;
 }
 function assess(doc,rawReview,schema){
@@ -68,7 +69,7 @@ function assess(doc,rawReview,schema){
   if(!chapter||!Array.isArray(chapter.archive)||!Array.isArray(chapter.scenes))continue;
   for(const source of chapter.archive){
    counts.sources++;
-   const current=review.sources[source.id];
+   const current=review.sources[reviewKey(chapter,source)];
    const tag=fingerprint(sourceContent(source));
    if(current?.tag&&current.tag!==tag){counts.stale++;issues.push('Act '+(a+1)+' source '+source.id+' changed since review');}
    else if(current?.status==='checked'&&current.note.length>=12){counts.checkedSources++;}
@@ -77,8 +78,8 @@ function assess(doc,rawReview,schema){
   for(const [i,scene] of chapter.scenes.entries()){
    counts.scenes++;counts.media++;
    const tag=fingerprint(sceneContent(scene,chapter));
-   const checked=review.scenes[scene.id];
-   const media=review.assets[scene.id];
+   const checked=review.scenes[reviewKey(chapter,scene)];
+   const media=review.assets[reviewKey(chapter,scene)];
    if((checked?.tag&&checked.tag!==tag)||(media?.tag&&media.tag!==tag)){
     counts.stale++;issues.push('Act '+(a+1)+' scene '+(i+1)+' changed after editorial review');
    }
@@ -130,6 +131,6 @@ function cleanHistory(history){
 window.ORIGIN_STUDIO_GOVERNANCE=Object.freeze({
  REVIEW_KEY,HISTORY_KEY,MAX_CHECKPOINTS,blankReview,cleanReviews,mark,assess,
  createPacket,createCheckpoint,cleanHistory,fingerprint,sourceContent,sceneContent,
- SOURCE_STATES,SCENE_STATES,ASSET_STATES
+ SOURCE_STATES,SCENE_STATES,ASSET_STATES,reviewKey
 });
 })();
