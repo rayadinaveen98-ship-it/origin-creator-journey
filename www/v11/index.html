@@ -7,6 +7,7 @@
 <meta name="description" content="ORIGIN V11 Journey Engine: a cinematic storytelling laboratory for thousands of original, responsibly researched creator journeys.">
 <title>ORIGIN — Journey Engine Preview</title>
 <link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./visual-grammar.css">
 <script defer src="./registry.js"></script>
 <script defer src="./data/ray-profile.js"></script>
 <script defer src="./data/ray-act-1.js"></script>
@@ -18,6 +19,7 @@
 <script defer src="./data/ray-act-7.js"></script>
 <script defer src="./data/ray-act-8.js"></script>
 <script defer src="./data/kurosawa-preview.js"></script>
+<script defer src="./visual-director.js"></script>
 <script defer src="./player.js"></script>
 </head>
 <body>
@@ -35,6 +37,7 @@
         <div class="art-year" id="artYear"></div>
         <div class="art-horizon"></div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
         <div class="art-paper"></div><div class="art-frame"></div><div class="art-sun"></div><div class="art-strip"></div><div class="art-figures"></div>
+        <div id="visualSet" aria-hidden="true"></div>
         <img id="archiveImage" alt="" hidden referrerpolicy="no-referrer">
         <div class="art-veil"></div><div class="art-grain"></div>
       </div>
@@ -52,7 +55,7 @@
         <h1 id="storyTitle" tabindex="-1"></h1><p id="storyLead" class="story-lead"></p><p id="storyMore" class="story-more"></p>
         <button class="inspect" id="inspectButton" hidden aria-pressed="false"></button><p class="detail-panel" id="detailPanel" hidden></p></div>
       </section>
-      <div class="story-bottom"><div class="scene-credit"><span id="scenePrompt">ORIGINAL VISUAL STUDY</span><small id="visualFootnote"></small></div><div class="story-controls"><span class="scene-period" id="chapterPeriod"></span><button class="prev" id="prevButton" aria-label="Previous story moment">←</button><button class="next" id="nextButton">Next moment →</button></div></div>
+      <div class="story-bottom"><div class="scene-credit"><span id="scenePrompt">ORIGINAL VISUAL STUDY</span><small id="visualFootnote"></small><span class="visual-technique" id="visualTechnique"></span></div><div class="story-controls"><span class="scene-period" id="chapterPeriod"></span><button class="prev" id="prevButton" aria-label="Previous story moment">←</button><button class="next" id="nextButton">Next moment →</button></div></div>
     </div>
     <div class="ending" id="ending" hidden><p class="eyebrow">THE FRAME CLOSES. THE STORIES CONTINUE.</p><h2 id="endingHeading" tabindex="-1"></h2><p id="endingText"></p><div class="ending-actions"><button id="endingRestart">Revisit first scene</button><button id="endingHome">Explore other lives</button></div></div>
   </section>
