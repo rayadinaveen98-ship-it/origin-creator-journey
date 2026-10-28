@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import {handle} from '../backend/worker.mjs';
+import {exampleEditorialDraft} from './fixtures/editorial-draft.mjs';
 const BASE='https://studio-api.example.test';
 const SITE='https://origin-creator-journey.example.test';
 const API='https://origin-backend.supabase.co';
-const SECRET='server_service_role_key_never_expose_to_browser_1234567890';
+const SECRET='sb_secret_syntheticBackendKeyNeverProduction_1234567890';
+const PUBLISHABLE='sb_publishable_syntheticPublicKeyNeverProduction_1234567890';
 const ACTORS={
  contributor:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
  reviewer:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
@@ -13,27 +15,40 @@ const ACTORS={
 };
 const USER_TOKENS=Object.fromEntries(Object.entries(ACTORS).map(([key,id])=>['user-'+key,id]));
 const uuid='11111111-1111-4111-8111-111111111111';
-const config={ORIGIN_STUDIO_ALLOWED_ORIGIN:SITE,ORIGIN_SUPABASE_URL:API,ORIGIN_SUPABASE_SERVICE_ROLE_KEY:SECRET};
+const config={ORIGIN_STUDIO_ALLOWED_ORIGIN:SITE,ORIGIN_SUPABASE_URL:API,ORIGIN_SUPABASE_SECRET_KEY:SECRET,ORIGIN_SUPABASE_PUBLISHABLE_KEY:PUBLISHABLE};
 let requests=[],upstreamMode='okay';
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
 async function mock(url,opt){
  requests.push({url,method:opt.method||'GET',headers:opt.headers,body:opt.body});
  if(url===API+'/auth/v1/user'){
+  assert.equal(opt.headers.apikey,PUBLISHABLE,'User session validation uses only the publishable key');
   const token=opt.headers.Authorization?.replace('Bearer ','');
   const id=USER_TOKENS[token];
   return id?json({id}):json({message:'invalid token'},401);
  }
  if(url.startsWith(API+'/rest/v1/origin_memberships?')){
   assert.equal(opt.headers.apikey,SECRET);
-  assert.equal(opt.headers.Authorization,'Bearer '+SECRET);
+  assert.equal(opt.headers.Authorization,undefined,'Secret API keys must not be sent as bearer JWTs');
   const query=new URL(url).searchParams;
   const id=query.get('user_id').slice(3);
   const role=Object.entries(ACTORS).find(([,v])=>v===id)?.[0];
   return json(role?[{user_id:id,role:role==='inactive'?'contributor':role,active:role!=='inactive'}]:[]);
  }
+ if(url.startsWith(API+'/rest/v1/origin_journeys?')){
+  assert.equal(opt.headers.apikey,SECRET);
+  assert.equal(opt.headers.Authorization,undefined);
+  return json([{id:uuid,slug:'original-creator',title:'Original Creator',head_revision:2}]);
+ }
+ if(url.startsWith(API+'/rest/v1/origin_revisions?')){
+  assert.equal(opt.headers.apikey,SECRET);
+  assert.equal(opt.headers.Authorization,undefined);
+  const params=new URL(url).searchParams;
+  if(params.has('journey_id'))return json([{id:uuid,revision_no:2,state:'submitted'}]);
+  return json([{id:uuid,journey_id:uuid,revision_no:2,state:'submitted',content:exampleEditorialDraft()}]);
+ }
  if(url.startsWith(API+'/rest/v1/rpc/')){
   assert.equal(opt.headers.apikey,SECRET);
-  assert.equal(opt.headers.Authorization,'Bearer '+SECRET);
+  assert.equal(opt.headers.Authorization,undefined,'Service REST calls must not send secret API keys as JWTs');
   if(upstreamMode==='denied')return json({message:'sensitive SQL details'},403);
   const data=JSON.parse(opt.body);
   assert.equal(data.p_actor,ACTORS[roleForToken]);
@@ -52,7 +67,31 @@ async function call(route,role='contributor',method='POST',data={},origin=SITE,h
  return {status:res.status,headers:res.headers,body:await res.json().catch(()=>null),calls:requests.slice()};
 }
 function lastRpc(r){return r.calls.at(-1);}
-const validContent={schemaVersion:1,profile:{name:'Test'},acts:[{name:'Act'}]};
+const validContent=exampleEditorialDraft();
+{
+ const r=await call('/v1/journeys','reviewer','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.journeys[0].slug,'original-creator');
+ assert.equal(r.calls.length,3,'Read request requires real session and live membership check');
+ assert.ok(r.calls.at(-1).url.endsWith('order=updated_at.desc&limit=30'));
+}
+{
+ const r=await call('/v1/journeys/'+uuid+'/revisions','contributor','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.revisions.length,1);
+ assert.equal(r.body.revisions[0].revision_no,2);
+}
+{
+ const r=await call('/v1/revisions/'+uuid,'reviewer','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.revision.content.acts.length,1);
+}
+{
+ const r=await call('/v1/journeys/'+uuid+'/revisions','inactive','GET',null);
+ assert.equal(r.status,403);
+ assert.equal(r.calls.filter(x=>x.url.includes('/rest/v1/origin_revisions')).length,0);
+}
+
 {
  const r=await call('/v1/me','contributor','GET',null);
  assert.equal(r.status,200);assert.equal(r.body.userId,ACTORS.contributor);
@@ -150,8 +189,26 @@ for(const [role,endpoint] of [
  upstreamMode='okay';
 }
 {
- const bad={...config,ORIGIN_SUPABASE_SERVICE_ROLE_KEY:''};
+ const bad={...config,ORIGIN_SUPABASE_SECRET_KEY:''};
  const req=new Request(BASE+'/v1/me',{method:'GET',headers:{Origin:SITE,Authorization:'Bearer user-admin'}});
  const r=await handle(req,bad,mock);assert.equal(r.status,503,'Fail closed without backend configuration');
 }
-console.log('ORIGIN V11.5 API gate tests PASS: verified bearer user, role lookup on every action, actor spoof defense, malformed-body rejection, cross-origin guards, no generic proxy, release staging only and no exposed service secrets.');
+for(const [label,breakDraft] of [
+ ['unsourced story',v=>{v.acts[0].scenes[0].sources=[];}],
+ ['invalid source URL',v=>{v.acts[0].archive[0].url='javascript:alert(1)';}],
+ ['script markup',v=>{v.acts[0].scenes[0].title='<script>alert(1)</script>'; }],
+ ['duplicate scene',v=>{v.acts[0].scenes.push({...v.acts[0].scenes[0]});}],
+ ['unverified arbitrary artwork',v=>{v.acts[0].scenes[0].asset='https://invalid.example/img.png';}]
+]){
+ const content=exampleEditorialDraft();breakDraft(content);
+ const response=await call('/v1/revisions','contributor','POST',{journeyId:uuid,content});
+ assert.equal(response.status,400,label+' must never reach database');
+ assert.equal(response.calls.filter(x=>x.url.includes('/rpc/')).length,0);
+}
+{
+ const invalidKey={...config,ORIGIN_SUPABASE_PUBLISHABLE_KEY:''};
+ const request=new Request(BASE+'/v1/me',{method:'GET',headers:{Origin:SITE,Authorization:'Bearer user-admin'}});
+ const response=await handle(request,invalidKey,mock);
+ assert.equal(response.status,503,'Fail closed without publishable Supabase key');
+}
+console.log('ORIGIN V11.6 API gate tests PASS: verified bearer user, role lookup on every action, actor spoof defense, malformed-body rejection, cross-origin guards, no generic proxy, release staging only and no exposed service secrets.');

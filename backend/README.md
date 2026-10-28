@@ -1,4 +1,6 @@
-# ORIGIN V11.5 — Isolated Authenticated Editorial Backend Foundation
+# ORIGIN V11.5–V11.6 — Isolated Authenticated Editorial Backend Foundation
+
+**V11.6 update:** Supabase now recommends `sb_publishable_...` and `sb_secret_...` API keys. The backend has been updated to use these rather than the deprecated long-lived service-role JWT. It also validates complete editorial drafts, offers bounded authenticated cloud-read endpoints, and includes a read-only project preflight. The authoritative connection instructions are in [V11_6_CONNECTION_READINESS.md](V11_6_CONNECTION_READINESS.md). **There is still no live ORIGIN project or backend deployment.**
 
 ## Delivery status
 **Backend source and an independent security test suite, not a deployed production backend.** The public ORIGIN V10 and V11 Studio Cloudflare Worker is unchanged. There is **no dedicated ORIGIN Supabase project in the connected account** as of October 28, 2026. The three connected projects belong to Movie Newsroom, CineRelay and FrameByNavin Creator OS, and MUST NOT be repurposed or contaminated.
@@ -33,7 +35,8 @@ All endpoints require `Authorization: Bearer <Supabase access token>`. Browser C
 ## Expected configuration — NOT SET
 ```text
 ORIGIN_SUPABASE_URL=https://<dedicated-origin-project>.supabase.co
-ORIGIN_SUPABASE_SERVICE_ROLE_KEY=<backend Worker secret only; never GitHub or frontend>
+ORIGIN_SUPABASE_PUBLISHABLE_KEY=<new sb_publishable key, never treated as an access token>
+ORIGIN_SUPABASE_SECRET_KEY=<new sb_secret key; backend Worker secret only>
 ORIGIN_STUDIO_ALLOWED_ORIGIN=https://origin-creator-journey.rayadinaveen98.workers.dev
 ```
 

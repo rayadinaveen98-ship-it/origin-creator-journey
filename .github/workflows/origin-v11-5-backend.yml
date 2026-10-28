@@ -5,12 +5,16 @@ on:
     paths:
       - 'backend/**'
       - 'tests/v11-backend-api.mjs'
+      - 'tests/v11-preflight.mjs'
+      - 'tests/fixtures/**'
       - '.github/workflows/origin-v11-5-backend.yml'
   pull_request:
     branches: [main]
     paths:
       - 'backend/**'
       - 'tests/v11-backend-api.mjs'
+      - 'tests/v11-preflight.mjs'
+      - 'tests/fixtures/**'
       - '.github/workflows/origin-v11-5-backend.yml'
   workflow_dispatch:
 permissions:
@@ -29,6 +33,8 @@ jobs:
         run: node --check backend/worker.mjs
       - name: Reject forged sessions, wrong roles and exposed secrets
         run: node tests/v11-backend-api.mjs
+      - name: Verify safe connection preflight remains read-only
+        run: node tests/v11-preflight.mjs
   postgres-rls:
     name: Real PostgreSQL 17 role separation and revision workflow
     runs-on: ubuntu-24.04
