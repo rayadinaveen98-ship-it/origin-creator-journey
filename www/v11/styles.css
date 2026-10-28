@@ -10,3 +10,11 @@
 
 /* Headings receive programmatic focus for screen readers; avoid a large decorative outline on entry. */
 #catalogHeading:focus,#storyTitle:focus,#endingHeading:focus{outline:none}
+
+/* Keep year, location and scene counter legible on narrow mobile screens. */
+@media(max-width:750px){
+ .scene-eyebrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 12px;align-items:start}
+ .scene-eyebrow .scene-year{grid-column:1;grid-row:1;white-space:nowrap}
+ .scene-eyebrow #chapterMeter{grid-column:2;grid-row:1;white-space:nowrap}
+ .scene-eyebrow #scenePlace{grid-column:1/-1;grid-row:2;line-height:1.4;overflow-wrap:anywhere}
+}
