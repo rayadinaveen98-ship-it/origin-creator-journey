@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10161b">
+<meta name="robots" content="noindex,nofollow">
+<title>ORIGIN — Creator Studio Lab</title>
+<link rel="stylesheet" href="./studio.css">
+<script defer src="./schema.js"></script><script defer src="./editor.js"></script>
+</head><body>
+<a class="skip" href="#studioHeading">Skip to editor</a>
+<main class="studio-app">
+<header class="topbar">
+ <div><a class="brand" href="/v11/">ORIGIN<span>.</span></a><span class="studio-tag">CREATOR STUDIO / LAB</span></div>
+ <span class="local-pill"><span class="local-dot"></span>LOCAL DRAFT · NOT PUBLISHED</span>
+</header>
+<section class="hero">
+ <div><p class="eyebrow">THE EDITORIAL WORKBENCH</p><h1 id="studioHeading">Make a life <em>feel like cinema.</em></h1>
+ <p>Write a creator's story, attach research, choose cinematic art direction, and preview the result in our real journey player. Your draft stays in this browser.</p></div>
+ <div class="hero-graphic" aria-hidden="true"><span class="hero-ring"></span><span class="hero-mark">O.</span></div>
+</section>
+<section class="privacy-note" aria-label="Important privacy and publication limitations">
+ <strong>Editorial sandbox, not an authenticated CMS.</strong>
+ <span>This page is accessible on the public website. Do not enter private or unpublished confidential research. Drafts are saved only in this browser's local storage; there is no account sync, server upload, approval workflow or publish button. Export your draft to keep a backup.</span>
+</section>
+<div class="toolbar" role="group" aria-label="Draft actions">
+ <button id="newDraft" type="button" class="subtle">New blank</button>
+ <button id="loadSample" type="button" class="subtle">Load research example</button>
+ <button id="saveDraft" type="button" class="subtle">Save locally</button>
+ <button id="exportDraft" type="button" class="subtle">Export JSON</button>
+ <label class="upload-control">Import JSON<input id="importDraft" type="file" accept=".json,application/json"></label>
+ <button id="checkDraft" type="button" class="subtle">Run editorial checks</button>
+ <button id="previewDraft" type="button" class="primary">Preview cinematic journey <span aria-hidden="true">↗</span></button>
+</div>
+<p id="status" role="status" aria-live="polite" class="status">Ready to create a local draft.</p>
+<div class="workspace">
+ <aside class="sidepanel" aria-label="Story outline">
+  <div class="panel-kicker">YOUR JOURNEY</div><h2 id="outlineName">New creator</h2>
+  <div class="editor-overview"><span id="chapterCount">1 chapter</span><span id="sceneCount">1 moment</span></div>
+  <button id="profileTab" type="button" class="outline-tab active"> <span>01</span> Creator identity</button>
+  <div class="outline-head"><h3>Chapters</h3><button id="addAct" class="icon-button" type="button" aria-label="Add chapter">+</button></div>
+  <div id="actList" class="outline-list"></div>
+  <div class="outline-help">Research first. Every scene needs at least one cited source before preview.</div>
+ </aside>
+ <section class="edit-panel" aria-label="Creator and story editor">
+  <div class="edit-heading"><div><p id="sectionLabel" class="eyebrow">01 / CREATOR IDENTITY</p><h2 id="sectionHeading">Shape the person</h2></div><span id="editSummary" class="section-summary">UNPUBLISHED DRAFT</span></div>
+  <div id="editorFields"></div>
+ </section>
+ <aside class="qa-panel" aria-label="Editorial quality checks">
+  <p class="panel-kicker">EDITORIAL REVIEW</p>
+  <h2>Story integrity</h2><p class="qa-description">A source trail and image-rights review are required before content is ready for professional publication.</p>
+  <div class="qa-metrics"><div><strong id="validScenes">0</strong><span>Story moments</span></div><div><strong id="validSources">0</strong><span>Research sources</span></div></div>
+  <p class="qa-status" id="qaStatus">Draft incomplete</p><div id="qaResults" class="qa-results" aria-live="polite"></div>
+  <p class="qa-disclaimer">Passing these checks only means a draft meets structural requirements. It is not historical verification, rights clearance or editorial approval.</p>
+ </aside>
+</div>
+<footer class="footer"><a href="/v11/">← Return to cinematic journeys</a><span>ORIGIN STUDIO LAB · EDIT LOCALLY · EXPORT BEFORE CLEARING BROWSER DATA</span></footer>
+</main></body></html>
