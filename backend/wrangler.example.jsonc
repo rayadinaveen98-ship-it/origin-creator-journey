@@ -1,0 +1,13 @@
+{
+  // EXAMPLE ONLY. Do not deploy until a dedicated ORIGIN Supabase project exists.
+  // The public ORIGIN experience remains a separate static assets Worker.
+  "name": "origin-editorial-api",
+  "main": "./worker.mjs",
+  "compatibility_date": "2026-10-28",
+  "workers_dev": false,
+  // Fill project URL and allowed Origin only after confirmed production setup.
+  // Never place ORIGIN_SUPABASE_SECRET_KEY in this file or in GitHub.
+  "vars": {
+    "ORIGIN_STUDIO_ALLOWED_ORIGIN": "https://origin-creator-journey.rayadinaveen98.workers.dev"
+  }
+}
