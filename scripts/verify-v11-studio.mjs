@@ -57,7 +57,7 @@ for(const id of ['studioHeading','newDraft','saveDraft','loadSample','exportDraf
 }
 for(const [,id] of editor.matchAll(/\$\('([A-Za-z0-9_-]+)'\)/g))assert.ok(html.includes('id="'+id+'"'),'Editor references missing '+id);
 for(const filename of ['editor.js','preview.js'])new Script(read('www/v11/studio/'+filename),{filename});
-assert.ok(html.includes('href="/v11/?person=studio-local&amp;draft=1"'),'Preview opens real V11 player');
+assert.ok(html.includes('href="/v11/?person=studio-local&amp;draft=1#act=1&amp;scene=0"'),'Preview opens real V11 player');
 assert.ok(html.includes('NOT PUBLISHED')&&html.includes('public website'),'Risk notices must be explicit');
 assert.ok(!html.includes('Publish</'),'No public publish feature');
 const viewer=read('www/v11/index.html');
