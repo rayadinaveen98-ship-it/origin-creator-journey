@@ -87,7 +87,8 @@ try{
  await rightsBox.locator('textarea').fill('This preview is a CSS-generated illustration with no external image.');
  await rightsBox.getByRole('button',{name:'Record local review'}).click();
  assert.equal(await page.locator('#reviewGateStatus').getAttribute('data-valid'),'true','All local review notes complete a handoff checklist');
- assert.match(await page.locator('#reviewGateStatus').textContent(),/self-attested/i);
+
+ await page.screenshot({path:'artifacts/origin-v11-studio-editorial-review-desktop.png',fullPage:true}); assert.match(await page.locator('#reviewGateStatus').textContent(),/self-attested/i);
  // An editorial text edit must invalidate the previous review. Restoring exact text may recover it.
  const historicLead='Satyajit Ray was born in Calcutta on 2 May 1921.';
  await page.locator('textarea[name="lead"]').fill(historicLead+' Additional edited claim.');
