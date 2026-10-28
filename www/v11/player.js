@@ -1,6 +1,7 @@
 /* ORIGIN V11 — one data-driven player for any registered creator. */
 (()=>{'use strict';
 const data=window.ORIGIN_V11;
+const visualDirector=window.ORIGIN_VISUAL_DIRECTOR;
 const $=id=>document.getElementById(id);
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const registry=data.inspect();
@@ -110,12 +111,15 @@ function render(mode){
  $('chapterMeter').textContent=String(sceneIndex+1).padStart(2,'0')+' / '+String(chapter.scenes.length).padStart(2,'0');
  $('totalMeter').textContent=String(linearPosition()).padStart(2,'0')+' / '+String(totals()).padStart(2,'0');
  $('visualFootnote').textContent=s.visual||'Original editorial artwork — not an archival record';
+ const visual=visualDirector.mount($('visualSet'),el.stage,s,linearPosition()-1);
+ $('visualTechnique').textContent='ORIGINAL '+visual.label+' · NOT HISTORICAL FOOTAGE';
  el.title.innerHTML=richTitle(s.title);
  el.lead.textContent=s.lead;
  el.more.textContent=s.more;
  $('artYear').textContent=s.year;
  const image=s.asset&&urlOkay(s.asset)?s.asset:null;
  el.image.hidden=!image;
+ el.stage.dataset.photo=String(!!image);
  if(image){el.image.alt='Archival illustration; date and provenance are described in Context';el.image.src=image;}
  else el.image.removeAttribute('src');
  el.stage.classList.remove('inspecting');

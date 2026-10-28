@@ -197,6 +197,13 @@ jobs:
           curl --fail --silent --show-error --location "$base/v11/data/kurosawa-preview.js" --output "${RUNNER_TEMP}/origin-v11-kurosawa.js"
           grep -q "creatorId:'kurosawa',index:1" "${RUNNER_TEMP}/origin-v11-kurosawa.js"
           echo 'V11 generic player, full Ray data and Kurosawa preview verified as distinct live assets.'
+          curl --fail --silent --show-error --location "$base/v11/visual-director.js" --output "${RUNNER_TEMP}/origin-v11-visual-director.js"
+          grep -q 'ORIGIN_VISUAL_DIRECTOR' "${RUNNER_TEMP}/origin-v11-visual-director.js"
+          curl --fail --silent --show-error --location "$base/v11/visual-grammar.css" --output "${RUNNER_TEMP}/origin-v11-visual-grammar.css"
+          grep -q 'data-template="negative"' "${RUNNER_TEMP}/origin-v11-visual-grammar.css"
+          curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-v11-visual-index.html"
+          grep -q './visual-director.js' "${RUNNER_TEMP}/origin-v11-visual-index.html"
+          echo 'V11.1 original cinematic art-director and CSS templates verified live.'
 
       - name: Record verified live deployment in GitHub
         shell: bash

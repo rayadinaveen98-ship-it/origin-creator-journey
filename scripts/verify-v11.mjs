@@ -41,4 +41,23 @@ assert.ok(css.includes('prefers-reduced-motion')&&css.includes('max-width:750px'
 assert.ok(player.includes("origin_v10_act"),'Legacy Ray progress migration must be implemented');
 assert.ok(player.includes('noopener noreferrer'),'Source links need safe external-link policy');
 assert.ok(!player.includes('eval(')&&!player.includes('new Function('),'No dynamic script evaluation in player');
+const directorCode=read('www/v11/visual-director.js');
+const canvasCode=read('www/v11/visual-grammar.css');
+new Script(directorCode,{filename:'www/v11/visual-director.js'}).runInContext(context,{timeout:2000});
+const visual=win.ORIGIN_VISUAL_DIRECTOR;
+assert.ok(visual&&visual.templates.length>=10,'Require diverse reusable visual templates');
+const compositions=new Set();
+for(const id of ['ray','kurosawa'])for(const act of win.ORIGIN_V11.acts(id))for(const [i,scene] of act.scenes.entries()){
+ const spec=visual.direction(scene,i);
+ assert.ok(visual.templates.includes(spec.template),'Every scene maps to a supported template');
+ assert.ok(spec.label&&spec.description&&spec.layers.length>=3,'Every art direction must explain its original provenance');
+ compositions.add(spec.template);
+}
+assert.ok(compositions.size>=9,'Real creator scenes must exercise at least nine visual templates');
+for(const name of visual.templates)assert.ok(canvasCode.includes('data-template="'+name+'"'),'Visual template lacks styling: '+name);
+for(const id of ['visualSet','visualTechnique'])assert.ok(html.includes('id="'+id+'"'),'Missing V11.1 visual DOM '+id);
+assert.ok(html.includes('src="./visual-director.js"')&&html.includes('href="./visual-grammar.css"'),'Cinematic visual assets must be loaded');
+assert.ok(html.indexOf('src="./visual-director.js"')<html.indexOf('src="./player.js"'),'Art director must load before reader');
+assert.ok(canvasCode.includes('prefers-reduced-motion')&&canvasCode.includes('max-width:750px'),'Cinematic templates must support motion-sensitive/mobile users');
+assert.ok(player.includes('visualDirector.mount('),'Shared player must use universal art director');
 console.log('V11 schema/static QA PASS: 2 creators, 9 acts, 92 scenes; Ray 87 scenes and sources byte-equivalent as object data to V10; V11 engine structure and browser syntax valid.');

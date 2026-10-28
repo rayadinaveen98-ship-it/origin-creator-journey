@@ -1,0 +1,124 @@
+/* ORIGIN V11.1 — declarative cinematic visual grammar.
+   All designs are original editorial shapes, never copied film frames or historic photographs. */
+.stage[data-visual] .art-orbit,
+.stage[data-visual] .art-horizon,
+.stage[data-visual] .art-paper,
+.stage[data-visual] .art-frame,
+.stage[data-visual] .art-sun,
+.stage[data-visual] .art-strip,
+.stage[data-visual] .art-figures{opacity:0}
+#visualSet{position:absolute;inset:0;overflow:hidden;isolation:isolate;pointer-events:none;--vmetal:#e5c4a0;--vsoft:#ded2be;--vblack:#071018}
+.visual-shape{position:absolute;display:block;box-sizing:border-box;will-change:auto}
+#visualSet .visual-shape{transition:transform .65s ease,filter .65s ease,opacity .4s ease}
+.stage:not(.changing) #visualSet .visual-shape{animation:visual-entrance .75s cubic-bezier(.2,.72,.3,1) both}
+.stage.changing #visualSet{opacity:.65}
+@keyframes visual-entrance{from{opacity:0;filter:blur(5px)}to{opacity:1;filter:blur(0)}}
+.stage[data-visual] #artYear{opacity:.3;z-index:1}
+.stage[data-visual="absence"] #artYear,.stage[data-visual="negative"] #artYear{opacity:.15}
+.visual-shape:before,.visual-shape:after{content:'';position:absolute;display:block}
+#visualSet[data-template="field"] .visual-sky{inset:12% 0 34% 32%;background:radial-gradient(ellipse at 61% 26%,#fff0bc7a 0,transparent 42%),linear-gradient(180deg,#b1c4a42b,#8b9a6860 60%,transparent 100%)}
+#visualSet[data-template="field"] .visual-ground{right:-10%;bottom:8%;width:90%;height:29%;border-radius:50% 45% 0 0;transform:rotate(-7deg);background:linear-gradient(177deg,#c0b5816e,#273b39c0 28%,#0d1b1eee)}
+#visualSet[data-template="field"] .visual-reed,#visualSet[data-template="field"] .visual-reed-two{right:22%;bottom:4%;height:55%;width:39%;background:repeating-linear-gradient(80deg,transparent 0 23px,#d2c18f88 23px 25px,transparent 26px 48px);mask-image:linear-gradient(0deg,#000 7%,#000c 66%,transparent 100%);transform:skew(-10deg) rotate(var(--visual-tilt))}
+#visualSet[data-template="field"] .visual-reed-two{right:0;bottom:-4%;height:68%;opacity:.7;transform:skew(13deg) rotate(-8deg)}
+#visualSet[data-template="field"] .visual-distant{right:16%;top:46%;width:34%;height:5px;background:#121f27a3;box-shadow:0 1px 0 2px #ffe6bc25;transform:rotate(-2deg)}
+#visualSet[data-template="absence"] .visual-shadow{right:6%;top:15%;height:75%;width:58%;background:linear-gradient(115deg,transparent 14%,#03080fcb 15% 47%,#25292d8c 48% 62%,transparent 63%);clip-path:polygon(16% 0,100% 0,82% 100%,0% 100%)}
+#visualSet[data-template="absence"] .visual-threshold{right:21%;top:13%;height:70%;width:33%;border-left:2px solid #e3ba916b;border-top:2px solid #e3ba916b;box-shadow:-24px 0 75px #100c16a5,40px 0 60px #e5d1ba12;transform:skewY(-5deg)}
+#visualSet[data-template="absence"] .visual-light-cut{right:8%;top:18%;width:50%;height:65%;clip-path:polygon(0 0,12% 0,100% 100%,0 100%);background:linear-gradient(90deg,#e9c8a342,transparent 74%)}
+#visualSet[data-template="studio"] .visual-rig{right:5%;top:9%;width:58%;height:65%;border-top:4px solid #d9c7a66f;border-right:2px solid #dec8a761;transform:rotate(var(--visual-tilt));box-shadow:0 9px 0 #101720ad}
+#visualSet[data-template="studio"] .visual-rig:before{top:0;right:43%;height:50%;width:3px;background:#f1d6a18a}
+#visualSet[data-template="studio"] .visual-light-beam{right:5%;top:13%;width:74%;height:70%;clip-path:polygon(60% 0,66% 0,97% 98%,3% 100%);background:linear-gradient(168deg,#f9d6a64a,transparent 80%);transform:rotate(-4deg)}
+#visualSet[data-template="studio"] .visual-set-floor{right:-8%;bottom:10%;width:88%;height:26%;background:repeating-linear-gradient(167deg,#e5d3b536 0 2px,transparent 2px 72px),linear-gradient(180deg,#d3ba9861,transparent 70%);clip-path:polygon(12% 0,70% 0,100% 100%,0 100%)}
+#visualSet[data-template="paper"] .visual-page{right:12%;top:13%;width:43%;height:72%;background:linear-gradient(120deg,#e5d7b2e5,#9b9482a3 49%,#c3b79694);box-shadow:24px 22px 68px #020711ba;transform:rotate(var(--visual-tilt));border:1px solid #fff0c29b}
+#visualSet[data-template="paper"] .visual-print-line,#visualSet[data-template="paper"] .visual-print-line-two{right:19%;top:28%;height:24%;width:32%;background:repeating-linear-gradient(0deg,#23262a8c 0 3px,transparent 3px 18px);transform:rotate(var(--visual-tilt));opacity:.7}
+#visualSet[data-template="paper"] .visual-print-line-two{top:58%;height:10%;width:27%;right:21%;opacity:.4}
+#visualSet[data-template="paper"] .visual-stamp{right:23%;top:19%;border:8px double #343d426e;height:7vw;width:7vw;max-width:90px;max-height:90px;border-radius:50%;transform:rotate(19deg)}
+#visualSet[data-template="frame"] .visual-matte{right:5%;top:13%;width:64%;height:68%;background:linear-gradient(120deg,#d6c4a061,#4b605c4d 48%,#18262bc4);transform:rotate(var(--visual-tilt));border:23px solid #0b1217d9;box-shadow:0 0 0 2px #f5daa27a,32px 29px 60px #03090bd6}
+#visualSet[data-template="frame"] .visual-viewfinder{right:14%;top:23%;width:46%;height:48%;border:1px solid #f2ead087;transform:rotate(var(--visual-tilt));box-shadow:inset 0 0 0 1px #121b2466}
+#visualSet[data-template="frame"] .visual-viewfinder:before{left:50%;top:2%;height:96%;width:1px;background:#e9e1d544}
+#visualSet[data-template="frame"] .visual-viewfinder:after{top:50%;left:2%;width:96%;height:1px;background:#e9e1d544}
+#visualSet[data-template="frame"] .visual-subject{right:26%;top:34%;width:16%;height:25%;background:#0f2023c9;border-radius:45% 50% 8% 9%;transform:rotate(var(--visual-tilt));filter:blur(1px)}
+#visualSet[data-template="frame"] .visual-depth{right:14%;bottom:20%;width:44%;height:1px;background:#eee2cc77;transform:rotate(var(--visual-tilt))}
+#visualSet[data-template="sound"] .visual-score,#visualSet[data-template="sound"] .visual-score-two{right:3%;top:30%;width:65%;height:28%;background:repeating-linear-gradient(0deg,transparent 0 23px,#dfc18f99 24px 25px,transparent 26px 37px);transform:rotate(var(--visual-tilt))}
+#visualSet[data-template="sound"] .visual-score-two{top:60%;right:12%;height:17%;width:54%;opacity:.62}
+#visualSet[data-template="sound"] .visual-pulse,#visualSet[data-template="sound"] .visual-pulse-two{top:33%;right:30%;width:9%;aspect-ratio:1;background:#ffe3b4cc;border-radius:50%;box-shadow:0 0 0 15px #eccca629,0 0 0 57px #d9d1b318,0 0 0 102px #e2c69a12;transform:translateY(var(--visual-shift))}
+#visualSet[data-template="sound"] .visual-pulse-two{top:62%;right:12%;width:7%;opacity:.64}
+#visualSet[data-template="negative"] .visual-film{right:15%;top:6%;width:40%;height:93%;background:repeating-linear-gradient(0deg,#171821f2 0 11px,#c0b09666 11px 17px,#121921d3 17px 116px);border-left:22px dashed #d6c3a981;border-right:22px dashed #d6c3a981;transform:rotate(var(--visual-tilt));box-shadow:18px 19px 55px #090a10bd}
+#visualSet[data-template="negative"] .visual-film-cut{right:20%;top:30%;width:30%;height:36%;background:linear-gradient(25deg,#f5ae715c,transparent 45%,#d7c6b144);transform:rotate(var(--visual-tilt))}
+#visualSet[data-template="negative"] .visual-scratch{right:40%;top:11%;width:2px;height:79%;background:#fff0d090;transform:rotate(calc(var(--visual-tilt) + 8deg));box-shadow:20px 0 1px #f5e9cf39,-14px 0 2px #fcdfaa66}
+#visualSet[data-template="archive"] .visual-drawer{right:7%;top:16%;width:57%;height:64%;border:3px solid #bb9875b3;background:repeating-linear-gradient(0deg,#2f2a2eaa 0 58px,#b7a17c8c 59px 64px,#191c25df 65px 105px);transform:rotate(var(--visual-tilt));box-shadow:22px 15px 75px #05080cb3}
+#visualSet[data-template="archive"] .visual-document,#visualSet[data-template="archive"] .visual-document-two{right:22%;top:19%;width:29%;height:53%;background:linear-gradient(130deg,#e6d6afe2,#9f9176a6);transform:rotate(calc(var(--visual-tilt) + 8deg));box-shadow:8px 10px 26px #090c14af}
+#visualSet[data-template="archive"] .visual-document-two{right:16%;top:22%;transform:rotate(calc(var(--visual-tilt) - 11deg));opacity:.65}
+#visualSet[data-template="archive"] .visual-index-tab{right:22%;top:43%;width:24%;height:2px;background:#171d23a6;box-shadow:0 20px #171d23a6,0 40px #171d23a6}
+#visualSet[data-template="map"] .visual-grid{right:4%;top:9%;width:70%;height:82%;background:repeating-linear-gradient(0deg,transparent 0 48px,#d4c3a342 49px 50px),repeating-linear-gradient(90deg,transparent 0 63px,#e6d1a130 64px 65px);transform:rotate(var(--visual-tilt));mask-image:radial-gradient(ellipse at center,#000,transparent 75%)}
+#visualSet[data-template="map"] .visual-route{right:9%;top:19%;width:52%;height:59%;border:3px solid #dfc28db6;border-left:0;border-bottom:0;border-radius:20% 65% 13% 9%;transform:rotate(-14deg)}
+#visualSet[data-template="map"] .visual-destination{right:12%;top:21%;width:15px;height:15px;border-radius:50%;background:#f2d1a5;box-shadow:0 0 0 13px #e3c79a3d,0 0 0 41px #ddc7a519}
+#visualSet[data-template="ensemble"] .visual-figure,#visualSet[data-template="ensemble"] .visual-figure-two,#visualSet[data-template="ensemble"] .visual-figure-three{right:21%;bottom:22%;width:14%;height:36%;background:linear-gradient(0deg,#101921ef,#6f6f648f);border-radius:48% 48% 6% 6%;filter:drop-shadow(10px 10px 16px #0008);transform:rotate(var(--visual-tilt))}
+#visualSet[data-template="ensemble"] .visual-figure-two{right:39%;bottom:18%;height:29%;width:12%;opacity:.8;transform:rotate(-7deg)}
+#visualSet[data-template="ensemble"] .visual-figure-three{right:7%;bottom:17%;height:44%;width:13%;opacity:.6;transform:rotate(9deg)}
+#visualSet[data-template="ensemble"] .visual-stage-line{right:0;bottom:20%;width:70%;height:2px;background:#fae4bf75;box-shadow:0 0 35px #ebc59172}
+#visualSet[data-template="abstract"] .visual-orb{right:18%;top:15%;width:31vw;max-width:480px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 33% 26%,#f8e6c4bd,#c7a97e6e 29%,#5c55503b 59%,transparent 72%);box-shadow:0 0 0 46px #f4d2a90d,0 0 0 100px #f1c69409}
+#visualSet[data-template="abstract"] .visual-column{right:28%;top:10%;height:72%;width:2px;background:#e7c8a27c;transform:rotate(var(--visual-tilt))}
+#visualSet[data-template="abstract"] .visual-light-cut{right:4%;bottom:8%;width:55%;height:2px;background:#e8ce9f87;transform:rotate(-13deg)}
+/* Photo is evidence, not a backdrop for a fabricated archival scene. */
+.stage[data-photo="true"] #visualSet{opacity:.2}
+#visualSet[data-template="frame"] .visual-viewfinder,#visualSet[data-template="frame"] .visual-matte{transition:transform .7s}
+.stage.inspecting #visualSet[data-template="frame"] .visual-viewfinder{transform:scale(1.32) rotate(0deg)}
+.stage.inspecting #visualSet[data-template="frame"] .visual-matte{transform:scale(1.22) rotate(0deg)}
+.stage.inspecting #visualSet[data-template="negative"] .visual-scratch{opacity:.12}
+.stage.inspecting #visualSet[data-template="paper"] .visual-page{transform:scale(1.15) rotate(0deg)}
+.stage.inspecting #visualSet[data-template="sound"] .visual-pulse{transform:scale(1.4)}
+.stage.inspecting #visualSet[data-template="field"] .visual-reed{transform:scale(1.14) skew(-6deg)}
+.visual-technique{display:block;font-size:9px;font-weight:600;color:#efd4ab;letter-spacing:.13em;margin:7px 0 0;text-transform:uppercase}
+@media(max-width:750px){
+ #visualSet .visual-shape{transform-origin:center}
+ #visualSet[data-template="frame"] .visual-matte{right:6%;top:17%;width:76%;height:48%;border-width:12px}
+ #visualSet[data-template="frame"] .visual-viewfinder{right:16%;top:25%;width:57%;height:32%}
+ #visualSet[data-template="frame"] .visual-subject{right:34%;top:36%;width:16%;height:13%}
+ #visualSet[data-template="frame"] .visual-depth{right:16%;top:54%;width:57%}
+ #visualSet[data-template="paper"] .visual-page{top:11%;right:9%;height:52%;width:57%}
+ #visualSet[data-template="paper"] .visual-print-line{top:23%;right:17%;height:16%;width:43%}
+ #visualSet[data-template="paper"] .visual-print-line-two{top:48%;right:19%;height:9%;width:40%}
+ #visualSet[data-template="archive"] .visual-drawer{top:13%;width:78%;right:7%;height:48%}
+ #visualSet[data-template="archive"] .visual-document,#visualSet[data-template="archive"] .visual-document-two{top:16%;height:43%;width:45%;right:23%}
+ #visualSet[data-template="negative"] .visual-film{top:9%;right:23%;height:57%;width:46%;border-left-width:14px;border-right-width:14px}
+ #visualSet[data-template="negative"] .visual-scratch{height:49%;top:14%;right:47%}
+ #visualSet[data-template="field"] .visual-ground{bottom:31%;height:16%}
+ #visualSet[data-template="field"] .visual-reed,#visualSet[data-template="field"] .visual-reed-two{bottom:27%;height:37%;width:55%}
+ #visualSet[data-template="sound"] .visual-score{top:26%;width:84%;right:0}
+ #visualSet[data-template="sound"] .visual-pulse{top:27%;right:41%;width:13%}
+ #visualSet[data-template="map"] .visual-grid{top:8%;right:4%;width:90%;height:53%}
+ #visualSet[data-template="ensemble"] .visual-figure{bottom:38%;height:22%;width:16%}
+ #visualSet[data-template="ensemble"] .visual-figure-two{bottom:35%;height:16%;width:12%}
+ #visualSet[data-template="ensemble"] .visual-figure-three{bottom:36%;height:25%;width:17%}
+ #visualSet[data-template="ensemble"] .visual-stage-line{bottom:35%}
+ #visualSet[data-template="abstract"] .visual-orb{top:16%;right:15%;width:59vw}
+ #visualSet[data-template="absence"] .visual-threshold{top:15%;height:47%;width:54%;right:18%}
+ .visual-technique{font-size:8px;letter-spacing:.09em}
+}
+@media(prefers-reduced-motion:reduce){.stage:not(.changing) #visualSet .visual-shape{animation:none}#visualSet .visual-shape{transition:none}}
+
+/* Layer the new illustrated sets above the old heavy vignette while staying
+   behind all story copy. Do not brighten real, externally supplied photos. */
+.stage[data-visual] #visualSet{z-index:2;opacity:.72}
+.stage[data-visual][data-photo="true"] #visualSet{opacity:.10}
+@media(max-width:750px){
+ .stage[data-visual] #visualSet{opacity:.37}
+ .stage[data-visual][data-photo="true"] #visualSet{opacity:.08}
+}
+
+/* Story-copy readability gate: original artwork recedes before it reaches text. */
+@media(min-width:751px){
+ .stage[data-visual] #visualSet{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,transparent 34%,#000 72%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,transparent 34%,#000 72%,#000 100%);
+ }
+}
+@media(max-width:750px){
+ .stage[data-visual] #visualSet{
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 13%,transparent 55%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 13%,transparent 55%);
+ }
+ .stage[data-visual] .story-copy{
+  text-shadow:0 2px 12px #080d13b5;
+ }
+}
