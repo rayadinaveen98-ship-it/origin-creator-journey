@@ -186,6 +186,17 @@ jobs:
           grep -q "'/v10/journey/act8/'" "${RUNNER_TEMP}/origin-v10-map-eight.js"
           grep -q 'All eight narrative acts are now playable cinematic pilots' "${RUNNER_TEMP}/origin-v10-map-eight.js"
           echo 'All eight cinematic acts, including the Legacy closing loop, verified live.'
+          curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-v11-home.html"
+          grep -q '<title>ORIGIN — Journey Engine Preview' "${RUNNER_TEMP}/origin-v11-home.html"
+          curl --fail --silent --show-error --location "$base/v11/registry.js" --output "${RUNNER_TEMP}/origin-v11-registry.js"
+          grep -q 'registerCreator' "${RUNNER_TEMP}/origin-v11-registry.js"
+          curl --fail --silent --show-error --location "$base/v11/player.js" --output "${RUNNER_TEMP}/origin-v11-player.js"
+          grep -q 'origin_v11_' "${RUNNER_TEMP}/origin-v11-player.js"
+          curl --fail --silent --show-error --location "$base/v11/data/ray-act-8.js" --output "${RUNNER_TEMP}/origin-v11-ray8.js"
+          grep -q "creatorId:'ray',index:8" "${RUNNER_TEMP}/origin-v11-ray8.js"
+          curl --fail --silent --show-error --location "$base/v11/data/kurosawa-preview.js" --output "${RUNNER_TEMP}/origin-v11-kurosawa.js"
+          grep -q "creatorId:'kurosawa',index:1" "${RUNNER_TEMP}/origin-v11-kurosawa.js"
+          echo 'V11 generic player, full Ray data and Kurosawa preview verified as distinct live assets.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
