@@ -1,0 +1,18 @@
+{
+  // Configuration TEMPLATE, intentionally not deployable until Access is enabled.
+  // Never merge this into ORIGIN's public wrangler.jsonc file.
+  "name": "origin-editorial-api-d1",
+  "main": "./worker.mjs",
+  "compatibility_date": "2026-10-28",
+  "workers_dev": false,
+  "d1_databases": [{
+    "binding": "ORIGIN_EDITORIAL_DB",
+    "database_name": "origin-editorial-v1",
+    "database_id": "REPLACE_WITH_VERIFIED_ORIGIN_D1_DATABASE_ID"
+  }],
+  "vars": {
+    "ORIGIN_STUDIO_ALLOWED_ORIGIN": "https://origin-creator-journey.rayadinaveen98.workers.dev"
+    // ORIGIN_ACCESS_TEAM_DOMAIN and ORIGIN_ACCESS_AUD must be set to real Access app values
+    // after the new editorial Worker is protected. Do not invent placeholders as live credentials.
+  }
+}
