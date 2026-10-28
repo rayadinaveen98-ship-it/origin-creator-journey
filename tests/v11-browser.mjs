@@ -58,6 +58,8 @@ try{
  await page.setViewportSize({width:390,height:844});
  await page.reload({waitUntil:'domcontentloaded'});
  await page.screenshot({path:'artifacts/origin-v11-ray-mobile.png',fullPage:true});
+ const mobileMask=await page.locator('#visualSet').evaluate(el=>getComputedStyle(el).maskImage);
+ assert.match(mobileMask,/gradient/i,'Mobile visuals must fade before crossing story copy');
  const over=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
  assert.ok(over<=2,'Mobile player horizontal overflow '+over);
  assert.equal(await page.locator('#nextButton').isVisible(),true);
