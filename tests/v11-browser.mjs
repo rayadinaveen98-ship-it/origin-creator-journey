@@ -1,0 +1,93 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import http from 'node:http';
+import path from 'node:path';
+import {mkdir} from 'node:fs/promises';
+import {chromium} from 'playwright';
+const root=path.resolve(import.meta.dirname,'..','www');
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
+const server=http.createServer((req,res)=>{
+ try{
+  const pathname=decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname);
+  const file=path.resolve(root,'.'+pathname,pathname.endsWith('/')?'index.html':'');
+  if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}
+  const actual=fs.statSync(file).isDirectory()?path.join(file,'index.html'):file;
+  res.setHeader('Content-Type',mime[path.extname(actual)]||'application/octet-stream');
+  fs.createReadStream(actual).on('error',()=>{if(!res.headersSent)res.writeHead(404);res.end();}).pipe(res);
+ }catch{res.writeHead(404).end();}
+});
+let browser;
+try{
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const base='http://127.0.0.1:'+server.address().port;
+ browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:1440,height:900}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/v11/',{waitUntil:'domcontentloaded'});
+ assert.equal(await page.locator('.journey-card').count(),2);
+ assert.equal(await page.locator('#catalog').isVisible(),true);
+ await mkdir('artifacts',{recursive:true});
+ await page.screenshot({path:'artifacts/origin-v11-catalog-desktop.png',fullPage:true});
+ await page.locator('.journey-card').first().click();
+ await page.waitForURL('**/v11/?person=ray#act=1&scene=0');
+ assert.match(await page.locator('#storyTitle').textContent(),/Before cinema/);
+ assert.equal((await page.locator('#totalMeter').textContent()).trim(),'01 / 87');
+ await page.locator('#openChapters').click();
+ assert.equal(await page.locator('.map-scene').count(),87);
+ await page.locator('.map-scene[data-act="4"][data-scene="1"]').click();
+ await page.waitForFunction(()=>document.querySelector('#sceneYear')?.textContent==='1952');
+ assert.match(await page.locator('#storyTitle').textContent(),/A field/);
+ await page.locator('#openContext').click();
+ assert.equal(await page.locator('#contextDialog').isVisible(),true);
+ assert.ok(await page.locator('#contextSources a').count()>0);
+ assert.match(await page.locator('#contextVisual').textContent(),/original|storyboard/i);
+ await page.locator('#contextClose').click();
+ await page.reload({waitUntil:'domcontentloaded'});
+ assert.equal((await page.locator('#chapterMeter').textContent()).trim(),'02 / 12','Ray scene resume and deep link');
+ await page.locator('#nextButton').click();
+ await page.waitForFunction(()=>document.querySelector('#chapterMeter')?.textContent==='03 / 12');
+ await page.goBack({waitUntil:'domcontentloaded'});
+ await page.waitForFunction(()=>document.querySelector('#chapterMeter')?.textContent==='02 / 12');
+ await page.screenshot({path:'artifacts/origin-v11-ray-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.screenshot({path:'artifacts/origin-v11-ray-mobile.png',fullPage:true});
+ const over=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+ assert.ok(over<=2,'Mobile player horizontal overflow '+over);
+ assert.equal(await page.locator('#nextButton').isVisible(),true);
+ await page.locator('#homeButton').click();
+ assert.equal(await page.locator('.journey-card').count(),2);
+ await page.locator('.journey-card').nth(1).click();
+ await page.waitForURL('**/v11/?person=kurosawa#act=1&scene=0');
+ assert.match(await page.locator('#storyTitle').textContent(),/painter enters/i);
+ assert.equal((await page.locator('#totalMeter').textContent()).trim(),'01 / 05');
+ await page.locator('#nextButton').click();
+ await page.waitForFunction(()=>document.querySelector('#chapterMeter')?.textContent==='02 / 05');
+ assert.match(await page.locator('#storyTitle').textContent(),/first film/i);
+ await page.locator('#openChapters').click();
+ assert.equal(await page.locator('.map-scene').count(),5);
+ await page.locator('.map-scene[data-scene="4"]').click();
+ await page.waitForFunction(()=>document.querySelector('#sceneYear')?.textContent==='1954');
+ await page.locator('#nextButton').click();
+ assert.equal(await page.locator('#ending').isVisible(),true);
+ await page.locator('#endingHome').click();
+ assert.equal(await page.locator('#catalog').isVisible(),true);
+ await page.screenshot({path:'artifacts/origin-v11-catalog-mobile.png',fullPage:true});
+ const overHome=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
+ assert.ok(overHome<=2,'Mobile catalog overflow '+overHome);
+ // New tab with V10 only stored progress must map to the right V11 act and scene.
+ const legacy=await browser.newPage();
+ const legacyErrors=[];legacy.on('pageerror',e=>legacyErrors.push(e.message));
+ await legacy.goto(base+'/v11/');
+ await legacy.evaluate(()=>localStorage.setItem('origin_v10_act5_scene_v1','2'));
+ await legacy.goto(base+'/v11/?person=ray');
+ assert.equal((await legacy.locator('#chapterMeter').textContent()).trim(),'03 / 13','Legacy progress migration');
+ assert.match(await legacy.locator('#chapterName').textContent(),/FINDING HIS VOICE/);
+ assert.deepEqual(legacyErrors,[],'Legacy resume page runtime errors');
+ await legacy.close();
+ assert.deepEqual(errors,[],'No runtime errors in V11 player');
+ console.log('V11 Chromium QA PASS: two creator cards, shared player, all 87 Ray moments, provenance, deep links, history/back, progress, mobile overflow, 5-scene second creator, legacy migration.');
+}finally{
+ if(browser)await browser.close();
+ await new Promise(resolve=>server.close(resolve));
+}
