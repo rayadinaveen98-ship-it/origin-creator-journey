@@ -100,16 +100,18 @@ end $;
 create trigger origin_revisions_immutable before update
  on public.origin_revisions for each row execute function public.origin_protect_revision_history();
 
-create function public.origin_block_audit_mutation()
+create function public.origin_block_append_only_mutation()
  returns trigger language plpgsql security invoker set search_path = '' as $
 begin
- raise exception 'audit events cannot be changed or deleted' using errcode='42501';
+ raise exception 'append-only records cannot be changed or deleted' using errcode='42501';
 end $;
 create trigger origin_audit_no_changes before update or delete
- on public.origin_audit_events for each row execute function public.origin_block_audit_mutation();
+ on public.origin_audit_events for each row execute function public.origin_block_append_only_mutation();
+create trigger origin_review_decisions_no_changes before update or delete
+ on public.origin_review_decisions for each row execute function public.origin_block_append_only_mutation();
 revoke all on function
  public.origin_protect_revision_history(),
- public.origin_block_audit_mutation() from public,anon,authenticated;
+ public.origin_block_append_only_mutation() from public,anon,authenticated;
 -- Trigger execution itself does not require client-side EXECUTE permission.
 
 -- Explicitly deny browser writes. RLS is a second boundary, not the only one.
