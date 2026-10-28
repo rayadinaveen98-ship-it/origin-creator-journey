@@ -111,7 +111,7 @@ export async function handle(request,env,fetcher=fetch){
   const role=await memberRole(fetcher,cfg,user.id);
   if(!role||!action.roles.has(role))return invalid(403,'role_denied',cors);
   if(action.op==='me')return reply(200,{userId:user.id,role,authenticated:true},cors);
-  const data=await parseJson(request);
+  const data=(action.op==='create'||action.op==='append'||action.op==='review')?await parseJson(request):{};
   let fn,params;
   if(action.op==='create'){
    if(typeof data.slug!=='string'||!SLUG.test(data.slug)||
