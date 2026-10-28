@@ -215,6 +215,20 @@ jobs:
           curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-v11-identity-index.html"
           grep -q './identity.js' "${RUNNER_TEMP}/origin-v11-identity-index.html"
           echo 'V11.2 creator-specific identity config and shared CSS/JS verified live.'
+          curl --fail --silent --show-error --location "$base/v11/studio/index.html" --output "${RUNNER_TEMP}/origin-studio-live.html"
+          grep -q '<title>ORIGIN — Creator Studio Lab' "${RUNNER_TEMP}/origin-studio-live.html"
+          grep -q 'NOT PUBLISHED' "${RUNNER_TEMP}/origin-studio-live.html"
+          curl --fail --silent --show-error --location "$base/v11/studio/schema.js" --output "${RUNNER_TEMP}/origin-studio-schema.js"
+          grep -q 'ORIGIN_STUDIO_SCHEMA' "${RUNNER_TEMP}/origin-studio-schema.js"
+          curl --fail --silent --show-error --location "$base/v11/studio/editor.js" --output "${RUNNER_TEMP}/origin-studio-editor.js"
+          grep -q 'exportDraft' "${RUNNER_TEMP}/origin-studio-editor.js"
+          curl --fail --silent --show-error --location "$base/v11/studio/preview.js" --output "${RUNNER_TEMP}/origin-studio-preview.js"
+          grep -q "studio-local" "${RUNNER_TEMP}/origin-studio-preview.js"
+          curl --fail --silent --show-error --location "$base/v11/studio/studio.css" --output "${RUNNER_TEMP}/origin-studio-styles.css"
+          grep -q '.workspace' "${RUNNER_TEMP}/origin-studio-styles.css"
+          curl --fail --silent --show-error --location "$base/v11/index.html" --output "${RUNNER_TEMP}/origin-studio-bridge.html"
+          grep -q './studio/preview.js' "${RUNNER_TEMP}/origin-studio-bridge.html"
+          echo 'V11.3 local-only Creator Studio, schema, editor, styles and validated preview bridge verified live.'
 
       - name: Record verified live deployment in GitHub
         shell: bash
@@ -232,7 +246,7 @@ jobs:
             echo
             echo "Cloudflare Worker: https://origin-creator-journey.rayadinaveen98.workers.dev/"
             echo
-            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home), /v10/ (V10 home) and /v10/journey/ (V10 Living Act I), /v10/journey/act2/ (V10 Living Act II, 1940–1943), /v10/journey/act3/ (V10 Living Act III, 1943–1951), /v10/journey/act4/ (V10 Living Act IV, 1952–1955), /v10/journey/act5/ (V10 Living Act V, 1956–1969), /v10/journey/act6/ (V10 Living Act VI, 1970–1983), /v10/journey/act7/ (V10 Living Act VII, 1984–1992), /v10/journey/act8/ (V10 Living Act VIII, 1992–2026), /v11/ (experimental Journey Engine preview: Ray and Kurosawa).'
+            echo 'Verified entry points: / (frozen V6), /story-first/ (Story-First 1.6), /v7/ (isolated V7 Alpha 01), /life/ (V8 Life-First), /app/ (V9 cinematic home), /v10/ (V10 home) and /v10/journey/ (V10 Living Act I), /v10/journey/act2/ (V10 Living Act II, 1940–1943), /v10/journey/act3/ (V10 Living Act III, 1943–1951), /v10/journey/act4/ (V10 Living Act IV, 1952–1955), /v10/journey/act5/ (V10 Living Act V, 1956–1969), /v10/journey/act6/ (V10 Living Act VI, 1970–1983), /v10/journey/act7/ (V10 Living Act VII, 1984–1992), /v10/journey/act8/ (V10 Living Act VIII, 1992–2026), /v11/ (experimental Journey Engine preview: Ray and Kurosawa), /v11/studio/ (local-only editorial lab, no publishing).'
             echo
             echo 'Note: HTTP and asset checks prove deployment, not full real-device acceptance testing.'
           } > docs/ORIGIN_LIVE_VERIFIED.md
