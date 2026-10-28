@@ -96,3 +96,12 @@
  .visual-technique{font-size:8px;letter-spacing:.09em}
 }
 @media(prefers-reduced-motion:reduce){.stage:not(.changing) #visualSet .visual-shape{animation:none}#visualSet .visual-shape{transition:none}}
+
+/* Layer the new illustrated sets above the old heavy vignette while staying
+   behind all story copy. Do not brighten real, externally supplied photos. */
+.stage[data-visual] #visualSet{z-index:2;opacity:.72}
+.stage[data-visual][data-photo="true"] #visualSet{opacity:.10}
+@media(max-width:750px){
+ .stage[data-visual] #visualSet{opacity:.37}
+ .stage[data-visual][data-photo="true"] #visualSet{opacity:.08}
+}
