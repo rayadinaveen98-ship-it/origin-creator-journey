@@ -1,9 +1,11 @@
 /* ORIGIN V11.3 — Local editorial workbench. No backend, uploads, or publish action. */
 (()=>{'use strict';
 const schema=window.ORIGIN_STUDIO_SCHEMA;
+const governance=window.ORIGIN_STUDIO_GOVERNANCE;
 const $=id=>document.getElementById(id);
 const text=value=>typeof value==='string'?value:'';
 let draft,selected={kind:'profile',act:0,scene:0},hasReviewed=false;
+let reviews=governance.blankReview(),history=[];
 function make(tag,cls,content){
  const e=document.createElement(tag);if(cls)e.className=cls;
  if(content!==undefined)e.textContent=content;
@@ -48,6 +50,8 @@ function normalize(input){
 }
 function initial(){
  draft=safeRestore()||schema.blank();
+ try{reviews=governance.cleanReviews(JSON.parse(localStorage.getItem(governance.REVIEW_KEY)||'null'));}catch{reviews=governance.blankReview();}
+ try{history=governance.cleanHistory(JSON.parse(localStorage.getItem(governance.HISTORY_KEY)||'null'));}catch{history=[];}
  selected={kind:'profile',act:0,scene:0};
  paint();
  status('Draft is local to this browser. Nothing has been uploaded or published.');
@@ -251,7 +255,7 @@ async function importFile(file){
  try{
   const imported=normalize(JSON.parse(await file.text()));
   if(!confirm('Replace this browser’s current draft with the imported local JSON?'))return;
-  draft=imported;selected={kind:'profile',act:0,scene:0};hasReviewed=false;
+  draft=imported;reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;
   if(!safeStore())return;
   paint();status('JSON imported locally. Review the citations before preview.');
  }catch(error){status('Import rejected: '+String(error.message).slice(0,130),true);}
@@ -265,12 +269,12 @@ $('addAct').addEventListener('click',()=>{
 $('saveDraft').addEventListener('click',()=>{if(safeStore())status('Saved locally. Export JSON for a backup; nothing is published.');});
 $('newDraft').addEventListener('click',()=>{
  if(!confirm('Replace the current local draft with a blank one? Export first to keep a backup.'))return;
- draft=schema.blank();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
+ draft=schema.blank();reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
  status('A new blank local draft is ready.');
 });
 $('loadSample').addEventListener('click',()=>{
  if(!confirm('Replace the current local draft with the documented example? Export first to keep your work.'))return;
- draft=schema.demo();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
+ draft=schema.demo();reviews=governance.blankReview();saveReviews();selected={kind:'profile',act:0,scene:0};hasReviewed=false;safeStore();paint();
  status('Research example loaded. You can preview it or adapt it.');
 });
 $('exportDraft').addEventListener('click',()=>{
