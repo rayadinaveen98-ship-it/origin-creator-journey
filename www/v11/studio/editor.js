@@ -48,6 +48,68 @@ function normalize(input){
  });
  return clean;
 }
+function saveReviews(){
+ try{localStorage.setItem(governance.REVIEW_KEY,JSON.stringify(reviews));return true;}
+ catch{status('Review storage failed. Export a review packet to preserve records.',true);return false;}
+}
+function saveHistory(){
+ try{localStorage.setItem(governance.HISTORY_KEY,JSON.stringify(history));return true;}
+ catch{status('Checkpoint storage full. Export your draft, or reduce saved checkpoints.',true);return false;}
+}
+function reviewControls(host,section,item,chapter,label){
+ const wrap=make('div','attestation');
+ wrap.append(make('p','attestation-label',label+' · SELF-ATTESTED, NOT APPROVED'));
+ const entry=reviews[section][governance.reviewKey(chapter,item)];
+ const states=section==='sources'?governance.SOURCE_STATES:section==='scenes'?governance.SCENE_STATES:governance.ASSET_STATES;
+ const choices=states.map(x=>[x,x.replace(/-/g,' ')]);
+ const selectedState={status:entry?.status||'unreviewed'};
+ const pick=addSelect(wrap,selectedState,'status','Review status',choices);
+ const noteArea=make('label','field');
+ noteArea.append(make('span','field-label','Reason / evidence checked'));
+ const area=document.createElement('textarea');area.rows=2;area.maxLength=1000;area.value=entry?.note||'';
+ area.placeholder='Explain what you checked and what remains uncertain (at least 12 characters)';
+ noteArea.append(area);wrap.append(noteArea);
+ const previous=entry?.tag===governance.fingerprint(section==='sources'?governance.sourceContent(item):governance.sceneContent(item,chapter));
+ const badge=make('small','attestation-indicator',entry?(previous?'Local review recorded · self-attested':'Outdated — content changed since review'):'Not reviewed');
+ if(entry&&!previous)badge.dataset.stale='true';
+ wrap.append(badge);
+ const btn=action('Record local review',()=>{
+  try{
+   reviews=governance.mark(reviews,section,item,chapter,pick.value,area.value);
+   if(!saveReviews())return;
+   updateReviewGate();paint();
+   status('Local review recorded. This is not a verified editorial approval.');
+  }catch(err){status(String(err.message).slice(0,130),true);}
+ });
+ wrap.append(btn);host.append(wrap);
+}
+function updateReviewGate(){
+ const r=governance.assess(draft,reviews,schema);
+ const el=$('reviewGateStatus');
+ el.textContent=r.handoffReady?'Self-attested handoff checklist complete':'Not ready for editorial handoff';
+ el.dataset.valid=String(r.handoffReady);
+ const m=$('reviewMetrics');m.replaceChildren();
+ for(const [name,passed,total] of [['Sources checked',r.counts.checkedSources,r.counts.sources],['Scenes fact-reviewed',r.counts.checkedScenes,r.counts.scenes],['Original visuals declared',r.counts.reviewedMedia,r.counts.media]]){
+  const b=make('div','review-metric');
+  b.append(make('span','',name),make('strong','',passed+' / '+total));
+  m.append(b);
+ }
+ const messages=$('reviewIssues');messages.replaceChildren();
+ for(const s of r.issues.slice(0,6))messages.append(make('p','qa-error',s));
+ if(r.issues.length>6)messages.append(make('p','qa-tip','And '+(r.issues.length-6)+' remaining checks'));
+ if(!r.issues.length)messages.append(make('p','qa-success','Checklist complete for local handoff only. No authentication or independent approval.'));
+ return r;
+}
+function updateCheckpoints(){
+ const sel=$('checkpointList'),keep=sel.value;sel.replaceChildren();
+ const empty=document.createElement('option');empty.value='';empty.textContent=history.length?'Choose a checkpoint':'No checkpoints yet';sel.append(empty);
+ for(const [index,item] of history.entries()){
+  const option=document.createElement('option');option.value=String(index);
+  option.textContent=item.title+' · '+item.timestamp.slice(0,16).replace('T',' ');
+  sel.append(option);
+ }
+ if([...sel.options].some(o=>o.value===keep))sel.value=keep;
+}
 function initial(){
  draft=safeRestore()||schema.blank();
  try{reviews=governance.cleanReviews(JSON.parse(localStorage.getItem(governance.REVIEW_KEY)||'null'));}catch{reviews=governance.blankReview();}
@@ -61,6 +123,7 @@ function set(valueOwner,key,value){
  const saved=safeStore();
  if(saved)status('Draft autosaved locally · Not published');
  if(hasReviewed)review(false);
+ updateReviewGate();
  updateNumbers();
 }
 function section(parent,title,hint){
@@ -234,6 +297,7 @@ function paint(){
  else if(selected.kind==='chapter')showChapter(host);
  else showScene(host);
  review(false);
+ updateReviewGate();updateCheckpoints();
 }
 function review(showDetails=true){
  const r=schema.validate(draft);
