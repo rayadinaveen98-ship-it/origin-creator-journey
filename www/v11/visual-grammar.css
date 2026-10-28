@@ -105,3 +105,20 @@
  .stage[data-visual] #visualSet{opacity:.37}
  .stage[data-visual][data-photo="true"] #visualSet{opacity:.08}
 }
+
+/* Story-copy readability gate: original artwork recedes before it reaches text. */
+@media(min-width:751px){
+ .stage[data-visual] #visualSet{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 58%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 58%,#000 100%);
+ }
+}
+@media(max-width:750px){
+ .stage[data-visual] #visualSet{
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 13%,transparent 55%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 13%,transparent 55%);
+ }
+ .stage[data-visual] .story-copy{
+  text-shadow:0 2px 12px #080d13b5;
+ }
+}
