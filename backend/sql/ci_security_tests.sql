@@ -56,6 +56,12 @@ begin
  end;
  perform public.origin_submit_revision(owner,first_revision);
  begin
+  perform public.origin_review_revision(owner,first_revision,'approve',
+   'Submitted author tries to approve their own historical statement');
+  raise exception 'Submitted author approved own work';
+ exception when insufficient_privilege then null;
+ end;
+ begin
   perform public.origin_review_revision(publisher,first_revision,'approve',
    'Publisher should not perform editorial review');
   raise exception 'Publisher reviewed revision';
@@ -95,8 +101,8 @@ begin
  exception when insufficient_privilege then null;
  when unique_violation then raise exception 'Wrong reject reason: stale revision must fail before duplicate';
  end;
- if (select count(*) from public.origin_audit_events where journey_id=journey)<>7 then
-  raise exception 'Expected precisely 7 append-only audit events';
+ if (select count(*) from public.origin_audit_events where journey_id=journey)<>6 then
+  raise exception 'Expected precisely 6 append-only audit events';
  end if;
  if (select count(*) from public.origin_release_candidates where journey_id=journey)<>1 then
   raise exception 'Release candidates duplicated';
