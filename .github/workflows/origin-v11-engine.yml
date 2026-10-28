@@ -1,13 +1,14 @@
 name: ORIGIN V11 Universal Journey Engine QA
 on:
   push:
-    branches: [feature/origin-v11-universal-engine-foundation, feature/origin-v11-3-creator-studio-foundation]
+    branches: [feature/origin-v11-universal-engine-foundation, feature/origin-v11-3-creator-studio-foundation, feature/origin-v11-4-editorial-gates-history]
     paths:
       - 'www/v11/**'
       - 'scripts/verify-v11.mjs'
       - 'tests/v11-browser.mjs'
       - 'tests/v11-studio-browser.mjs'
       - 'scripts/verify-v11-studio.mjs'
+      - 'scripts/verify-v11-governance.mjs'
       - '.github/workflows/origin-v11-engine.yml'
   pull_request:
     branches: [main]
@@ -17,6 +18,7 @@ on:
       - 'tests/v11-browser.mjs'
       - 'tests/v11-studio-browser.mjs'
       - 'scripts/verify-v11-studio.mjs'
+      - 'scripts/verify-v11-governance.mjs'
       - '.github/workflows/origin-v11-engine.yml'
   workflow_dispatch:
 permissions:
@@ -36,6 +38,8 @@ jobs:
         run: node scripts/verify-v11.mjs
       - name: Verify local Creator Studio contract and provenance gates
         run: node scripts/verify-v11-studio.mjs
+      - name: Verify local editorial reviews, checkpoints and export packet
+        run: node scripts/verify-v11-governance.mjs
       - name: Install Chrome browser test driver
         run: |
           npm install --no-save playwright@1.56.1
