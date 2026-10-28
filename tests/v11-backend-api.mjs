@@ -34,6 +34,18 @@ async function mock(url,opt){
   const role=Object.entries(ACTORS).find(([,v])=>v===id)?.[0];
   return json(role?[{user_id:id,role:role==='inactive'?'contributor':role,active:role!=='inactive'}]:[]);
  }
+ if(url.startsWith(API+'/rest/v1/origin_journeys?')){
+  assert.equal(opt.headers.apikey,SECRET);
+  assert.equal(opt.headers.Authorization,undefined);
+  return json([{id:uuid,slug:'original-creator',title:'Original Creator',head_revision:2}]);
+ }
+ if(url.startsWith(API+'/rest/v1/origin_revisions?')){
+  assert.equal(opt.headers.apikey,SECRET);
+  assert.equal(opt.headers.Authorization,undefined);
+  const params=new URL(url).searchParams;
+  if(params.has('journey_id'))return json([{id:uuid,revision_no:2,state:'submitted'}]);
+  return json([{id:uuid,journey_id:uuid,revision_no:2,state:'submitted',content:exampleEditorialDraft()}]);
+ }
  if(url.startsWith(API+'/rest/v1/rpc/')){
   assert.equal(opt.headers.apikey,SECRET);
   assert.equal(opt.headers.Authorization,undefined,'Service REST calls must not send secret API keys as JWTs');
@@ -56,6 +68,30 @@ async function call(route,role='contributor',method='POST',data={},origin=SITE,h
 }
 function lastRpc(r){return r.calls.at(-1);}
 const validContent=exampleEditorialDraft();
+{
+ const r=await call('/v1/journeys','reviewer','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.journeys[0].slug,'original-creator');
+ assert.equal(r.calls.length,3,'Read request requires real session and live membership check');
+ assert.ok(r.calls.at(-1).url.endsWith('order=updated_at.desc&limit=30'));
+}
+{
+ const r=await call('/v1/journeys/'+uuid+'/revisions','contributor','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.revisions.length,1);
+ assert.equal(r.body.revisions[0].revision_no,2);
+}
+{
+ const r=await call('/v1/revisions/'+uuid,'reviewer','GET',null);
+ assert.equal(r.status,200);
+ assert.equal(r.body.revision.content.acts.length,1);
+}
+{
+ const r=await call('/v1/journeys/'+uuid+'/revisions','inactive','GET',null);
+ assert.equal(r.status,403);
+ assert.equal(r.calls.filter(x=>x.url.includes('/rest/v1/origin_revisions')).length,0);
+}
+
 {
  const r=await call('/v1/me','contributor','GET',null);
  assert.equal(r.status,200);assert.equal(r.body.userId,ACTORS.contributor);
