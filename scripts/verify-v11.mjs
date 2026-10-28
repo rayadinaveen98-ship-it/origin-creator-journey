@@ -12,7 +12,7 @@ for(const path of boot)new Script(read(path),{filename:path}).runInContext(conte
 const result=JSON.parse(JSON.stringify(win.ORIGIN_V11.inspect()));
 assert.deepEqual(result,[{id:'ray',acts:8,scenes:87,preview:false},{id:'kurosawa',acts:1,scenes:5,preview:true}],'both creators and complete Ray must load through one registry');
 const expected=[8,8,11,12,13,13,12,10],acts=win.ORIGIN_V11.acts('ray');
-assert.deepEqual(acts.map(a=>a.scenes.length),expected);
+assert.deepEqual(JSON.parse(JSON.stringify(acts.map(a=>a.scenes.length))),expected);
 for(let i=0;i<8;i++){
  const path=i===0?'www/v10/journey/story.js':'www/v10/journey/act'+(i+1)+'/act'+(i+1)+'.js';
  const full=read(path);
