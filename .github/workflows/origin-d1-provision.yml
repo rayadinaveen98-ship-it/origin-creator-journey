@@ -18,6 +18,7 @@ jobs:
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ORIGIN_D1_API_TOKEN: ${{ secrets.ORIGIN_D1_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,8 +30,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
-            echo "::error::Cloudflare credentials unavailable. ORIGIN D1 NOT created."
+          if [[ -z "$CLOUDFLARE_API_TOKEN" ]]; then
+            echo "::error::Existing ORIGIN Workers token unavailable; needed to discover the correct Cloudflare account. No D1 changes."
+            exit 1
+          fi
+          if [[ -z "$ORIGIN_D1_API_TOKEN" ]]; then
+            echo "::error::Set GitHub Actions secret ORIGIN_D1_API_TOKEN with Cloudflare account-level D1 Read / D1 Write permission. The public website deployment token must remain unchanged. No D1 changes."
             exit 1
           fi
       - name: Provision ONLY origin-editorial-v1 if absent
@@ -40,11 +45,13 @@ jobs:
           set -euo pipefail
           node --input-type=module <<'NODE'
           import {writeFileSync,appendFileSync} from 'node:fs';
-          const token=process.env.CLOUDFLARE_API_TOKEN;
-          const headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'};
+          const discoveryToken=process.env.CLOUDFLARE_API_TOKEN;
+          const d1Token=process.env.ORIGIN_D1_API_TOKEN;
+          const discoveryHeaders={'Authorization':'Bearer '+discoveryToken,'Content-Type':'application/json'};
+          const headers={'Authorization':'Bearer '+d1Token,'Content-Type':'application/json'};
           let account=String(process.env.CLOUDFLARE_ACCOUNT_ID||'').trim();
           if(!/^[0-9a-f]{32}$/i.test(account)){
-            const response=await fetch('https://api.cloudflare.com/client/v4/accounts?per_page=100',{headers});
+            const response=await fetch('https://api.cloudflare.com/client/v4/accounts?per_page=100',{headers:discoveryHeaders});
             const data=await response.json().catch(()=>null);
             const entries=data?.success&&Array.isArray(data.result)?data.result:[];
             if(!response.ok||!entries.length)
@@ -52,7 +59,7 @@ jobs:
             let matches=[];
             for(const item of entries.slice(0,30)){
               if(!/^[0-9a-f]{32}$/i.test(item.id||''))continue;
-              const worker=await fetch('https://api.cloudflare.com/client/v4/accounts/'+item.id+'/workers/scripts/origin-creator-journey',{headers});
+              const worker=await fetch('https://api.cloudflare.com/client/v4/accounts/'+item.id+'/workers/scripts/origin-creator-journey',{headers:discoveryHeaders});
               if(worker.ok)matches.push(item);
             }
             if(matches.length===1)account=matches[0].id;
@@ -102,13 +109,13 @@ jobs:
       - name: Apply tracked initial migration to ORIGIN only
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.ORIGIN_D1_API_TOKEN }}
           accountId: ${{ steps.d1_provision.outputs.resolved_account_id }}
           command: d1 migrations apply origin-editorial-v1 --remote --config origin.d1.provision.jsonc
       - name: Confirm server-side editorial schema exists
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.ORIGIN_D1_API_TOKEN }}
           accountId: ${{ steps.d1_provision.outputs.resolved_account_id }}
           command: d1 execute origin-editorial-v1 --remote --config origin.d1.provision.jsonc --command "SELECT COUNT(*) AS count FROM origin_revisions;"
       - name: Document separation from ORIGIN public website
