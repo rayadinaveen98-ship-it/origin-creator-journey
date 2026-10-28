@@ -46,7 +46,8 @@ jobs:
             const response=await fetch(endpoint+path,{method,headers,body:body?JSON.stringify(body):undefined});
             const data=await response.json().catch(()=>null);
             if(!response.ok||!data?.success){
-              throw new Error('D1 API '+method+' failed (HTTP '+response.status+'). Existing token may require D1 Read and D1 Write permissions. No other projects modified.');
+              const codes=(Array.isArray(data?.errors)?data.errors:[]).slice(0,4).map(e=>String(e.code||'unknown')).join(',')||'not_provided';
+              throw new Error('D1 API '+method+' denied (HTTP '+response.status+', Cloudflare code(s): '+codes+'). Existing token may require account-level D1 Read / D1 Write. No other projects modified.');
             }
             return data.result;
           }
