@@ -1,0 +1,38 @@
+name: ORIGIN D1 Editorial Foundation QA
+on:
+  push:
+    branches: [main, feature/origin-v11-7-cloudflare-d1-foundation]
+    paths:
+      - 'backend/d1/**'
+      - 'backend/validate-draft.mjs'
+      - 'tests/v11-d1-integration.mjs'
+      - 'tests/fixtures/**'
+      - '.github/workflows/origin-v11-d1.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/d1/**'
+      - 'backend/validate-draft.mjs'
+      - 'tests/v11-d1-integration.mjs'
+      - 'tests/fixtures/**'
+      - '.github/workflows/origin-v11-d1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    name: SQLite schema and Cloudflare Access-authenticated API integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ensure D1 SQL schema and Access/Worker modules parse
+        run: |
+          node --check backend/d1/access.mjs
+          node --check backend/d1/store.mjs
+          node --check backend/d1/worker.mjs
+      - name: Test D1 workflow with signed Access JWT and real SQLite
+        run: node --experimental-sqlite tests/v11-d1-integration.mjs
