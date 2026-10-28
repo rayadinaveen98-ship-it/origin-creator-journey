@@ -1,11 +1,13 @@
 name: ORIGIN V11 Universal Journey Engine QA
 on:
   push:
-    branches: [feature/origin-v11-universal-engine-foundation]
+    branches: [feature/origin-v11-universal-engine-foundation, feature/origin-v11-3-creator-studio-foundation]
     paths:
       - 'www/v11/**'
       - 'scripts/verify-v11.mjs'
       - 'tests/v11-browser.mjs'
+      - 'tests/v11-studio-browser.mjs'
+      - 'scripts/verify-v11-studio.mjs'
       - '.github/workflows/origin-v11-engine.yml'
   pull_request:
     branches: [main]
@@ -13,6 +15,8 @@ on:
       - 'www/v11/**'
       - 'scripts/verify-v11.mjs'
       - 'tests/v11-browser.mjs'
+      - 'tests/v11-studio-browser.mjs'
+      - 'scripts/verify-v11-studio.mjs'
       - '.github/workflows/origin-v11-engine.yml'
   workflow_dispatch:
 permissions:
@@ -30,12 +34,16 @@ jobs:
         run: node scripts/verify-v10.mjs
       - name: Validate universal content schema and lossless Ray migration
         run: node scripts/verify-v11.mjs
+      - name: Verify local Creator Studio contract and provenance gates
+        run: node scripts/verify-v11-studio.mjs
       - name: Install Chrome browser test driver
         run: |
           npm install --no-save playwright@1.56.1
           google-chrome --version
       - name: Test V11 engine in desktop and mobile Chrome
         run: node tests/v11-browser.mjs
+      - name: Test Creator Studio editor, draft isolation and shared cinematic preview
+        run: node tests/v11-studio-browser.mjs
       - name: Archive V11 mobile and desktop review screenshots
         if: always()
         uses: actions/upload-artifact@v4

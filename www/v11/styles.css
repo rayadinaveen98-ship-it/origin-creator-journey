@@ -18,3 +18,15 @@
  .scene-eyebrow #chapterMeter{grid-column:2;grid-row:1;white-space:nowrap}
  .scene-eyebrow #scenePlace{grid-column:1/-1;grid-row:2;line-height:1.4;overflow-wrap:anywhere}
 }
+
+/* V11.3: openly labeled, local-only authoring laboratory. */
+.studio-discovery{max-width:1150px;margin:36px auto 0;padding:23px clamp(20px,6vw,84px);
+ display:flex;justify-content:space-between;align-items:center;gap:19px;
+ background:#e5c79a0b;border-top:1px solid #e4c29548;border-bottom:1px solid #e4c29532}
+.studio-discovery span{font-size:10px;letter-spacing:.17em;color:#c5cbbd}
+.studio-discovery a{font:normal 20px Georgia,'Times New Roman',serif;color:#f0d4ac;text-decoration:none}
+.studio-discovery a:hover{text-decoration:underline}
+.studio-preview-error{position:relative;z-index:10;background:#422524;border:1px solid #efb89c;color:#f8d9c7;
+ padding:15px 22px;line-height:1.6;font-size:13px}
+@media(max-width:650px){.studio-discovery{margin:20px 20px 0;padding:21px 0;display:grid;gap:10px}
+ .studio-discovery a{font-size:18px}}
