@@ -1,0 +1,126 @@
+/* ORIGIN V11.2 — one style engine; creator profiles provide validated tokens.
+   No named-person selectors, no copyrighted images, no external fonts. */
+.journey-card{
+ --identity-accent:var(--creator-accent,#dcb98a);
+ --identity-glow:#785b48;
+ --identity-shadow:#101b21;
+ --identity-paper:#f6ebdc;
+}
+.journey-card .card-art{
+ background:radial-gradient(ellipse at 75% 28%,var(--identity-glow) 0%,var(--identity-shadow) 79%);
+}
+.journey-card[data-typography="literary"] .card-name{
+ font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.045em;
+}
+.journey-card[data-typography="graphic"] .card-name{
+ font-family:ui-sans-serif,system-ui,'Segoe UI',sans-serif;font-weight:850;
+ font-size:clamp(26px,2.7vw,42px);line-height:.99;letter-spacing:-.065em;text-transform:uppercase;
+}
+.journey-card[data-composition="angular"]{border-left:3px solid var(--identity-accent)}
+.journey-card[data-composition="angular"] .card-art{
+ clip-path:polygon(0 0,100% 0,90% 100%,0 100%);
+}
+.journey-card[data-composition="angular"] .card-orbit{
+ width:164px;height:164px;border-radius:0;transform:rotate(-35deg);
+ box-shadow:0 0 0 26px #f0ad8b15,0 0 0 60px #fff2dc0a;
+}
+.journey-card[data-composition="angular"] .card-monogram{
+ font:900 74px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:-.11em;
+}
+.journey-card[data-composition="angular"] .card-kicker{font-weight:800}
+.journey-card[data-composition="observational"] .card-art{
+ background:radial-gradient(ellipse at 64% 26%,var(--identity-glow) 0%,#5e5943 37%,var(--identity-shadow) 82%);
+}
+.journey-card[data-composition="observational"] .card-orbit{border-radius:50%;transform:rotate(-11deg)}
+.stage[data-composition]{
+ --identity-accent:#e1b981;--identity-glow:#785b48;--identity-shadow:#101b21;--identity-paper:#f6ebdc;
+}
+.stage[data-composition]::after{
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:linear-gradient(105deg,var(--identity-shadow) 0%,transparent 42%,var(--identity-glow) 100%);
+ opacity:.17;
+}
+.stage[data-composition="angular"]::after{opacity:.30;transform:skewX(-8deg) scale(1.08)}
+.stage[data-composition="angular"] .art-grain{
+ opacity:.16;background:repeating-linear-gradient(133deg,transparent 0 4px,#f6e2cc1b 5px,transparent 7px);
+}
+.stage[data-composition="observational"] .art-grain{opacity:.09}
+.stage[data-composition="angular"] #visualSet{
+ filter:contrast(1.25) saturate(.87) drop-shadow(8px 5px 22px #0009);
+ transform:skewX(-4deg);
+}
+.stage[data-composition="observational"] #visualSet{
+ filter:sepia(.24) saturate(.78) contrast(.96);
+ transform:translateX(-.5%);
+}
+.stage[data-typography="literary"] #storyTitle{
+ font-family:Georgia,'Times New Roman',serif;font-weight:400;line-height:1.06;
+}
+.stage[data-typography="literary"] #storyLead{
+ font-family:Georgia,'Times New Roman',serif;font-size:clamp(20px,1.75vw,26px);line-height:1.46;
+}
+.stage[data-typography="graphic"] #storyTitle{
+ font-family:ui-sans-serif,system-ui,'Segoe UI',sans-serif;font-weight:870;
+ font-size:clamp(44px,5vw,81px);line-height:.99;letter-spacing:-.066em;
+ text-wrap:balance;
+}
+.stage[data-typography="graphic"].long-title #storyTitle{font-size:clamp(37px,4.2vw,68px)}
+.stage[data-typography="graphic"] #storyTitle em{
+ font-style:normal;color:var(--identity-accent);font-weight:900;
+}
+.stage[data-typography="graphic"] #storyLead{
+ font-family:ui-sans-serif,system-ui,sans-serif;max-width:550px;
+ font-size:clamp(17px,1.5vw,21px);font-weight:600;line-height:1.42;
+}
+.stage[data-composition="angular"] .story-copy{
+ position:relative;max-width:640px;
+ border-left:3px solid var(--identity-accent);
+ padding-left:clamp(17px,2.2vw,35px);
+}
+.stage[data-composition="angular"] .scene-eyebrow{font-weight:750}
+.stage[data-composition="angular"] .progress-track{height:3px;transform:skewX(-17deg)}
+.stage[data-composition="angular"] .next{
+ background:var(--identity-accent);border-color:var(--identity-accent);
+ clip-path:polygon(0 0,100% 0,94% 100%,0 100%);font-weight:850;
+}
+.stage[data-composition="angular"] .prev{border-color:var(--identity-accent)}
+.stage[data-composition="observational"] .progress-track{height:1px}
+.stage[data-composition="observational"] .next{
+ background:var(--identity-paper);border-color:var(--identity-paper);
+ font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:400;
+}
+.stage[data-composition="observational"] .scene-eyebrow{
+ font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:.055em;
+}
+.stage[data-composition="observational"] .story-more{line-height:1.85}
+.stage[data-composition="angular"] .story-more{line-height:1.65}
+.identity-signature{
+ display:inline-block;color:var(--identity-accent,#e1b981);
+ font-size:10px;letter-spacing:.24em;margin-bottom:19px;line-height:1.5;
+}
+.stage[data-typography="graphic"] .identity-signature{font-weight:800;letter-spacing:.15em}
+.stage[data-typography="literary"] .identity-signature{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:13px;letter-spacing:.07em}
+.stage[data-motion="cut"] .story-copy{transition:opacity .06s linear,transform .06s linear}
+.stage[data-motion="cut"] #visualSet .visual-shape{animation-duration:.16s;transition-duration:.11s}
+.stage[data-motion="dissolve"] .story-copy{transition:opacity .22s ease,transform .22s ease}
+.stage[data-motion="dissolve"] #visualSet .visual-shape{animation-duration:1.25s;transition-duration:.85s}
+.stage[data-motion="steady"] #visualSet .visual-shape{animation-duration:.75s}
+@media(max-width:750px){
+ .stage[data-typography="literary"] #storyLead{font-size:19px;line-height:1.47}
+ .stage[data-typography="graphic"] #storyTitle{font-size:clamp(35px,9vw,62px);line-height:1.02}
+ .stage[data-typography="graphic"].long-title #storyTitle{font-size:clamp(31px,8.1vw,54px)}
+ .stage[data-composition="angular"] .story-copy{padding-left:14px;border-left-width:2px}
+ .stage[data-composition="observational"] .story-more{line-height:1.72}
+ .stage[data-composition="angular"] #visualSet{transform:skewX(-2deg)}
+ .identity-signature{font-size:9px;letter-spacing:.12em;margin-bottom:14px}
+ .stage[data-typography="literary"] .identity-signature{font-size:11px}
+}
+@media(max-width:360px){
+ .stage[data-typography="graphic"] #storyTitle{font-size:33px}
+ .stage[data-typography="graphic"].long-title #storyTitle{font-size:30px}
+ .stage[data-composition="angular"] .story-copy{padding-left:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .stage[data-motion] .story-copy,
+ .stage[data-motion] #visualSet .visual-shape{animation:none!important;transition:none!important}
+}
